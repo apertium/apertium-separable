@@ -1,14 +1,13 @@
 import sys;
 
-src = open(sys.argv[1]);
-ref = open(sys.argv[2]);
-tst = open(sys.argv[3]);
+src = open(sys.argv[1]);   # input to MWE module from POS tagger
+ref = open(sys.argv[2]);   # desired output from MWE module
+tst = open(sys.argv[3]);   # output from the MWE module
 
 hit = 0.0;
 miss = 0.0;
 
 while True: #{
-
 
 	src_l = src.readline();
 	ref_l = ref.readline();
