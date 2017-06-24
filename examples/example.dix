@@ -1,0 +1,38 @@
+<dictionary>
+  <alphabet/>
+  <sdefs>
+  <sdef n="n"/>
+  <sdef n="vblex"/>
+  <sdef n="adv"/>
+  <sdef n="det"/>
+  <sdef n="adj"/>
+  </sdefs>
+ 
+  <!-- <a/> stands for one or more tags -->
+  <!-- <j/> stands for word boundary -->
+
+  <pardefs>
+    <pardef n="SN">
+      <!-- n.* -->
+      <e><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <!-- det.* n.* -->
+      <e><re>[A-Za-z]</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <!-- adj n.* -->
+      <e><re>[A-Za-z]</re><i><s n="adj"/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <!-- det.* adj n.* -->
+      <e><re>[A-Za-z]</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]</re><i><s n="adj"/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+    <e lm="take out">
+      <p><l>take<s n="vblex"/><a/><j/></l><r>take<g><b/>out</g><s n="vblex"/><a/><j/></r></p>
+      <par n="SN"/>
+      <p><l>out</l><r></r></p>
+    </e>
+    <e lm="pick up">
+      <p><l>pick<s n="vblex"/><a/><j/></l><r>pick<g><b/>up</g><s n="vblex"/><a/><j/></r></p>
+      <par n="SN"/>
+      <p><l>up</l><r></r></p>
+    </e>
+  </section>
+</dictionary>
