@@ -25,12 +25,14 @@ for line in sys.stdin.readlines(): #{
 	# Replace ~ symbol with <ANY_TAG> and add a loop
 	if row[2] == '~': #{
 		row[2] = '<ANY_TAG>';
-		print('%s\t%s\t%s\t%s' % (row[1], row[1], row[2], 'ε'));
+		#print('%s\t%s\t%s\t%s' % (row[1], row[1], row[2], 'ε'));
+		print('%s\t%s\t%s\t%s' % (row[1], row[1], row[2], row[2]));
 	#}
-	if row[3] == '~': #{
-		row[3] = '<ANY_TAG>';
-		print('%s\t%s\t%s\t%s' % (row[1], row[1], 'ε', row[3]));
-	#}
+#	if row[3] == '~': #{
+#		row[3] = '<ANY_TAG>';
+#		print('%s\t%s\t%s\t%s' % (row[1], row[1], row[3], row[3]));
+#		print('%s\t%s\t%s\t%s' % (row[1], row[1], 'ε', row[3]));
+#	#}
 
 
 	print('\t'.join(row));

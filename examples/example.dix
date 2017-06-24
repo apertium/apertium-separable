@@ -15,13 +15,13 @@
   <pardefs>
     <pardef n="SN">
       <!-- n.* -->
-      <e><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <e><re>[A-Za-z]+</re><i><s n="n"/><a/><j/></i></e>
       <!-- det.* n.* -->
-      <e><re>[A-Za-z]</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <e><re>[A-Za-z]+</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]+</re><i><s n="n"/><a/><j/></i></e>
       <!-- adj n.* -->
-      <e><re>[A-Za-z]</re><i><s n="adj"/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <e><re>[A-Za-z]+</re><i><s n="adj"/><j/></i><re>[A-Za-z]+</re><i><s n="n"/><a/><j/></i></e>
       <!-- det.* adj n.* -->
-      <e><re>[A-Za-z]</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]</re><i><s n="adj"/><j/></i><re>[A-Za-z]</re><i><s n="n"/><a/><j/></i></e>
+      <e><re>[A-Za-z]+</re><i><s n="det"/><a/><j/></i><re>[A-Za-z]+</re><i><s n="adj"/><j/></i><re>[A-Za-z]+</re><i><s n="n"/><a/><j/></i></e>
     </pardef>
   </pardefs>
   <section id="main" type="standard">
