@@ -4,6 +4,7 @@
   <sdef n="n"/>
   <sdef n="vblex"/>
   <sdef n="adv"/>
+  <sdef n="pr"/>
   <sdef n="det"/>
   <sdef n="adj"/>
   </sdefs>
@@ -27,12 +28,17 @@
     <e lm="take out">
       <p><l>take<s n="vblex"/><a/><j/></l><r>take<g><b/>out</g><s n="vblex"/><a/><j/></r></p>
       <par n="SN"/>
-      <p><l>out</l><r></r></p>
+      <p><l>out<s n="adv"/></l><r></r></p>
+    </e>
+    <e lm="take out of">
+      <p><l>take<s n="vblex"/><a/><j/></l><r>take<g><b/>out</g><s n="vblex"/><a/><j/></r></p>
+      <par n="SN"/>
+      <p><l>out<b/>of<s n="pr"/></l><r>of<s n="pr"/></r></p>
     </e>
     <e lm="pick up">
       <p><l>pick<s n="vblex"/><a/><j/></l><r>pick<g><b/>up</g><s n="vblex"/><a/><j/></r></p>
       <par n="SN"/>
-      <p><l>up</l><r></r></p>
+      <p><l>up<s n="adv"/></l><r></r></p>
     </e>
   </section>
 </dictionary>
