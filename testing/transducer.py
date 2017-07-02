@@ -1,60 +1,118 @@
-import sys, re
+#usage: python transducer.py testfile.txt
+
+import sys
+
+"""
+noun phrase acceptor:
+    n.*
+    adj n.*
+    adj.* n
+    adj.* adj.* n.*
+    det.* n.*
+    det.* adj n.*
+prn.pers.*
+prn.dem.*
+np*
+"""
 
 transitions = {
-    (0,'^') : 1,
-    (1,'t') : 2,
-    (2,'a') : 3,
-    (3,'k') : 4,
-    (4,'e') : 5,
-    (5,'<vblex>') : 6,
+    #if current_state is -1 and the next token (the next thing to print)
+    #is '^', then next_state() will print the next token,
+    #which is located at state[0], and set current_state to 0
+    (-1,'^') : 0,
+    (0,'t') : 1,
+    (1,'a') : 2,
+    (2,'k') : 3,
+    (3,'e') : 4,
+    (4,'<vblex>') : 5,
+    (5,'<ANY_TAG>') : 6,
     (6,'<ANY_TAG>') : 7,
+    (6,'$') : 8,
     (7,'<ANY_TAG>') : 7,
     (7,'$'): 8,
     (8,' ') : 9,
     (9,'^') : 10,
     (10,'&') : 11,
     (11,'&') : 11,
-    (11,'<det>') : 12,
-    (11,'<adj>') : 13,
-    (11,'<n>') : 14,
+    (11,'<n>') : 12, #if noun, there should be one or more add'l tags but no following words
+    (11,'<adj>') : 13, #if adj, add'l tags are optional and should be followed by an n
+    (11,'<det>') : 14,
     (11,'<prn>') : 15,
-    (12,'<ANY_TAG>') : 16,
-    (13,'<ANY_TAG>') : 16,
-    (14,'<ANY_TAG>') : 16,
-    (15,'<ANY_TAG>') : 16,
-    (16,'<ANY_TAG>') : 16,
-    (16,'$') : 17,
-    (17,' ') : 18,
+    # (12,'<ANY_TAG>') : 16, #### case: n*
+    (12,'<ANY_TAG>') : 200,
+    (200,'<ANY_TAG>') : 201,
+    (200,'$') : 17,
+    (201,'<ANY_TAG>') : 201,
+    (201,'$') : 17,
+    # (13,'<ANY_TAG>') : 13, #### case: adj(*) n*
+    (13,'<ANY_TAG>') : 225,
+    (13,'$') : 250,
+    (225,'<ANY_TAG>') : 225,
+    (225,'$') : 250, #followed by noun
+    (250,' '):251,
+    (251,'^'):252,
+    (252,'&'):253,
+    (253,'&'):253,
+    (253,'<n>'):12,
+    (253,'<adj>'):13,
+    # (14,'<ANY_TAG>') : 16,
+    (14,'<ANY_TAG>') : 275,
+    (275,'<ANY_TAG>') : 276,
+    (275,'$') : 250,
+    (276,'<ANY_TAG>') : 276,
+    (276,'$') : 250,
+    # (15,'<ANY_TAG>') : 16, #prn.pers same as n
+    (15,'<ANY_TAG>') : 200,
+    (16,'<ANY_TAG>') : 100,
+    (16, '$') : 17,
+    (100,'<ANY_TAG>') : 100,
+    (100,'$') : 17,
+    (17,' ') : 18, #do not go to state 17 unless you are expecting 'out' to be the next word
     (18,'^') : 19, #?
-    (19,'&') : 11,
+    # (19,'&') : 11,
     (19,'o') : 20,
     (20,'u') : 21,
     (21,'t') : 22,
     (22,'<adv>') : 23,
-    (23,'<pr>') : 24,
+    (22,'<pr>') : 24,
     (23,'$') : 25,
     (24,'$') : 25,
+    (25,'') : 26,
+    (25,' ') : 26,
     (25,'\n') : 26
 }
 
+#<ANY_TAG_A> is required
+#<ANY_TAG_B> is optional
 states = {
+    -1 : '',
     0 : '^',
     1 : 't',
     2 : 'a',
     3 : 'k',
     4 : 'e',
     5 : '<vblex>',
-    6 : '<ANY_TAG>', #
-    7 : '<ANY_TAG>', #the second one
+    6 : '<ANY_TAG_A>', #secondary tag is necessary
+    7 : '<ANY_TAG_B>', #third, fourth, fifth...tags are optional
     8 : '$',
     9 : ' ',
     10 : '^',
-    11 : '&', #'ANY_CHAR', #
-    12 : '<det>',
+    11 : '&', #represents any character 'ANY_CHAR
+    12 : '<n>',
     13 : '<adj>',
-    14 : '<n>',
+    14 : '<det>',
     15 : '<prn>',
-    16 : '<ANY_TAG>',
+    16 : '<ANY_TAG_A>',
+    100: '<ANY_TAG_B>',
+    200: '<ANY_TAG_A>',
+    201: '<ANY_TAG_B>',
+    225: '<ANY_TAG_B>',
+    250: '$',
+    251: ' ',
+    252: '^',
+    253: '&',
+    275: '<ANY_TAG_A>',
+    276: '<ANY_TAG_B>',
     17 : '$',
     18 : ' ',
     19 : '^',
@@ -64,22 +122,19 @@ states = {
     23 : '<adv>',
     24 : '<pr>',
     25 : '$',
-    26 : '\n',
+    26 : '\n'
 }
 
-def next_token(first_tag_passed, in_lemma, in_take, in_out):
-    token = sys.stdin.read(1)
-    # print 'next_token' + token
+def next_token(file, subsequent_tag, in_lemma, in_take, in_out):
+    token = file.read(1)
     if token == '<': #if in tag
         in_lemma = False
         c = ''
         while c != '>':
-            c = sys.stdin.read(1)
+            c = file.read(1)
             token += c
-        if first_tag_passed:
+        if subsequent_tag:
             token = '<ANY_TAG>'
-        # first_tag_passed = True
-    # print in_lemma, in_take, in_out
     if in_lemma and not in_take and not in_out:
         # print in_lemma, in_take, in_out
         token = '&' #ANY_CHAR
@@ -87,50 +142,79 @@ def next_token(first_tag_passed, in_lemma, in_take, in_out):
 
 def step(state, token): #token is at the next state
     next_state = transitions.get((state,token))
-
-    if next_state == None:
-        # print(str(state), str(current_state), str(token))
-        print('error: (current_state,token) pair not found in transitions. ' + str(current_state) + str(token))
-        exit(1)
-    elif next_state == 25:
-        print('successful termination')
-        exit(0)
-
-    print states[next_state]
-    # print('inside step(): printing ' + states[next_state] + ' current state ' + str(next_state)) #prints the prev token
-    return next_state #transitions.get((state,token)) #return the next state, or None if it doesn't exist
+    # if next_state == None:
+    #     print('error: (current_state,token) pair not found in transitions. ' + str((state,token)))
+    #         #acceptor: if not found in transitions, exit and do not reorder
+    #     exit(1)
+    # elif next_state == 26:
+        # print ('successful parsing of line') # print('successful termination')
+        # exit(0)
+    # print states[next_state] + str(next_state)
+    output_token = states.get(next_state)
+    return next_state, output_token #return the next state, or None if it doesn't exist
 
 def main():
-    print('input a string:')
-    current_state = 0
-    first_tag_passed = False
-    in_lemma = False
-    in_take = False
-    in_out = False
-    # token = next_token(first_tag_passed, in_lemma, in_take, in_out)
+    f = open(sys.argv[1])
+    # print('input a string:')
+    # eol = True
+    line_number = 0
+    accepted = True
+    while True: #while eol:
+        # eol = False
+        line = ''
+        if accepted:
+            line_number += 1
+        current_state = -1
 
-    while states.get(current_state) != None:
-        token = next_token(first_tag_passed, in_lemma, in_take, in_out)
-        # print 'before step(): token = ' + token + '   current_state = ' + str(current_state)
-        next_state = step(current_state, token)
+        subsequent_tag = False
+        in_lemma = False
+        in_take = False
+        in_out = False
 
-        first_tag_passed = next_state in [6, 7, 16, 12, 13, 14, 15, 16] #out not included
-        in_lemma = next_state in [1, 2, 3, 4, 10, 11, 20, 21, 22] #take and out don't need to be included?
-        in_take = next_state in [1, 2, 3, 4]
-        # in_out = sys.stdin.read(4) == 'out<'
-        in_out = next_state in [19, 20, 21] #-21  #should be: if peek(sys.stdin.read(3) == 'out<'
+        while states.get(current_state) != None and current_state != 26:
+            token = next_token(f, subsequent_tag, in_lemma, in_take, in_out)
+            if current_state == -1 and token == '':
+                print('successfully reached end of file')
+                exit(0)
+            elif current_state == -1 and token == '\n':
+                accepted = True
+                break
+            elif not accepted and token == '\n':
+                accepted = True
+            next_state, output_token = step(current_state, token)
+            if output_token == None:
+                break
 
-        current_state = next_state
-        # print first_tag_passed, in_lemma, in_take, in_out
-        # print 'token' + token
-        # print str(current_state), str(states.get(current_state))
-    print('error: current_state ' + state + ' not found in states')
-    exit(0)
+            line += output_token
 
-#^take<vblex><ANY_TAG>$ ^ccccc<det><pres><tag>$ ^cccc<n><sing>$ ^out<adv>$
-#^take<vblex><pres><tag><moretag><moretag>$ ^the<det><sometag><anothertag>$ ^thing<n><sg><tag><Tag>$ ^out<adv>$
-#^take<vblex><pres><tag1><tag2><tag3>$ ^thing<n><sg><tag><Tag>$ ^out<adv>$
-#^take<vblex><pres>$ ^thing<n><sg><tag><Tag>$ ^out<adv>$
+            subsequent_tag = next_state in [5, 6, 7, 12, 13, 14, 15, 16, 100, 200, 201, 225, 275, 276] #every state that is a tag. secondary tags for 'out' not included because it only ever has one tag
+            in_lemma = next_state in [1, 2, 3, 10, 11, 252, 253, 19, 20, 21, 22] #include 4? do not include 22?
+            in_take = next_state in [1, 2, 3, 4]
+            # print 'position: ' + str(f.tell())
+            if next_state == 19:
+                #in c: there is an istream::peek() function
+                pos = f.tell() #store the current buffer position
+                peek = f.read(4) #read in the next 4 chars
+                f.seek(pos) #go back to the original position
+                if peek == 'out<':
+                    in_out = True
+            # print 'subsequent_tag: ' + str(subsequent_tag) + '   in_lemma: ' + str(in_lemma) + '   in_take: ' + str(in_take) + '   in_out: ' + str(in_out)
+            # print ''
+            #TODO: when transitions are finalized, check indices
+
+            current_state = next_state #can't set this earlier, or else the following print statement doesn't work
+        if current_state == 26:
+            print str(line_number) + '   ' + line
+            accepted = True
+        else:
+            # print('error: current_state ' + str(current_state) + ' not found in states')
+            # exit(1)
+            if accepted:
+                print str(line_number) + '   string not accepted \n'
+                accepted = False
+                current_state = -1
+                line_number += 1
+        # eol = True
 
 if __name__ == '__main__':
     main()
