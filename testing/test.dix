@@ -1,0 +1,10 @@
+<dictionary>
+  <alphabet/>
+  <sdefs>
+    <sdef n="n"/>
+    <sdef n="pl"/>
+  </sdefs>
+  <section id="main" type="standard">
+    <e><p><l>cars</l><r>car<s n="n"/><s n="pl"/></r></p></e>
+  </section>
+</dictionary>
