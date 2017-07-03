@@ -10,9 +10,8 @@ noun phrase acceptor:
     adj.* adj.* n.*
     det.* n.*
     det.* adj n.*
-prn.pers.*
-prn.dem.*
-np*
+    prn*
+    np*
 """
 
 transitions = {
@@ -38,6 +37,7 @@ transitions = {
     (11,'<adj>') : 13, #if adj, add'l tags are optional and should be followed by an n
     (11,'<det>') : 14,
     (11,'<prn>') : 15,
+    (11,'<np>'): 15.5,
     # (12,'<ANY_TAG>') : 16, #### case: n*
     (12,'<ANY_TAG>') : 200,
     (200,'<ANY_TAG>') : 201,
@@ -63,6 +63,8 @@ transitions = {
     (276,'$') : 250,
     # (15,'<ANY_TAG>') : 16, #prn.pers same as n
     (15,'<ANY_TAG>') : 200,
+    #15.5 same as 15 and n
+    (15.5,'<ANY_TAG>'): 200,
     (16,'<ANY_TAG>') : 100,
     (16, '$') : 17,
     (100,'<ANY_TAG>') : 100,
@@ -102,6 +104,7 @@ states = {
     13 : '<adj>',
     14 : '<det>',
     15 : '<prn>',
+    15.5 : '<np>',
     16 : '<ANY_TAG_A>',
     100: '<ANY_TAG_B>',
     200: '<ANY_TAG_A>',
@@ -126,30 +129,23 @@ states = {
 }
 
 def next_token(file, subsequent_tag, in_lemma, in_take, in_out):
-    token = file.read(1)
-    if token == '<': #if in tag
+    original_token = file.read(1)
+    modified_token = original_token
+    if original_token == '<': #if in tag
         in_lemma = False
         c = ''
         while c != '>':
             c = file.read(1)
-            token += c
+            original_token += c
+            modified_token += c
         if subsequent_tag:
-            token = '<ANY_TAG>'
+            modified_token = '<ANY_TAG>'
     if in_lemma and not in_take and not in_out:
-        # print in_lemma, in_take, in_out
-        token = '&' #ANY_CHAR
-    return token
+        modified_token = '&' #ANY_CHAR
+    return original_token, modified_token
 
 def step(state, token): #token is at the next state
     next_state = transitions.get((state,token))
-    # if next_state == None:
-    #     print('error: (current_state,token) pair not found in transitions. ' + str((state,token)))
-    #         #acceptor: if not found in transitions, exit and do not reorder
-    #     exit(1)
-    # elif next_state == 26:
-        # print ('successful parsing of line') # print('successful termination')
-        # exit(0)
-    # print states[next_state] + str(next_state)
     output_token = states.get(next_state)
     return next_state, output_token #return the next state, or None if it doesn't exist
 
@@ -172,22 +168,23 @@ def main():
         in_out = False
 
         while states.get(current_state) != None and current_state != 26:
-            token = next_token(f, subsequent_tag, in_lemma, in_take, in_out)
-            if current_state == -1 and token == '':
+            # print states.get(current_state) + str(current_state)
+            original_token, modified_token = next_token(f, subsequent_tag, in_lemma, in_take, in_out)
+            if current_state == -1 and modified_token == '':
                 print('successfully reached end of file')
                 exit(0)
-            elif current_state == -1 and token == '\n':
+            elif current_state == -1 and modified_token == '\n':
                 accepted = True
                 break
-            elif not accepted and token == '\n':
+            elif modified_token == '\n': #not accepted and token == '\n':
                 accepted = True
-            next_state, output_token = step(current_state, token)
+            next_state, output_token = step(current_state, modified_token)
             if output_token == None:
                 break
 
-            line += output_token
+            line += original_token #line += output_token
 
-            subsequent_tag = next_state in [5, 6, 7, 12, 13, 14, 15, 16, 100, 200, 201, 225, 275, 276] #every state that is a tag. secondary tags for 'out' not included because it only ever has one tag
+            subsequent_tag = next_state in [5, 6, 7, 12, 13, 14, 15, 15.5, 16, 100, 200, 201, 225, 275, 276] #every state that is a tag. secondary tags for 'out' not included because it only ever has one tag
             in_lemma = next_state in [1, 2, 3, 10, 11, 252, 253, 19, 20, 21, 22] #include 4? do not include 22?
             in_take = next_state in [1, 2, 3, 4]
             # print 'position: ' + str(f.tell())
@@ -198,8 +195,6 @@ def main():
                 f.seek(pos) #go back to the original position
                 if peek == 'out<':
                     in_out = True
-            # print 'subsequent_tag: ' + str(subsequent_tag) + '   in_lemma: ' + str(in_lemma) + '   in_take: ' + str(in_take) + '   in_out: ' + str(in_out)
-            # print ''
             #TODO: when transitions are finalized, check indices
 
             current_state = next_state #can't set this earlier, or else the following print statement doesn't work

@@ -74,6 +74,7 @@
 
 (4.1) prn.pers.*
 ^take<vblex><tag1>$ ^prpers<prn><tag1>$ ^out<pr>$
+^take<vblex><tag1>$ ^prpers<np><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^prpers<prn><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^prpers<prn><tag1><tag2>$ ^out<pr>$
 ^take<vblex><tag1><tag2>$ ^prpers<prn><tag1><tag2>$ ^out<adv>$
@@ -84,9 +85,18 @@
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^prpers<prn><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^prpers<prn><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
 
----- COUNTEREXAMPLES: NONE OF THE FOLLOWING SHOULD BE ACCEPTED ----
+(4.2) np*
+^take<vblex><tag1>$ ^Mary<np><tag1><tag2>$ ^out<adv>$
+
+---- INCORRECT: NONE OF THE FOLLOWING SHOULD BE ACCEPTED ----
+(1) incorrect tag count
 ^take<vblex>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
-^big<adj>$ ^birdog<n><sg>
-...
-#incorrect tag count
-#incorrect word phrase
+^take<vblex><tag1>$ ^birdog<n>$ ^out<pr>$
+^big<adj>$ ^birdog<n><sg> ^out<pr>$
+
+(2) incorrect word phrase
+^take<vblex><tag1>$ ^big<adj><tag1>$ ^out<pr>$
+
+(3) counterexamples
+^take<vblex><tag1>$ ^birdog<n><sg>$ ^to<pr>$ ^the<det><tag1> ^park<n><tag1>$ ^out<pr>$ ^there<tag><tag>$
+^prpers<prn><subj><p3><nt><sg>$ ^take<vblex><past>$ ^one<prn><tn><mf><sg>$ ^out of<pr>$ ^ten<num><sp>$ ^try<vblex><pri><p3><sg>$
