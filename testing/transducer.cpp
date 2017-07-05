@@ -64,10 +64,16 @@ int main (int argc, char** argv) {
   // take_out = t.insertSingleTransduction(alphabet(L'$',L'$'), take_out);
 
   FILE* fst = fopen("takeout.fst", "w+");
+
+  // First write the letter symbols of the alphabet
   Compression::wstring_write(L"aekout", fst);
+  // Then write the multicharacter symbols
   alphabet.write(fst);
+  // Then write then number of transducers 
   Compression::multibyte_write(1, fst);
+  // Then write the name of the transducer
   Compression::wstring_write(L"main", fst);
+  // Then write the transducer
   t.write(fst);
   fclose(fst);
 
