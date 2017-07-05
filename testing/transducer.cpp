@@ -62,7 +62,7 @@ int main (int argc, char** argv) {
   // take_out = t.insertSingleTransduction(alphabet(L'&',L'&'), take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'$',L'$'), take_out);
 
-  FILE* fst = fopen("takeout.fst", "w");
+  FILE* fst = fopen("takeout.fst", "w+");
   t.write(fst);
   fclose(fst);
 
