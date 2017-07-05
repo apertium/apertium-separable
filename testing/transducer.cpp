@@ -10,6 +10,7 @@
 #include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/transducer.h>
+#include <lttoolbox/compression.h>
 #include <lttoolbox/alphabet.h>
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
@@ -63,6 +64,10 @@ int main (int argc, char** argv) {
   // take_out = t.insertSingleTransduction(alphabet(L'$',L'$'), take_out);
 
   FILE* fst = fopen("takeout.fst", "w+");
+  Compression::wstring_write(L"aekout", fst);
+  alphabet.write(fst);
+  Compression::multibyte_write(1, fst);
+  Compression::wstring_write(L"main", fst);
   t.write(fst);
   fclose(fst);
 
