@@ -42,6 +42,8 @@ int main (int argc, char** argv) {
   int np_sym = alphabet(L"<np>");
   int adv_sym = alphabet(L"<adv>");
   int pr_sym = alphabet(L"<pr>");
+  int w_boundary = alphabet(L"<$>");
+  int any_tag = alphabet(L"<ANY_TAG>");
 
   int initial = t.getInitial();
   // int current_state = initial;
@@ -51,17 +53,25 @@ int main (int argc, char** argv) {
   take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out);
+  take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
+  int loop = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
+  t.linkStates(take_out, loop, 0);
+  take_out = t.insertSingleTransduction(alphabet(L' ',0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
 
-  take_out = t.insertSingleTransduction(alphabet(L' ',L' '), take_out);
-
-  take_out = t.insertSingleTransduction(alphabet(L'o',L'o'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L'u',L'u'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out);
-
-  t.setFinal(take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'^',L'^'), take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'&',L'&'), take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'$',L'$'), take_out);
+
+  t.setFinal(take_out);
 
   FILE* fst = fopen("takeout.fst", "w+");
 
@@ -72,7 +82,7 @@ int main (int argc, char** argv) {
   // Then write then number of transducers 
   Compression::multibyte_write(1, fst);
   // Then write the name of the transducer
-  Compression::wstring_write(L"main", fst);
+  Compression::wstring_write(L"main@standard", fst);
   // Then write the transducer
   t.write(fst);
   fclose(fst);
