@@ -66,6 +66,7 @@ int main (int argc, char** argv) {
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
 
   // take_out = t.insertSingleTransduction(alphabet(L'^',L'^'), take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'&',L'&'), take_out);
