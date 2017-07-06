@@ -27,22 +27,19 @@ int main (int argc, char** argv)
 
   alphabet.read(fst);
   int len = Compression::multibyte_read(fst);
-  transducer.read(fst);
+  transducer.read(fst, alphabet);
 
   FILE *input = stdin;
   FILE *output = stdout;
 
-//  State* state = new State();
-//  State current_state = *state; //points to initial state
+  vector<State> alive_states;
+  set<Node *> anfinals;
+  set<wchar_t> escaped_chars;
+  State *initial_state;
 
-//  Node* initial_node = new Node(); //points to the initial node of the transducer
-//  state->init(initial_node);
+  initial_state->init(transducer.getInitial());
+  anfinals.insert(transducer.getFinals().begin(), transducer.getFinals().end());
 
-//  state->step('t');
-//  cout << "state size = " << state->size() << endl;
-
-
-//  Node* final_node = new Node();
   /*
   processing
   */
