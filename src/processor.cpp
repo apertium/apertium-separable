@@ -18,8 +18,16 @@
 int main (int argc, char** argv) 
 {
   Alphabet alphabet;
+  TransExe transducer;
 
   LtLocale::tryToSetLocale();
+
+
+  FILE *fst = fopen(argv[1], "r");
+
+  alphabet.read(fst);
+  int len = Compression::multibyte_read(fst);
+  transducer.read(fst);
 
   FILE *input = stdin;
   FILE *output = stdout;
@@ -39,25 +47,14 @@ int main (int argc, char** argv)
   processing
   */
 
-  wchar_t in;
-//  wcin.get(in); //get one character from stdin
-
   int line_number = 0;
   bool accepted = true;
 
-  while (true) 
+  while(!feof(input)) 
   {
-    if (accepted) {
-      line_number++;
-    }
-    int current_state = -1;
+      int val = fgetwc_unlocked(input);
 
-
-//    set<Node *> final_nodes = set<final_node>;
-//    if (state->isFinal(final_nodes) == true) {
-//      cout << line_number << "    " << input;
-//      accepted = true;
-//    }
+      wcout << (wchar_t)val << endl;
   }
 
   return 0;
