@@ -1,0 +1,3 @@
+^take<vblex><tag1>$ ^birdog<n><tag1>$ ^out<pr>$^.<sent>$
+^take<vblex><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
+^take<vblex><tag1><tag2><tag3>$ ^birdog<n><tag1><tag2><tag3>$ ^out<adv>$

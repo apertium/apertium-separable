@@ -3,7 +3,7 @@
 #include <cerrno>
 #include <string>
 #include <iostream>
-#include <fstream>
+// #include <fstream>
 #include <list>
 #include <set>
 
@@ -42,26 +42,30 @@ int main (int argc, char** argv) {
   int np_sym = alphabet(L"<np>");
   int adv_sym = alphabet(L"<adv>");
   int pr_sym = alphabet(L"<pr>");
+
   int w_boundary = alphabet(L"<$>");
   int any_tag = alphabet(L"<ANY_TAG>");
 
   int initial = t.getInitial();
-  // int current_state = initial;
 
-  int take_out = initial;
-  take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out);
-  take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out);
-  take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out);
+  int take_out = initial; //0
+  take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out); //1
+  take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out); //2
+  take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out); //3
+  take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out); //4
+  take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out); //5
+  take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out); //6
+  take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out); //7
+  take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out); //8
+  take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out); //9
   take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
+  // take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), take_out);
+
+  // ɛ
   int loop = take_out;
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
+
   take_out = t.insertSingleTransduction(alphabet(L' ',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
@@ -80,7 +84,7 @@ int main (int argc, char** argv) {
   Compression::wstring_write(L"aekout", fst);
   // Then write the multicharacter symbols
   alphabet.write(fst);
-  // Then write then number of transducers 
+  // Then write then number of transducers
   Compression::multibyte_write(1, fst);
   // Then write the name of the transducer
   Compression::wstring_write(L"main@standard", fst);
@@ -88,17 +92,44 @@ int main (int argc, char** argv) {
   t.write(fst);
   fclose(fst);
 
-  // fst = fopen("takeout.fst", "r");
-  //
-  // TransExe te;
-  // te.read(fst, alphabet);
-  // fclose(fst);
-  //
-  // State *initial_state = new State();
-  // initial_state->init(te.getInitial());
-  // State current_state = *initial_state;
 
-  // cout << initial << endl;
-  // cout << "running" << endl;
+
+  State* state = new State();
+  State current_state = *state; //points to initial state
+
+  Node* initial_node = new Node(); //points to the initial node of the transducer
+  state->init(initial_node);
+
+  state->step('t');
+  cout << "state size = " << state->size() << endl;
+
+
+  Node* final_node = new Node();
+  /*
+  processing
+  */
+
+  cout << "give a string input: \n" << endl;
+
+  char in;
+  cin.get(in); //get one character from stdin
+
+  int line_number = 0;
+  bool accepted = true;
+
+  while (true) {
+    if (accepted) {
+      line_number++;
+    }
+    int current_state = -1;
+
+
+    set<Node *> final_nodes = set<final_node>;
+    if (state->isFinal(final_nodes) == true) {
+      cout << line_number << "    " << input;
+      accepted = true
+    }
+  }
+
   return 0;
 }

@@ -1,6 +1,3 @@
-
----- SHOULD ALL BE SUCCESSFUL ----
-(1) n*
 ^take<vblex><tag1>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -11,8 +8,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(2.1) adj n*
 ^take<vblex><tag1>$ ^big<adj>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^big<adj>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^big<adj>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -23,8 +18,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^big<adj>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(2.2) adj* n*
 ^take<vblex><tag1>$ ^big<adj><tag1>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^big<adj><tag1>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^big<adj><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -35,8 +28,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^big<adj><tag1><tag2>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(2.3) adj* adj* (adj* ...) n*
 ^take<vblex><tag1>$ ^big<adj><tag1>$ ^round<adj><tag1>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^big<adj><tag1>$ ^round<adj><tag1>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^big<adj><tag1><tag2>$ ^round<adj><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -47,8 +38,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^big<adj><tag1><tag2>$ ^round<adj><tag1><tag2><tag3><tag4>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2>$ ^round<adj><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2>$ ^round<adj><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(3.1) det* n*
 ^take<vblex><tag1>$ ^my<det><tag1>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^my<det><tag1>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^my<det><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -59,8 +48,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^my<det><tag1><tag2><tag3>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^my<det><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^my<det><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(3.2) det* adj(*) n*
 ^take<vblex><tag1>$ ^my<det><tag1>$ ^big<adj><tag1>$ ^round<adj><tag1>$ ^birdog<n><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^my<det><tag1>$ ^big<adj><tag1>$ ^round<adj><tag1>$ ^birdog<n><tag1>$ ^out<adv>$
 ^take<vblex><tag1><tag2>$ ^my<det><tag1><tag2>$ ^big<adj><tag1><tag2>$ ^round<adj><tag1><tag2>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
@@ -71,8 +58,6 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^my<det><tag1><tag2><tag3><tag4>$ ^big<adj><tag1><tag2><tag3><tag4>$ ^round<adj><tag1><tag2><tag3><tag4>$ ^birdog<n><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^my<det><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2><tag3><tag4><tag5>$ ^round<adj><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^my<det><tag1><tag2><tag3><tag4><tag5>$ ^big<adj><tag1><tag2><tag3><tag4><tag5>$ ^round<adj><tag1><tag2><tag3><tag4><tag5>$ ^birdog<n><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(4.1) prn.pers.*
 ^take<vblex><tag1>$ ^prpers<prn><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^prpers<np><tag1>$ ^out<pr>$
 ^take<vblex><tag1>$ ^prpers<prn><tag1>$ ^out<adv>$
@@ -84,19 +69,4 @@
 ^take<vblex><tag1><tag2><tag3><tag4>$ ^prpers<prn><tag1><tag2><tag3><tag4>$ ^out<adv>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^prpers<prn><tag1><tag2><tag3><tag4><tag5>$ ^out<pr>$
 ^take<vblex><tag1><tag2><tag3><tag4><tag5>$ ^prpers<prn><tag1><tag2><tag3><tag4><tag5>$ ^out<adv>$
-
-(4.2) np*
 ^take<vblex><tag1>$ ^Mary<np><tag1><tag2>$ ^out<adv>$
-
----- INCORRECT: NONE OF THE FOLLOWING SHOULD BE ACCEPTED ----
-(1) incorrect tag count
-^take<vblex>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
-^take<vblex><tag1>$ ^birdog<n>$ ^out<pr>$
-^big<adj>$ ^birdog<n><sg> ^out<pr>$
-
-(2) incorrect word phrase
-^take<vblex><tag1>$ ^big<adj><tag1>$ ^out<pr>$
-
-(3) counterexamples
-^take<vblex><tag1>$ ^birdog<n><sg>$ ^to<pr>$ ^the<det><tag1> ^park<n><tag1>$ ^out<pr>$ ^there<tag><tag>$
-^prpers<prn><subj><p3><nt><sg>$ ^take<vblex><past>$ ^one<prn><tn><mf><sg>$ ^out of<pr>$ ^ten<num><sp>$ ^try<vblex><pri><p3><sg>$
