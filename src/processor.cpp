@@ -68,11 +68,26 @@ int main (int argc, char** argv)
   int line_number = 0;
   bool accepted = true;
 
+  vector<State> new_states;
+
+  alive_states.push_back(*initial_state);
+
   while(!feof(input)) 
   {
       int val = fgetwc_unlocked(input);
 
-      wcout << (wchar_t)val << endl;
+      for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
+      {
+        State s = *it;
+        s.step(val);
+        if(s.size() > 0)
+        {
+          new_states.push_back(s);
+        } 
+        wcout << (wchar_t)val << L" " << s.size() << endl;
+      }
+   
+      alive_states.swap(new_states);
   }
 
   return 0;
