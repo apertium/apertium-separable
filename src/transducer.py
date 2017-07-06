@@ -2,18 +2,6 @@
 
 import sys
 
-"""
-noun phrase acceptor:
-    n.*
-    adj n.*
-    adj.* n
-    adj.* adj.* n.*
-    det.* n.*
-    det.* adj n.*
-    prn*
-    np*
-"""
-
 transitions = {
     (-1,'^') : 0,
     (0,'t') : 1,
@@ -70,7 +58,11 @@ transitions = {
     (24,'$') : 25,
     (25,'') : 26,
     (25,' ') : 26,
-    (25,'\n') : 26
+    (25,'\n') : 26,
+    (25,'^') : 27,
+    (27,'.') : 28,
+    (28,'<sent>') : 29,
+    (29,'$') : 25
 }
 
 #<ANY_TAG_A> is required
@@ -113,7 +105,11 @@ states = {
     23 : '<adv>',
     24 : '<pr>',
     25 : '$',
-    26 : '\n'
+    26 : '\n',
+    27 : '^',
+    28 : '.',
+    29 : '<sent>',
+
 }
 
 def next_token(file, subsequent_tag, in_lemma, in_take, in_out):
@@ -154,8 +150,7 @@ def main():
 
         while states.get(current_state) != None and current_state != 26:
             original_token, modified_token = next_token(f, subsequent_tag, in_lemma, in_take, in_out)
-            i
-            f current_state == -1 and modified_token == '':
+            if current_state == -1 and modified_token == '':
                 print('successfully reached end of file')
                 exit(0)
             elif current_state == -1 and modified_token == '\n':
