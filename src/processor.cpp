@@ -24,20 +24,30 @@ int main (int argc, char** argv)
 
 
   FILE *fst = fopen(argv[1], "r");
+  
+  set<wchar_t> alphabetic_chars;
+  int len = Compression::multibyte_read(fst);
+  while(len > 0)
+  {
+    alphabetic_chars.insert(static_cast<wchar_t>(Compression::multibyte_read(fst)));
+    len--;
+  }
 
   alphabet.read(fst);
   wcout << L"alphabet_size: " << alphabet.size() << endl;
-/*  int len = Compression::multibyte_read(fst);
+
+  len = Compression::multibyte_read(fst);
+  
+  len = Compression::multibyte_read(fst);
   wcout << len << endl;
   wstring name = L"";
-  int j = 0;
-  while(j < len) 
+  while(len > 0) 
   {
     name += static_cast<wchar_t>(Compression::multibyte_read(fst));
-    j++;
+    len--; 
   }
   wcout << name << endl;
-*/
+
 
   transducer.read(fst, alphabet);
 
