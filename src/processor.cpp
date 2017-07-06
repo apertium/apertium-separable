@@ -17,6 +17,9 @@
 
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
 
+
+/* get the text between delim1 and delim2 */
+/* next_token() */
 wstring
 readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 {
@@ -34,7 +37,11 @@ readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 }
 
 
-int main (int argc, char** argv) 
+/***
+main
+***/
+
+int main (int argc, char** argv)
 {
   Alphabet alphabet;
   TransExe transducer;
@@ -43,7 +50,7 @@ int main (int argc, char** argv)
 
 
   FILE *fst = fopen(argv[1], "r");
-  
+
   set<wchar_t> alphabetic_chars;
   int len = Compression::multibyte_read(fst);
   while(len > 0)
@@ -56,14 +63,14 @@ int main (int argc, char** argv)
   wcout << L"alphabet_size: " << alphabet.size() << endl;
 
   len = Compression::multibyte_read(fst);
-  
+
   len = Compression::multibyte_read(fst);
   wcout << len << endl;
   wstring name = L"";
-  while(len > 0) 
+  while(len > 0)
   {
     name += static_cast<wchar_t>(Compression::multibyte_read(fst));
-    len--; 
+    len--;
   }
   wcout << name << endl;
 
@@ -91,34 +98,38 @@ int main (int argc, char** argv)
 
   alive_states.push_back(*initial_state);
 
-  while(!feof(input)) 
+  while(!feof(input))
   {
-      int val = fgetwc(input);
+      int orig_val = fgetwc(input); // read 1 wide char
+      int mod_val = orig_val;
 
-      if(val == L'<')
+      if(orig_val == L'<') // if in tag, get the whole tag and modify if necessary
       {
         wstring tag = L"";
         tag = readFullBlock(input, L'<', L'>');
-        val = static_cast<int>(alphabet(tag));
-        if(val == 0)
-        {
-          val = static_cast<int>(alphabet(L"<ANY_TAG>"));
-        }
-        fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
-      }
+        orig_val = static_cast<int>(alphabet(tag));
+        mod_val = static_cast<int>(alphabet(tag));
 
+        cout << "orig_val: " << orig_val << endl;
+
+        if(orig_val == 0) // if subsequent_tag TODO:?
+        {
+          mod_val = static_cast<int>(alphabet(L"<ANY_TAG>"));
+        }
+        fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), mod_val);
+      }
 
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
         State s = *it;
-        s.step(val);
+        s.step(mod_val);
         if(s.size() > 0)
         {
           new_states.push_back(s);
-        } 
-        wcout << (wchar_t)val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
+        }
+        wcout << (wchar_t) orig_val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
       }
-   
+
       alive_states.swap(new_states);
   }
 
