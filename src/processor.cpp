@@ -15,6 +15,25 @@
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
 
+wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
+
+wstring
+readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
+{
+  wstring result = L"";
+  result += delim1;
+  wchar_t c = delim1;
+
+  while(!feof(input) && c != delim2)
+  {
+    c = static_cast<wchar_t>(fgetwc_unlocked(input));
+    result += c;
+  }
+
+  return result;
+}
+
+
 int main (int argc, char** argv) 
 {
   Alphabet alphabet;
@@ -75,6 +94,19 @@ int main (int argc, char** argv)
   while(!feof(input)) 
   {
       int val = fgetwc_unlocked(input);
+
+      if(val == L'<')
+      {
+        wstring tag = L"";
+        tag = readFullBlock(input, L'<', L'>');
+        val = static_cast<int>(alphabet(tag));
+        if(val == 0)
+        {
+          val = static_cast<int>(alphabet(L"<ANY_TAG>"));
+        }
+        fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
+      }
+
 
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
