@@ -90,6 +90,7 @@ int main (int argc, char** argv) {
   Compression::wstring_write(L"main@standard", fst);
   // Then write the transducer
   t.write(fst);
+  wcout << t.size() << endl ; 
   fclose(fst);
 
   return 0;
