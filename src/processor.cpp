@@ -26,7 +26,7 @@ readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 
   while(!feof(input) && c != delim2)
   {
-    c = static_cast<wchar_t>(fgetwc_unlocked(input));
+    c = static_cast<wchar_t>(fgetwc(input));
     result += c;
   }
 
@@ -93,7 +93,7 @@ int main (int argc, char** argv)
 
   while(!feof(input)) 
   {
-      int val = fgetwc_unlocked(input);
+      int val = fgetwc(input);
 
       if(val == L'<')
       {
