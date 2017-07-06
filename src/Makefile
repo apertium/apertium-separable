@@ -1,5 +1,12 @@
+CFLAGS=-I/home/fran/local/include/lttoolbox-3.3 -I/usr/local/include/lttoolbox-3.3
+LDFLAGS=-L/home/fran/local/lib -L/usr/local/lib -llttoolbox3
 transducer: transducer.cpp
-	g++ -I/usr/local/include/lttoolbox-3.3 -Wall transducer.cpp -o transducer -llttoolbox3
+	g++ $(CFLAGS) -Wall transducer.cpp -o transducer $(LDFLAGS)
+
+processor: processor.cpp
+	g++ $(CFLAGS) -Wall processor.cpp -o processor $(LDFLAGS)
+
+all: transducer processor
 
 test:
 	./transducer

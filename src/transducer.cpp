@@ -92,44 +92,5 @@ int main (int argc, char** argv) {
   t.write(fst);
   fclose(fst);
 
-
-
-  State* state = new State();
-  State current_state = *state; //points to initial state
-
-  Node* initial_node = new Node(); //points to the initial node of the transducer
-  state->init(initial_node);
-
-  state->step('t');
-  cout << "state size = " << state->size() << endl;
-
-
-  Node* final_node = new Node();
-  /*
-  processing
-  */
-
-  cout << "give a string input: \n" << endl;
-
-  char in;
-  cin.get(in); //get one character from stdin
-
-  int line_number = 0;
-  bool accepted = true;
-
-  while (true) {
-    if (accepted) {
-      line_number++;
-    }
-    int current_state = -1;
-
-
-    set<Node *> final_nodes = set<final_node>;
-    if (state->isFinal(final_nodes) == true) {
-      cout << line_number << "    " << input;
-      accepted = true
-    }
-  }
-
   return 0;
 }
