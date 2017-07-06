@@ -84,7 +84,7 @@ int main (int argc, char** argv)
         {
           new_states.push_back(s);
         } 
-        wcout << (wchar_t)val << L" " << s.size() << endl;
+        wcout << (wchar_t)val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
       }
    
       alive_states.swap(new_states);
