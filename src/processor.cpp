@@ -26,7 +26,19 @@ int main (int argc, char** argv)
   FILE *fst = fopen(argv[1], "r");
 
   alphabet.read(fst);
-  int len = Compression::multibyte_read(fst);
+  wcout << L"alphabet_size: " << alphabet.size() << endl;
+/*  int len = Compression::multibyte_read(fst);
+  wcout << len << endl;
+  wstring name = L"";
+  int j = 0;
+  while(j < len) 
+  {
+    name += static_cast<wchar_t>(Compression::multibyte_read(fst));
+    j++;
+  }
+  wcout << name << endl;
+*/
+
   transducer.read(fst, alphabet);
 
   FILE *input = stdin;
