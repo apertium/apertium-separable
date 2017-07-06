@@ -85,9 +85,9 @@ int main (int argc, char** argv) {
   // Then write the multicharacter symbols
   alphabet.write(fst);
   // Then write then number of transducers
-//  Compression::multibyte_write(1, fst);
+  Compression::multibyte_write(1, fst);
   // Then write the name of the transducer
-//  Compression::wstring_write(L"main@standard", fst);
+  Compression::wstring_write(L"main@standard", fst);
   // Then write the transducer
   t.write(fst);
   fclose(fst);
