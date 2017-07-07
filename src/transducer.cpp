@@ -48,28 +48,17 @@ int main (int argc, char** argv) {
 
   int initial = t.getInitial();
   int take_out = initial; //0
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out); //1
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out); //2
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out); //3
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out); //4
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out); //5
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out); //6
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out); //7
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out); //8
-  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out); //9
-  cout << take_out << endl;
 
   take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
-  cout << take_out << endl;
   int loop = take_out; //stores the src state int
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
@@ -81,7 +70,7 @@ int main (int argc, char** argv) {
   take_out = t.insertSingleTransduction(alphabet(any_char, any_char), loop);
   t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(n_sym, n_sym), take_out;
+  take_out = t.insertSingleTransduction(alphabet(n_sym, n_sym), take_out);
   loop = take_out;
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
