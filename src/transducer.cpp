@@ -31,6 +31,7 @@ int main (int argc, char** argv) {
   alphabet.includeSymbol(L"<pr>");
 
   alphabet.includeSymbol(L"<ANY_TAG>");
+  alphabet.includeSymbol(L"<ANY_CHAR>");
   alphabet.includeSymbol(L"<$>");
 
   int vblex_sym = alphabet(L"<vblex>");
