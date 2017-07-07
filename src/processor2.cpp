@@ -79,7 +79,6 @@ int main (int argc, char** argv)
   FILE *input = stdin;
   FILE *output = stdout;
 
-  vector<State> alive_states;
   set<Node *> anfinals;
   set<wchar_t> escaped_chars;
 
@@ -105,6 +104,7 @@ int main (int argc, char** argv)
   */
 
   vector<State> new_states;
+  vector<State> alive_states;
 
   alive_states.push_back(*initial_state);
 
@@ -129,7 +129,7 @@ int main (int argc, char** argv)
         for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
         {
           State s = *it;
-//          s.step(alphabet(L"<$>"));
+          s.step(alphabet(L"<$>"));
           if(s.size() > 0)
           {
             new_states.push_back(s);
@@ -139,6 +139,7 @@ int main (int argc, char** argv)
           {
             wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
             wcerr << "FINAL: " << out << endl;
+            new_states.push_back(*initial_state);
           } 
         }
         alive_states.swap(new_states);
@@ -164,24 +165,24 @@ int main (int argc, char** argv)
         {
           res = L"";
           State s = *it;
-          wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
           if(val < 0) 
           {
             s.step(val, alphabet(L"<ANY_TAG>"));
           }
-          if(val == 0)
+          else if(val > 0) 
+          {
+            s.step_case(val, false);
+          }
+          else 
           {
             s.step(alphabet(L"<ANY_TAG>"));
-          }
-          else
-          {
-            s.step_case(val, alphabet(L"<ANY_CHAR>"),false);
           }
           if(s.size() > 0)
           {
             new_states.push_back(s);
           }
           wcerr << L"|   | " << (wchar_t) val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
+          wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
         }
         alive_states.swap(new_states);
       }
