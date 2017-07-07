@@ -57,29 +57,49 @@ int main (int argc, char** argv) {
   take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out); //7
   take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out); //8
   take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out); //9
-
-  take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
-  int loop = take_out; //stores the src state int
-  take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
+  take_out = t.insertSingleTransduction(alphabet(vblex_sym,vblex_sym), take_out);
+  int loop = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
   t.linkStates(take_out, loop, 0);
-  take_out = t.insertSingleTransduction(alphabet(wb_sym, wb_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+
+  int reset = take_out;
+
+  /* nothing */
+
+
+  /* n */
+  take_out = reset;
 
   loop = take_out;
-  take_out = t.insertSingleTransduction(alphabet(0, any_char), loop);
+  int none = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
   t.linkStates(take_out, loop, 0);
+  t.linkStates(none, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(0, n_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
+
   loop = take_out;
-  take_out = t.insertSingleTransduction(alphabet(0, any_tag), loop);
+  none = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
   t.linkStates(take_out, loop, 0);
+  t.linkStates(none, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(0, wb_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(any_tag,wb_sym), take_out);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
+
+  /* pr */
+  take_out = reset;
+  //same as n except with pr_sym
+
 
 
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
-
   take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
   take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
 
@@ -97,7 +117,7 @@ int main (int argc, char** argv) {
   Compression::wstring_write(L"main@standard", fst);
   // Then write the transducer
   t.write(fst);
-  wcout << t.size() << endl ;
+  wcout << "t.size(): " << t.size() << endl ;
   fclose(fst);
 
   return 0;
