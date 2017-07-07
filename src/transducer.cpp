@@ -62,21 +62,18 @@ int main (int argc, char** argv) {
   int loop = take_out; //stores the src state int
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
-
   take_out = t.insertSingleTransduction(alphabet(wb_sym, wb_sym), take_out);
-  take_out = t.insertSingleTransduction(alphabet(' ', ' '), take_out);
 
   loop = take_out;
-  take_out = t.insertSingleTransduction(alphabet(any_char, any_char), loop);
+  take_out = t.insertSingleTransduction(alphabet(0, any_char), loop);
   t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(n_sym, n_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0, n_sym), take_out);
   loop = take_out;
-  take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
+  take_out = t.insertSingleTransduction(alphabet(0, any_tag), loop);
   t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(wb_sym, wb_sym), take_out);
-  take_out = t.insertSingleTransduction(alphabet(' ', ' '), take_out);
+  take_out = t.insertSingleTransduction(alphabet(0, wb_sym), take_out);
 
 
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
