@@ -152,6 +152,10 @@ int main (int argc, char** argv)
       {
         wstring tag = L"";
         tag = readFullBlock(input, L'<', L'>');
+        if(!alphabet.isSymbolDefined(tag)) 
+        {
+          alphabet.includeSymbol(tag);
+        }
         val = static_cast<int>(alphabet(tag));
 
         fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
@@ -172,10 +176,6 @@ int main (int argc, char** argv)
           else if(val > 0) 
           {
             s.step_case(val, false);
-          }
-          else 
-          {
-            s.step(alphabet(L"<ANY_TAG>"));
           }
           if(s.size() > 0)
           {
