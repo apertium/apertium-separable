@@ -142,7 +142,9 @@ int main (int argc, char** argv)
   s.step(alphabet(L"<$>"));
   wcerr << s.size() << L" ||| " << s.getReadableString(alphabet) << L" ||| " << s.isFinal(anfinals) << endl;
 
+  wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
 
+  wcerr << L"FINAL: " << out << endl;
 
 
   return 0;
