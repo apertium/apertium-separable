@@ -31,8 +31,7 @@ int main (int argc, char** argv) {
   alphabet.includeSymbol(L"<pr>");
 
   alphabet.includeSymbol(L"<ANY_TAG>");
-  alphabet.includeSymbol(L"&");
-  alphabet.includeSymbol(L"$");
+  alphabet.includeSymbol(L"<$>");
 
   int vblex_sym = alphabet(L"<vblex>");
   int n_sym = alphabet(L"<n>");
@@ -43,7 +42,7 @@ int main (int argc, char** argv) {
   int adv_sym = alphabet(L"<adv>");
   int pr_sym = alphabet(L"<pr>");
 
-  int w_boundary = alphabet(L"<$>");
+  int wb_sym = alphabet(L"<$>");
   int any_tag = alphabet(L"<ANY_TAG>");
 
   int initial = t.getInitial();
@@ -66,11 +65,12 @@ int main (int argc, char** argv) {
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(L' ',0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
+  take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
 
   // take_out = t.insertSingleTransduction(alphabet(L'^',L'^'), take_out);
   // take_out = t.insertSingleTransduction(alphabet(L'&',L'&'), take_out);
