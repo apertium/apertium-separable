@@ -14,7 +14,40 @@
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
 
-int main (int argc, char** argv) {
+struct foo {
+    Transducer t;
+    int takeout_state;
+    int none_state;
+}
+
+foo add_anychar(Alphabet alphabet, int any_char, Transducer t, int take_out);
+foo add_anytag(Alphabet alphabet, int any_char, Transducer t, int take_out);
+
+foo add_anychar(Alphabet alphabet, int any_char, Transducer t, int take_out) {
+    int loop = take_out;
+    int none = take_out;
+    take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
+    none = t.insertSingleTransduction(alphabet(0,0), none);
+    t.linkStates(take_out, loop, 0);
+    t.linkStates(none, loop, 0);
+
+    foo bar = {t, take_out, none};
+    return bar;
+}
+
+foo add_anytag(Alphabet alphabet, int any_tag, Transducer t, int take_out) {
+    int loop = take_out;
+    int none = take_out;
+    take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+    none = t.insertSingleTransduction(alphabet(0,0), none);
+    t.linkStates(take_out, loop, 0);
+    t.linkStates(none, loop, 0);
+
+    foo bar = {t, take_out, none};
+    return bar;
+}
+
+int main(int argc, char** argv) {
   Alphabet alphabet;
   Transducer t;
 
@@ -47,7 +80,9 @@ int main (int argc, char** argv) {
   int wb_sym = alphabet(L"<$>");
 
   int initial = t.getInitial();
-  int take_out = initial; //0
+  int take_out = initial;
+
+  /* take# out */
   take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out); //1
   take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out); //2
   take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out); //3
@@ -63,40 +98,53 @@ int main (int argc, char** argv) {
   t.linkStates(take_out, loop, 0);
   take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
-  int reset = take_out;
-
   /* nothing */
-
+  int reset = take_out;
+  int none = 0;
 
   /* n */
   take_out = reset;
 
-  loop = take_out;
-  int none = take_out;
-  take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
-  t.linkStates(take_out, loop, 0);
-  t.linkStates(none, loop, 0);
+  foobar = add_anychar(alphabet, any_char, t, take_out);
+  t = foobar.transducer;
+  take_out = foobar.takeout_state;
+  none = foobar.none_state;
 
   take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
   none = t.insertSingleTransduction(alphabet(0,0), none);
 
-  loop = take_out;
-  none = take_out;
-  take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
-  t.linkStates(take_out, loop, 0);
-  t.linkStates(none, loop, 0);
+  foobar = add_anytag(alphabet, any_tag, t, take_out);
+  t = foobar.transducer;
+  take_out = foobar.takeout_state;
+  none =  foobar.none_state;
 
   take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
   none = t.insertSingleTransduction(alphabet(0,0), none);
 
   /* pr */
   take_out = reset;
-  //same as n except with pr_sym
+
+  foobar = add_anychar(alphabet, any_char, t, take_out);
+  t = foobar.transducer;
+  take_out = foobar.takeout_state;
+  none = foobar.none_state;
+
+  take_out = t.insertSingleTransduction(alphabet(pr_sym,pr_sym), take_out);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
+
+  foobar = add_anytag(alphabet, any_tag, t, take_out);
+  t = foobar.transducer;
+  take_out = foobar.takeout_state;
+  none =  foobar.none_state;
+
+  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+  none = t.insertSingleTransduction(alphabet(0,0), none);
 
 
 
+
+
+  /* out */
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
