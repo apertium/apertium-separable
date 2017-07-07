@@ -3,7 +3,6 @@
 #include <cerrno>
 #include <string>
 #include <iostream>
-// #include <fstream>
 #include <list>
 #include <set>
 
@@ -43,39 +42,60 @@ int main (int argc, char** argv) {
   int adv_sym = alphabet(L"<adv>");
   int pr_sym = alphabet(L"<pr>");
 
-  int wb_sym = alphabet(L"<$>");
   int any_tag = alphabet(L"<ANY_TAG>");
+  int any_char = alphabet(L"<ANY_CHAR>");
+  int wb_sym = alphabet(L"<$>");
 
   int initial = t.getInitial();
-
   int take_out = initial; //0
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out); //1
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out); //2
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out); //3
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out); //4
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out); //5
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out); //6
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out); //7
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out); //8
+  cout << take_out << endl;
   take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out); //9
-  take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
-  // take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), take_out);
+  cout << take_out << endl;
 
-  // ɛ
-  int loop = take_out;
+  take_out = t.insertSingleTransduction(alphabet(vblex_sym, vblex_sym), take_out);
+  cout << take_out << endl;
+  int loop = take_out; //stores the src state int
   take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
   t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(wb_sym, wb_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(' ', ' '), take_out);
+
+  loop = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_char, any_char), loop);
+  t.linkStates(take_out, loop, 0);
+
+  take_out = t.insertSingleTransduction(alphabet(n_sym, n_sym), take_out;
+  loop = take_out;
+  take_out = t.insertSingleTransduction(alphabet(any_tag, any_tag), loop);
+  t.linkStates(take_out, loop, 0);
+
+  take_out = t.insertSingleTransduction(alphabet(wb_sym, wb_sym), take_out);
+  take_out = t.insertSingleTransduction(alphabet(' ', ' '), take_out);
+
+
   take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
   take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
+
   take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
   take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
-
-  // take_out = t.insertSingleTransduction(alphabet(L'^',L'^'), take_out);
-  // take_out = t.insertSingleTransduction(alphabet(L'&',L'&'), take_out);
-  // take_out = t.insertSingleTransduction(alphabet(L'$',L'$'), take_out);
 
   t.setFinal(take_out);
 
@@ -91,7 +111,7 @@ int main (int argc, char** argv) {
   Compression::wstring_write(L"main@standard", fst);
   // Then write the transducer
   t.write(fst);
-  wcout << t.size() << endl ; 
+  wcout << t.size() << endl ;
   fclose(fst);
 
   return 0;
