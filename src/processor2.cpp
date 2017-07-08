@@ -175,7 +175,7 @@ int main (int argc, char** argv)
           }
           else if(val > 0) 
           {
-            s.step_case(val, false);
+            s.step_case(val, alphabet(L"<ANY_CHAR>"), false);
           }
           if(s.size() > 0)
           {
