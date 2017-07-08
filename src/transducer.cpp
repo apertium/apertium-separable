@@ -64,41 +64,31 @@ int main (int argc, char** argv) {
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
     /* noun phrase acceptor:
-    n
+        n
     prn
-    det.* n.*
-    adj. n.*
-    adj.* n.*
-    det.* adj n.*
-    adj.* adj.* n.*
+        det.* n.*
+        adj. n.*
+        adj.* n.*
+        det.* adj n.*
+        adj.* adj.* n.*
     prn.pers.*
     prn.dem.*
+    np
     */
     int after_takeout = take_out;
 
-    /* no np */
-    take_out = after_takeout;
-    loop = take_out;
-    take_out = t.insertSingleTransduction(alphabet(0,0), loop);
-    t.linkStates(take_out, loop, 0);
+    /* no det */
+    int from_nodet = after_takeout;
 
-    /* first lemma in the np */
-    loop = take_out;
+    /* first lemma */
+    loop = after_takeout;
     take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
     t.linkStates(take_out, loop, 0);
 
-    /* no modifier */
-    int modifier = take_out;
+    int first_lm = take_out;
 
-    take_out = modifier;
-    loop = take_out;
-    take_out = t.insertSingleTransduction(alphabet(0,0), loop);
-    t.linkStates(take_out, loop, 0);
-    int from_nomod = take_out;
-
-    /* det */
-    take_out = modifier;
-    take_out = t.insertSingleTransduction(alphabet(det_sym,det_sym), take_out);
+    /* prn */
+    take_out = t.insertSingleTransduction(alphabet(prn_sym,prn_sym), first_lm);
 
     loop = take_out;
     take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
@@ -106,91 +96,106 @@ int main (int argc, char** argv) {
 
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
+    int after_prn = take_out;
+
+    /* np */
+    take_out = t.insertSingleTransduction(alphabet(np_sym,np_sym), first_lm);
+
     loop = take_out;
+    take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+    t.linkStates(take_out, loop, 0);
+
+    take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+
+    int after_np = take_out;
+
+    /* det */
+    take_out = t.insertSingleTransduction(alphabet(det_sym,det_sym), first_lm);
+
+    loop = take_out;
+    take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+    t.linkStates(take_out, loop, 0);
+
+    take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+
+    int after_det = take_out;
+
+    /* no adj */
+    int from_noadj = take_out; //same as after_det
+
+    /* lemma for the adj */
+    loop = after_det;
     take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
     t.linkStates(take_out, loop, 0);
 
-    int from_det = take_out;
+    int lm_adj = take_out;
 
     /* adj */
-    take_out = modifier;
-    take_out = t.insertSingleTransduction(alphabet(adj_sym,adj_sym), take_out);
+    take_out = t.insertSingleTransduction(alphabet(adj_sym,adj_sym), lm_adj);
+
+    int optional_adj = take_out;
 
     loop = take_out;
     take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
     t.linkStates(take_out, loop, 0);
 
     //may not have a second tag
-    take_out = t.insertSingleTransduction(alphabet(0,0), take_out);
+    t.linkStates(optional_adj, take_out, 0);
 
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
-    take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out-1);
 
-    loop = take_out;
+    int after_adj = take_out;
+
+    /* no n */
+    int from_non = take_out; //same as after_adj
+
+    /* lemma for the noun */
+    loop = after_adj;
     take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
     t.linkStates(take_out, loop, 0);
 
-    int from_adj = take_out;
+    int lm_noun = take_out;
+
+    /* possible subsequent adj */
+    t.linkStates(lm_noun, lm_adj, alphabet(adj_sym,adj_sym));
 
     /* n */
-    take_out = from_nomod;
-    take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
+    take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), lm_noun);
 
-    take_out = from_det;
-    take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-
-    take_out = from_adj;
-    take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-
+    // take_out = after_det;
+    // take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
+    //
+    // take_out = from_adj;
+    // take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
+    //
     loop = take_out;
     take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
     t.linkStates(take_out, loop, 0);
 
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
+    int after_n = take_out;
+
     /* out */
+    int before_out = take_out;
+
     take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
     take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
     take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
     take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
     take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
 
-    /* pr */
-    // take_out = reset;
-    //
-    // loop = take_out;
-    // int none = take_out;
-    // take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
-    // none = t.insertSingleTransduction(alphabet(0,0), none);
-    // t.linkStates(take_out, loop, 0);
-    // t.linkStates(none, loop, 0);
-    //
-    // take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-    // none = t.insertSingleTransduction(alphabet(0,0), none);
-    //
-    // loop = take_out;
-    // none = take_out;
-    // take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
-    // none = t.insertSingleTransduction(alphabet(0,0), none);
-    // t.linkStates(take_out, loop, 0);
-    // t.linkStates(none, loop, 0);
-    //
-    // take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
-    // none = t.insertSingleTransduction(alphabet(0,0), none);
-    //
-    // take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
-    // take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
-    // take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
-    // take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
-    // take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
-
-
-
-
     t.setFinal(take_out);
 
-    FILE* fst = fopen("takeout.fst", "w+");
+    /* final link states */
+    t.linkStates(after_takeout, before_out, 0);
+    t.linkStates(after_prn, before_out, 0);
+    t.linkStates(after_np, before_out, 0);
+    t.linkStates(from_nodet, after_det, 0);
+    t.linkStates(from_noadj, after_adj, 0);
 
+
+    FILE* fst = fopen("takeout.fst", "w+");
     // First write the letter symbols of the alphabet
     Compression::wstring_write(L"aekout", fst);
     // Then write the multicharacter symbols

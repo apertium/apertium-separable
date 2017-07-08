@@ -1,0 +1,20 @@
+Noun phrase acceptor:
+    n*
+    prn*
+    np*
+    det* n*
+    adj(*) n*
+    adj(*) adj(*) n*
+    det* adj(*) n*
+
+* = one or more tags
+( ) = optional
+
+takeout.fst gives:
+    take# out => ϵ => out
+    take# out => prn* => ϵ => out
+    take# out => np* => ϵ => out
+    take# out => ϵ => ϵ => n* => out
+    take# out => det* => ϵ => n => out
+    take# out => ϵ => adj(*) => n => out
+    take# out => det* => adj(*) => n* => out
