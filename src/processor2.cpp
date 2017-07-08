@@ -171,11 +171,11 @@ int main (int argc, char** argv)
           State s = *it;
           if(val < 0) 
           {
-            s.step(val, alphabet(L"<ANY_TAG>"));
+            s.step_override(val, alphabet(L"<ANY_TAG>"), val);
           }
           else if(val > 0) 
           {
-            s.step_case(val, alphabet(L"<ANY_CHAR>"), false);
+            s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
           }
           if(s.size() > 0)
           {
