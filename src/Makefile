@@ -1,5 +1,6 @@
 CFLAGS=-I/home/fran/local/include/lttoolbox-3.3 -I/usr/local/include/lttoolbox-3.3
 LDFLAGS=-L/home/fran/local/lib -L/usr/local/lib -llttoolbox3
+
 transducer: transducer.cpp
 	g++ -ggdb $(CFLAGS) -Wall transducer.cpp -o $@ $(LDFLAGS)
 
@@ -15,4 +16,7 @@ proc3: processor3.cpp
 all: transducer processor proc2
 
 test:
-	./transducer
+	./transducer ./processor ./proc2 ./proc3
+
+clean:
+	rm -f *.o transducer processor proc2 proc3

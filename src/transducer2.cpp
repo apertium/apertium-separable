@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <set>
+#include <regex>
 
 #include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
@@ -14,159 +15,182 @@
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
 
-struct foo {
-    Transducer t;
-    int takeout_state;
-    int none_state;
-}
+using namespace std;
 
-foo add_anychar(Alphabet alphabet, int any_char, Transducer t, int take_out);
-foo add_anytag(Alphabet alphabet, int any_char, Transducer t, int take_out);
+int main (int argc, char** argv) {
+    Alphabet alphabet;
 
-foo add_anychar(Alphabet alphabet, int any_char, Transducer t, int take_out) {
-    int loop = take_out;
-    int none = take_out;
-    take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
-    none = t.insertSingleTransduction(alphabet(0,0), none);
-    t.linkStates(take_out, loop, 0);
-    t.linkStates(none, loop, 0);
+    LtLocale::tryToSetLocale();
 
-    foo bar = {t, take_out, none};
-    return bar;
-}
+    alphabet.includeSymbol(L"<vblex>");
+    alphabet.includeSymbol(L"<n>");
+    alphabet.includeSymbol(L"<adj>");
+    alphabet.includeSymbol(L"<det>");
+    alphabet.includeSymbol(L"<prn>");
+    alphabet.includeSymbol(L"<np>");
 
-foo add_anytag(Alphabet alphabet, int any_tag, Transducer t, int take_out) {
-    int loop = take_out;
-    int none = take_out;
-    take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
-    none = t.insertSingleTransduction(alphabet(0,0), none);
-    t.linkStates(take_out, loop, 0);
-    t.linkStates(none, loop, 0);
+    alphabet.includeSymbol(L"<ANY_TAG>");
+    alphabet.includeSymbol(L"<ANY_CHAR>");
+    alphabet.includeSymbol(L"<$>");
 
-    foo bar = {t, take_out, none};
-    return bar;
-}
+    int vblex_sym = alphabet(L"<vblex>");
+    int n_sym = alphabet(L"<n>");
+    int adj_sym = alphabet(L"<adj>");
+    int det_sym = alphabet(L"<det>");
+    int prn_sym = alphabet(L"<prn>");
+    int np_sym = alphabet(L"<np>");
 
-int main(int argc, char** argv) {
-  Alphabet alphabet;
-  Transducer t;
+    int any_tag = alphabet(L"<ANY_TAG>");
+    int any_char = alphabet(L"<ANY_CHAR>");
+    int wb_sym = alphabet(L"<$>");
 
-  LtLocale::tryToSetLocale();
+    /* reap from input file */
+    for (string line; getline(cin, line);) {
+        Transducer t;
+        string first_token = line.substr(0, line.find(' '));
+        string second_token = line.substr(line.find(' ') + 1);
 
-  alphabet.includeSymbol(L"<vblex>");
-  alphabet.includeSymbol(L"<n>");
-  alphabet.includeSymbol(L"<adj>");
-  alphabet.includeSymbol(L"<det>");
-  alphabet.includeSymbol(L"<prn>");
-  alphabet.includeSymbol(L"<np>");
-  alphabet.includeSymbol(L"<adv>");
-  alphabet.includeSymbol(L"<pr>");
+        /* noun phrase acceptor: see README */
 
-  alphabet.includeSymbol(L"<ANY_TAG>");
-  alphabet.includeSymbol(L"<ANY_CHAR>");
-  alphabet.includeSymbol(L"<$>");
+        int initial = t.getInitial();
+        int take_out = initial;
+        for (wchar_t c : first_token) {
+            take_out = t.insertSingleTransduction(alphabet(c,c), take_out);
+        }
+        take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out);
+        take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out);
+        for (wchar_t c : second_token) {
+            take_out = t.insertSingleTransduction(alphabet(0,c), take_out);
+        }
+        take_out = t.insertSingleTransduction(alphabet(vblex_sym,vblex_sym), take_out);
+        int loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
-  int vblex_sym = alphabet(L"<vblex>");
-  int n_sym = alphabet(L"<n>");
-  int adj_sym = alphabet(L"<adj>");
-  int det_sym = alphabet(L"<det>");
-  int prn_sym = alphabet(L"<prn>");
-  int np_sym = alphabet(L"<np>");
-  int adv_sym = alphabet(L"<adv>");
-  int pr_sym = alphabet(L"<pr>");
+        int after_takeout = take_out;
 
-  int any_tag = alphabet(L"<ANY_TAG>");
-  int any_char = alphabet(L"<ANY_CHAR>");
-  int wb_sym = alphabet(L"<$>");
+        /* no det */
+        int from_nodet = after_takeout;
 
-  int initial = t.getInitial();
-  int take_out = initial;
+        /* first lemma */
+        loop = after_takeout;
+        take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
+        t.linkStates(take_out, loop, 0);
 
-  /* take# out */
-  take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out); //1
-  take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out); //2
-  take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out); //3
-  take_out = t.insertSingleTransduction(alphabet(L'e',L'e'), take_out); //4
-  take_out = t.insertSingleTransduction(alphabet(0,L'#'), take_out); //5
-  take_out = t.insertSingleTransduction(alphabet(0,L' '), take_out); //6
-  take_out = t.insertSingleTransduction(alphabet(0,L'o'), take_out); //7
-  take_out = t.insertSingleTransduction(alphabet(0,L'u'), take_out); //8
-  take_out = t.insertSingleTransduction(alphabet(0,L't'), take_out); //9
-  take_out = t.insertSingleTransduction(alphabet(vblex_sym,vblex_sym), take_out);
-  int loop = take_out;
-  take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
-  t.linkStates(take_out, loop, 0);
-  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+        int first_lm = take_out;
 
-  /* nothing */
-  int reset = take_out;
-  int none = 0;
+        /* prn */
+        take_out = t.insertSingleTransduction(alphabet(prn_sym,prn_sym), first_lm);
 
-  /* n */
-  take_out = reset;
+        loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
 
-  foobar = add_anychar(alphabet, any_char, t, take_out);
-  t = foobar.transducer;
-  take_out = foobar.takeout_state;
-  none = foobar.none_state;
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
-  take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
+        int after_prn = take_out;
 
-  foobar = add_anytag(alphabet, any_tag, t, take_out);
-  t = foobar.transducer;
-  take_out = foobar.takeout_state;
-  none =  foobar.none_state;
+        /* np */
+        take_out = t.insertSingleTransduction(alphabet(np_sym,np_sym), first_lm);
 
-  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
+        loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
 
-  /* pr */
-  take_out = reset;
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
-  foobar = add_anychar(alphabet, any_char, t, take_out);
-  t = foobar.transducer;
-  take_out = foobar.takeout_state;
-  none = foobar.none_state;
+        int after_np = take_out;
 
-  take_out = t.insertSingleTransduction(alphabet(pr_sym,pr_sym), take_out);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
+        /* det */
+        take_out = t.insertSingleTransduction(alphabet(det_sym,det_sym), first_lm);
 
-  foobar = add_anytag(alphabet, any_tag, t, take_out);
-  t = foobar.transducer;
-  take_out = foobar.takeout_state;
-  none =  foobar.none_state;
+        loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
 
-  take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
-  none = t.insertSingleTransduction(alphabet(0,0), none);
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
+        int after_det = take_out;
 
+        /* no adj */
+        int from_noadj = take_out; //same as after_det
 
+        /* lemma for the adj */
+        loop = after_det;
+        take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
+        t.linkStates(take_out, loop, 0);
 
+        int lm_adj = take_out;
 
-  /* out */
-  take_out = t.insertSingleTransduction(alphabet(L'o',0), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L'u',0), take_out);
-  take_out = t.insertSingleTransduction(alphabet(L't',0), take_out);
-  take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
-  take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
+        /* adj */
+        take_out = t.insertSingleTransduction(alphabet(adj_sym,adj_sym), lm_adj);
 
-  t.setFinal(take_out);
+        int optional_adj = take_out;
 
-  FILE* fst = fopen("takeout.fst", "w+");
+        loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
 
-  // First write the letter symbols of the alphabet
-  Compression::wstring_write(L"aekout", fst);
-  // Then write the multicharacter symbols
-  alphabet.write(fst);
-  // Then write then number of transducers
-  Compression::multibyte_write(1, fst);
-  // Then write the name of the transducer
-  Compression::wstring_write(L"main@standard", fst);
-  // Then write the transducer
-  t.write(fst);
-  wcout << "t.size(): " << t.size() << endl ;
-  fclose(fst);
+        //may not have a second tag
+        t.linkStates(optional_adj, take_out, 0);
 
-  return 0;
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+
+        int after_adj = take_out;
+
+        /* lemma for the noun */
+        loop = after_adj;
+        take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
+        t.linkStates(take_out, loop, 0);
+
+        int lm_noun = take_out;
+
+        /* possible subsequent adj */
+        t.linkStates(lm_noun, lm_adj, alphabet(adj_sym,adj_sym));
+
+        /* n */
+        take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), lm_noun);
+
+        loop = take_out;
+        take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
+        t.linkStates(take_out, loop, 0);
+
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
+
+        /* out */
+        int before_out = take_out;
+
+        for (wchar_t c : second_token) {
+            take_out = t.insertSingleTransduction(alphabet(c,0), take_out);
+        }
+        take_out = t.insertSingleTransduction(alphabet(any_tag, 0), take_out);
+        take_out = t.insertSingleTransduction(alphabet(wb_sym,0), take_out);
+
+        t.setFinal(take_out);
+
+        /* final link states */
+        t.linkStates(after_takeout, before_out, 0);
+        t.linkStates(after_prn, before_out, 0);
+        t.linkStates(after_np, before_out, 0);
+        t.linkStates(from_nodet, after_det, 0);
+        t.linkStates(from_noadj, after_adj, 0);
+
+        string filename = regex_replace(line,std::regex("\\s+"), "") + ".fst";
+        FILE* fst = fopen(filename.c_str(), "w+");
+        // First write the letter symbols of the alphabet
+        Compression::wstring_write(L"abcdefghijklmnopqrstuvwxyz", fst);
+        // Then write the multicharacter symbols
+        alphabet.write(fst);
+        // Then write then number of transducers
+        Compression::multibyte_write(1, fst);
+        // Then write the name of the transducer
+        Compression::wstring_write(L"main@standard", fst);
+        // Then write the transducer
+        t.write(fst);
+        cout << line << " t.size(): " << t.size() << endl ;
+        fclose(fst);
+    }
+
+    return 0;
 }
