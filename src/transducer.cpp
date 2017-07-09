@@ -46,8 +46,10 @@ int main (int argc, char** argv) {
     int any_char = alphabet(L"<ANY_CHAR>");
     int wb_sym = alphabet(L"<$>");
 
+    /* noun phrase acceptor: see README */
+
     int initial = t.getInitial();
-    int take_out = initial; //0
+    int take_out = initial;
     take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out);
     take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out);
     take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out);
@@ -63,18 +65,6 @@ int main (int argc, char** argv) {
     t.linkStates(take_out, loop, 0);
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
 
-    /* noun phrase acceptor:
-        n
-    prn
-        det.* n.*
-        adj. n.*
-        adj.* n.*
-        det.* adj n.*
-        adj.* adj.* n.*
-    prn.pers.*
-    prn.dem.*
-    np
-    */
     int after_takeout = take_out;
 
     /* no det */
@@ -162,12 +152,6 @@ int main (int argc, char** argv) {
     /* n */
     take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), lm_noun);
 
-    // take_out = after_det;
-    // take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-    //
-    // take_out = from_adj;
-    // take_out = t.insertSingleTransduction(alphabet(n_sym,n_sym), take_out);
-    //
     loop = take_out;
     take_out = t.insertSingleTransduction(alphabet(any_tag,any_tag), loop);
     t.linkStates(take_out, loop, 0);
