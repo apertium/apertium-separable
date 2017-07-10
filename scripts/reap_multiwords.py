@@ -9,7 +9,7 @@ sep_words = []
 with open(dix_file) as input_file:
     for line in input_file:
         line = line.strip()
-        if len(line) > 2 and line[0:6] == '<e lm=' and 'sa="sep"' in line:
+        if len(line) > 2 and line.strip().count('<e lm=') > 0 and ('__sep' in line or 'sa="sep"' in line): # and 'sa="sep"' in line:
             lm = re.findall('"([^"]*)"', line)[0]
             sep_words.append(lm)
 for word in sep_words:
