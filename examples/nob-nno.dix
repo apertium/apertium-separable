@@ -1,0 +1,92 @@
+<dictionary type="separable">
+  <sdefs>
+     <sdef n="n"/>
+     <sdef n="det"/>
+     <sdef n="adj"/>
+     <sdef n="adv"/>
+     <sdef n="num"/>
+     <sdef n="prn"/>
+  </sdefs>
+  <pardefs>
+    <pardef n="time-adv">
+      <e><p><i>alltid<s n="adv"/><j/></p></e>
+      <e><p><i>no<s n="adv"/><j/></p></e>
+    </pardef>
+    <pardef n="nom">
+      <e><p><i><w/><s n="n"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="det">
+      <e><p><i><w/><s n="det"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="prn">
+      <e><p><i><w/><s n="prn"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="num">
+      <e><p><i><w/><s n="num"/><j/></p></e>
+      <e><p><i><w/><s n="num"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="adj">
+      <e><p><i><w/><s n="adj"/><j/></p></e>
+      <e><p><i><w/><s n="adj"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="mod-nom">
+      <e><par n="adj"/><par n="nom"/></e>
+      <e><par n="det"/><par n="nom"/></e>
+      <e><par n="num"/><par n="nom"/></e>
+    </pardef>
+    <pardef n="det-mod-nom">
+      <e><par n="det"/><par n="adj"/><par n="nom"/></e>
+      <e><par n="det"/><par n="num"/><par n="nom"/></e>
+    </pardef>
+    <pardef n="SAdv">
+    </pardef>
+    <pardef n="SN">
+      <e><par n="nom"/></e>
+      <e><par n="prn"/></e>
+      <e><par n="mod-nom"/></e>
+      <e><par n="det-mod-nom"/></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+    <e lm="rå til" c="anbefale">
+       <p><l>rå</l><r>rå<g><b/>til</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>til<t/></l><r></r></p>
+    </e>
+
+<!--
+<Unhammer> Anbefale - rå til
+<Unhammer> Han anbefalte meg å..  Han rådde meg til å..
+<Unhammer> Vi rår [alle foreldre av barnehagebarn] til å...
+<spectei> nice
+<Unhammer> so you can have long np's in there
+<Unhammer> Nno-nob only handles maybe one word?  Badly
+<Unhammer> I think I tried something with adverbs, but there it gets dangerous
+-->
+
+  </section>
+</dictionary>
+
+<!--
+
+  <b/> = blank
+  <w/> = ANY_CHAR (loop)
+  <t/> = ANY_TAG (loop)
+  <j/> = <$>
+
+Available:
+<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/> 
+
+Taken: 
+<a/> 
+<b/> 
+<e/>
+<g/>
+<i/>
+<j/>
+<l/>
+<p/>
+<r/>
+<s/>
+
+-->
