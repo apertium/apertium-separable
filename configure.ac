@@ -1,0 +1,52 @@
+AC_PREREQ(2.61)
+
+m4_define([required_libxml_version], [2.6.17])
+m4_define([required_apertium_version], [3.2.0])
+m4_define([required_lttoolbox_version], [3.2.0])
+
+AC_INIT([apertium-separable], [0.1.1], [ftyers@prompsit.com])
+AM_INIT_AUTOMAKE([apertium-separable], [0.1.1], no-define)
+AC_CONFIG_HEADER([lsx_config.h])
+
+AC_PROG_CXX
+AM_SANITY_CHECK
+AC_LANG_CPLUSPLUS
+
+CFLAGS="-Wall -Wextra $CFLAGS"
+CXXFLAGS="-Wall -Wextra $CXXFLAGS"
+
+AC_ARG_ENABLE(debug,
+              [  --enable-debug  Enable "-g -Wall" compiler options],
+              [CXXFLAGS="-g -Wall";CFLAGS="-g -Wall"])
+
+PKG_CHECK_MODULES([LTTOOLBOX], [lttoolbox >= required_lttoolbox_version])
+
+AC_SUBST(LTTOOLBOX_CFLAGS)
+AC_SUBST(LTTOOLBOX_LIBS)
+
+PKG_CHECK_MODULES([APERTIUM], [apertium >= required_apertium_version])
+
+AC_SUBST(APERTIUM_CFLAGS)
+AC_SUBST(APERTIUM_LIBS)
+
+PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= required_libxml_version])
+
+AC_SUBST(LIBXML_CFLAGS)
+AC_SUBST(LIBXML_LIBS)
+
+# Checks for libraries.
+AC_CHECK_LIB(xml2, xmlReaderForFile)
+
+AC_CHECK_FUNCS([setlocale strdup getopt_long])
+
+AC_CHECK_DECLS([fread_unlocked, fwrite_unlocked, fgetc_unlocked, fputc_unlocked, fputs_unlocked, getopt_long, fgetwc_unlocked, fputwc_unlocked, fgetws_unlocked, fputws_unlocked])
+
+CPPFLAGS="$CPPFLAGS $CFLAGS $APERTIUM_CFLAGS $LIBXML_CFLAGS"
+LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS -lz"
+
+AC_CONFIG_FILES([
+                 Makefile
+                 src/Makefile
+                 ])
+AC_OUTPUT
+
