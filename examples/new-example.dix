@@ -21,6 +21,9 @@
     <pardef n="det">
       <e><p><i><w/><s n="det"/><t/><j/></p></e>
     </pardef>
+    <pardef n="det-pos">
+      <e><p><i><w/><s n="det"/><s n="pos"/><t/><j/></p></e>
+    </pardef>
     <pardef n="prn">
       <e><p><i><w/><s n="prn"/><t/><j/></p></e>
     </pardef>
@@ -56,117 +59,155 @@
       <par n="SN"/>
       <p><l>out<t/></l><r></r></p>
     </e>
+
     <e lm="take away" c="sacar, quitar">
       <p><l>take</l><r>take<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>away<t/></l><r></r></p>
     </e>
+
     <e lm="take out of" c="sacar de">
       <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>out<b/>of<t/></l><r>of<s n="pr"/></r></p>
     </e>
+
     <e lm="chat up" c="ligarse con">
       <p><l>chat</l><r>chat<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>up<t/></l><r></r></p>
     </e>
+
     <e lm="pick up" c="recoger">
       <p><l>pick</l><r>pick<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>up<t/></l><r></r></p>
     </e>
+
     <e lm="give up" c="rendirse">
       <p><l>give</l><r>give<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>up<t/></l><r></r></p>
     </e>
-    <e lm="be late" c="llegar tarde">
-      <p><l>be</l><r>be<g><b/>late</g></r></p><i><s n="vblex"/><t/><j/></i>
-      <par n="time-adv"/>
-      <p><l>late<t/></l><r></r></p>
-    </e>
+
     <e lm="bring together" c="juntar">
       <p><l>bring</l><r>bring<g><b/>together</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>together<t/></l><r></r></p>
     </e>
+
     <e lm="carry out" c="hacer">
       <p><l>carry</l><r>carry<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>out<t/></l><r></r></p>
     </e>
+
     <e lm="check in" c="despachar">
       <p><l>check</l><r>check<g><b/>in</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>in<t/></l><r></r></p>
     </e>
+
     <e lm="check out" c="sacar">
       <p><l>check</l><r>check<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>out<t/></l><r></r></p>
     </e>
+
     <e lm="give back" c="devolver">
       <p><l>give</l><r>give<g><b/>back</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>back<t/></l><r></r></p>
     </e>
-    <e lm="line up" c="ponerse en fila">
+
+    <e lm="line up" c="poner en fila">
       <p><l>line</l><r>line<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>up<t/></l><r></r></p>
     </e>
+
     <e lm="note down" c="apuntar">
       <p><l>note</l><r>note<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>down<t/></l><r></r></p>
     </e>
+
     <e lm="pull out" c="sacar">
       <p><l>pull</l><r>pull<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>out<t/></l><r></r></p>
     </e>
+
     <e lm="send back" c="devolver">
       <p><l>send</l><r>send<g><b/>back</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>back<t/></l><r></r></p>
     </e>
+
     <e lm="set about" c="emprender">
       <p><l>set</l><r>set<g><b/>about</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>about<t/></l><r></r></p>
     </e>
+
     <e lm="set up" c="armar">
       <p><l>set</l><r>set<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>up<t/></l><r></r></p>
     </e>
+
     <e lm="shut down" c="apagar">
       <p><l>shut</l><r>shut<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>down<t/></l><r></r></p>
     </e>
+
     <e lm="slow down" c="desacelerar">
       <p><l>slow</l><r>slow<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>down<t/></l><r></r></p>
     </e>
-    <e lm="take for granted " c="dar por hecho">
+
+    <e lm="take for granted" c="dar por hecho">
       <p><l>take</l><r>take<g><b/>for<b/>granted</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>for<b/>granted<t/></l><r></r></p>
     </e>
+
     <e lm="take off" c="quitarse">
       <p><l>take</l><r>take<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>off<t/></l><r></r></p>
     </e>
+
     <e lm="trace back" c="rastrear">
       <p><l>trace</l><r>trace<g><b/>back</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>back<t/></l><r></r></p>
     </e>
-        <!--
+
+    <e lm="be late" c="llegar tarde">
+      <p><l>be</l><r>be<g><b/>late</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="time-adv"/>
+      <p><l>late<t/></l><r></r></p>
+    </e>
+
+    <e lm="take one's chances" c="jugarse">
+      <p><l>take</l><r>take<g><b/>one's<b/>chances</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="det-pos"/>
+      <p><l>chance<s n="n"/><s n="pl"/></l><r></r></p>
+    </e>
+
+    <e lm="be on one's way" c="estar en camino">
+      <p><l>be</l><r><g><b/>on<b/>one's<b/>way</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <p><l>on<s n="pr"/></l><r></r></p>
+      <par n="det-pos"/>
+      <p><l>way<s n="n"/><s n="sg"/></l><r></r></p>
+    </e>
+
+
+
+<!--
 
           bring together
           carry out
