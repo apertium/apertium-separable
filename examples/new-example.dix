@@ -1,0 +1,132 @@
+<dictionary type="separable">
+  <sdefs>
+     <sdef n="n"/>
+     <sdef n="det"/>
+     <sdef n="adj"/>
+     <sdef n="adv"/>
+     <sdef n="num"/>
+     <sdef n="prn"/>
+  </sdefs>
+  <pardefs>
+    <pardef n="time-adv">
+      <e><p><i>always<s n="adv"/><j/></p></e>
+      <e><p><i>never<s n="adv"/><j/></p></e>
+      <e><p><i>often<s n="adv"/><j/></p></e>
+      <e><p><i>sometimes<s n="adv"/><j/></p></e>
+      <e><p><i>rarely<s n="adv"/><j/></p></e>
+    </pardef>
+    <pardef n="nom">
+      <e><p><i><w/><s n="n"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="det">
+      <e><p><i><w/><s n="det"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="prn">
+      <e><p><i><w/><s n="prn"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="num">
+      <e><p><i><w/><s n="num"/><j/></p></e>
+      <e><p><i><w/><s n="num"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="adj">
+      <e><p><i><w/><s n="adj"/><j/></p></e>
+      <e><p><i><w/><s n="adj"/><t/><j/></p></e>
+    </pardef>
+    <pardef n="mod-nom">
+      <e><par n="adj"/><par n="nom"/></e>
+      <e><par n="det"/><par n="nom"/></e>
+      <e><par n="num"/><par n="nom"/></e>
+    </pardef>
+    <pardef n="det-mod-nom">
+      <e><par n="det"/><par n="adj"/><par n="nom"/></e>
+      <e><par n="det"/><par n="num"/><par n="nom"/></e>
+    </pardef>
+    <pardef n="SAdv">
+    </pardef>
+    <pardef n="SN">
+      <e><par n="nom"/></e>
+      <e><par n="prn"/></e>
+      <e><par n="mod-nom"/></e>
+      <e><par n="det-mod-nom"/></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+    <e lm="take out" c="sacar">
+       <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>out<t/></l><r></r></p>
+    </e>
+    <e lm="take away" c="sacar, quitar">
+       <p><l>take</l><r>take<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>away<t/></l><r></r></p>
+    </e>
+    <e lm="take out of" c="sacar de">
+       <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>out<b/>of<t/></l><r>of<s n="pr"/></r></p>
+    </e>
+    <e lm="pick up" c="recoger">
+       <p><l>pick</l><r>pick<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>up<t/></l><r></r></p>
+    </e>
+    <e lm="give up" c="rendirse">
+       <p><l>give</l><r>give<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>up<t/></l><r></r></p>
+    </e>
+    <e lm="be late" c="llegar tarde">
+       <p><l>be</l><r>be<g><b/>late</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="time-adv"/> 
+       <p><l>late<t/></l><r></r></p>
+    </e>
+
+<!--
+
+bring together
+carry out
+check in
+check out
+give back
+line up
+note down
+pull out
+send back
+set about
+set up
+shut down
+slow down
+stir up
+take for granted
+take off
+trace back
+
+-->
+
+  </section>
+</dictionary>
+
+<!--
+
+  <b/> = blank
+  <w/> = ANY_CHAR (loop)
+  <t/> = ANY_TAG (loop)
+  <j/> = <$>
+
+Available:
+<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/> 
+
+Taken: 
+<a/> 
+<b/> 
+<e/>
+<g/>
+<i/>
+<j/>
+<l/>
+<p/>
+<r/>
+<s/>
+
+-->
