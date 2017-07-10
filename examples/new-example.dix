@@ -66,6 +66,11 @@
        <par n="SN"/> 
        <p><l>out<b/>of<t/></l><r>of<s n="pr"/></r></p>
     </e>
+    <e lm="chat up" c="ligarse con">
+       <p><l>chat</l><r>chat<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+       <par n="SN"/> 
+       <p><l>up<t/></l><r></r></p>
+    </e>
     <e lm="pick up" c="recoger">
        <p><l>pick</l><r>pick<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
        <par n="SN"/> 
