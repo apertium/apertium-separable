@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _MYCOMPILER_
-#define _MYCOMPILER_
+// #ifndef _MYCOMPILER_
+// #define _MYCOMPILER_
 
 #include <cwchar>
 #include <cstdio>
@@ -26,6 +26,7 @@
 #include <set>
 #include <map>
 #include <libxml/xmlreader.h>
+#include <libxml/encoding.h>
 
 #include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
@@ -77,14 +78,11 @@ wstring const Compiler::COMPILER_V_ATTR             = L"v";
 wstring const Compiler::COMPILER_VL_ATTR            = L"vl";
 wstring const Compiler::COMPILER_VR_ATTR            = L"vr";
 
-wstring const Compiler::COMPILER_ANYCHAR_ATTR       = L"w";
-wstring const Compiler::COMPILER_ANYTAG_ATTR        = L"t";
+/* add to header
+wstring const Compiler::COMPILER_ANYCHAR_ELEM       = L"w";
+wstring const Compiler::COMPILER_ANYTAG_ELEM        = L"t";
 wstring const Compiler::COMPILER_WB_ELEM            = L"j";
-
-
-<w/> = ANY_CHAR (loop)
-<t/> = ANY_TAG (loop)
-<j/> = <$>
+*/
 
 Compiler::Compiler() :
 reader(0),
@@ -118,14 +116,14 @@ Compiler::parseACX(string const &fichero, wstring const &dir)
   }
 }
 
-void //FIXME
+void
 Compiler::parse(string const &fichero, wstring const &dir)
 {
   direction = dir;
   reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
   if(reader == NULL)
   {
-    wcerr << "Error: Cannot open '" << fichero << "'." << endl;
+    cerr << "Error: Cannot open '" << fichero << "'." << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -326,25 +324,24 @@ Compiler::allBlanks()
 @param result: (referenced) empty list
 @param name: name of the node
 */
-void  //FIXME
+void
 Compiler::readString(list<int> &result, wstring const &name)
 {
   cout << "NAME" << name << endl;
-  // if(name == L"#text")
-  // {
-  //   wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader)); //NOTE returns the (wstring) text value of the node, or NULL if unavailable
-  //   for(unsigned int i = 0, limit = value.size(); i < limit; i++) //NOTE for every character
-  //   {
-  //     result.push_back(static_cast<int>(value[i])); //NOTE add character to (list) result
-  //   }
-  // }
-  // else if(name == COMPILER_BLANK_ELEM)
-  if(name == COMPILER_BLANK_ELEM) //NOTE COMPILER_BLANK_ELEM defined above = "b"
+  if(name == L"#text")
+  {
+    wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader)); //NOTE returns the (wstring) text value of the node, or NULL if unavailable
+    for(unsigned int i = 0, limit = value.size(); i < limit; i++)
+    {
+      result.push_back(static_cast<int>(value[i]));
+    }
+  }
+  else if(name == COMPILER_BLANK_ELEM)
   {
     requireEmptyError(name);
     result.push_back(static_cast<int>(L' '));
   }
-  else if(name == COMPILER_WB_ELEM) //FIXME "j"
+  else if(name == L"j" /*COMPILER_WB_ELEM*/) //FIXME "j"
   {
     requireEmptyError(name);
     result.push_back(static_cast<int>(L'<$>'));
@@ -362,18 +359,18 @@ Compiler::readString(list<int> &result, wstring const &name)
       result.push_back(static_cast<int>(L'#'));
     }
   }
-  else if(name == COMPILER_ANYCHAR_ATTR) //FIXME "w"
+  else if(name == L"w" /*COMPILER_ANYCHAR_ELEM*/) //FIXME "w"
   {
     result.push_back(static_cast<int>(name));
   }
-  else if(name == COMPILER_ANYTAG_ATTR) //FIXME "t"
+  else if(name == L"t" /*COMPILER_ANYTAG_ELEM*/ ) //FIXME "t"
   {
     result.push_back(static_cast<int>(symbol));
   }
   else if(name == COMPILER_S_ELEM)
   {
     requireEmptyError(name);
-    wstring symbol = L"<" + attrib(COMPILER_N_ATTR) + L">"; //NOTE the value of <s n="attrib">
+    wstring symbol = L"<" + attrib(COMPILER_N_ATTR) + L">"; //NOTE attrib from <s n="attrib">
 
     if(!alphabet.isSymbolDefined(symbol))
     {
@@ -970,9 +967,7 @@ Compiler::setVerbose(bool verbosity)
 }
 
 
-
-
-int main (int argc, char** argv) { //FIXME
+int main (int argc, char** argv) {
     Alphabet alphabet;
     Transducer t;
 
@@ -997,8 +992,6 @@ int main (int argc, char** argv) { //FIXME
     int det_sym = alphabet(L"<det>");
     int prn_sym = alphabet(L"<prn>");
     int np_sym = alphabet(L"<np>");
-    int adv_sym = alphabet(L"<adv>");
-    int pr_sym = alphabet(L"<pr>");
 
     int any_tag = alphabet(L"<ANY_TAG>");
     int any_char = alphabet(L"<ANY_CHAR>");
@@ -1094,9 +1087,6 @@ int main (int argc, char** argv) { //FIXME
 
     int after_adj = take_out;
 
-    /* no n */
-    int from_non = take_out; //same as after_adj
-
     /* lemma for the noun */
     loop = after_adj;
     take_out = t.insertSingleTransduction(alphabet(any_char,any_char), loop);
@@ -1115,8 +1105,6 @@ int main (int argc, char** argv) { //FIXME
     t.linkStates(take_out, loop, 0);
 
     take_out = t.insertSingleTransduction(alphabet(wb_sym,wb_sym), take_out);
-
-    int after_n = take_out;
 
     /* out */
     int before_out = take_out;
