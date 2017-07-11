@@ -3,7 +3,6 @@
 #include <cerrno>
 #include <string>
 #include <iostream>
-// #include <fstream>
 #include <list>
 #include <set>
 
@@ -17,9 +16,6 @@
 
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
 
-
-/* get the text between delim1 and delim2 */
-/* next_token() */
 wstring
 readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 {
@@ -36,18 +32,12 @@ readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
   return result;
 }
 
-
-/***
-main
-***/
-
 int main (int argc, char** argv)
 {
   Alphabet alphabet;
   TransExe transducer;
 
   LtLocale::tryToSetLocale();
-
 
   FILE *fst = fopen(argv[1], "r");
 
@@ -99,9 +89,6 @@ int main (int argc, char** argv)
   initial_state->init(transducer.getInitial());
   anfinals.insert(transducer.getFinals().begin(), transducer.getFinals().end());
 
-  /*
-  processing
-  */
 
   vector<State> new_states;
   vector<State> alive_states;
@@ -140,7 +127,7 @@ int main (int argc, char** argv)
             wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
             wcerr << "FINAL: " << out << endl;
             new_states.push_back(*initial_state);
-          } 
+          }
         }
         alive_states.swap(new_states);
 
@@ -152,7 +139,7 @@ int main (int argc, char** argv)
       {
         wstring tag = L"";
         tag = readFullBlock(input, L'<', L'>');
-        if(!alphabet.isSymbolDefined(tag)) 
+        if(!alphabet.isSymbolDefined(tag))
         {
           alphabet.includeSymbol(tag);
         }
@@ -160,8 +147,8 @@ int main (int argc, char** argv)
 
         fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
       }
- 
-      if(!outOfWord) 
+
+      if(!outOfWord)
       {
         new_states.clear();
         wstring res = L"";
@@ -169,11 +156,11 @@ int main (int argc, char** argv)
         {
           res = L"";
           State s = *it;
-          if(val < 0) 
+          if(val < 0)
           {
             s.step_override(val, alphabet(L"<ANY_TAG>"), val);
           }
-          else if(val > 0) 
+          else if(val > 0)
           {
             s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
           }
@@ -186,12 +173,12 @@ int main (int argc, char** argv)
         }
         alive_states.swap(new_states);
       }
-  
+
       if(outOfWord)
       {
         continue;
       }
-      
+
   }
 
   return 0;
