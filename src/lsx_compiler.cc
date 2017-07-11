@@ -104,7 +104,7 @@ Compiler::parseACX(string const &fichero, wstring const &dir)
     reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
     if(reader == NULL)
     {
-      wcerr << "Error: cannot open '" << fichero << "'." << endl;
+      cerr << "Error: cannot open '" << fichero << "'." << endl;
       exit(EXIT_FAILURE);
     }
     int ret = xmlTextReaderRead(reader);
@@ -327,7 +327,7 @@ Compiler::allBlanks()
 void
 Compiler::readString(list<int> &result, wstring const &name)
 {
-  cout << "NAME" << name << endl;
+  wcout << "NAME" << name << endl;
   if(name == L"#text")
   {
     wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader)); //NOTE returns the (wstring) text value of the node, or NULL if unavailable
@@ -344,7 +344,7 @@ Compiler::readString(list<int> &result, wstring const &name)
   else if(name == L"j" /*COMPILER_WB_ELEM*/) //FIXME "j"
   {
     requireEmptyError(name);
-    result.push_back(static_cast<int>(L'<$>'));
+    result.push_back(static_cast<int>(L'$'));
   }
   else if(name == COMPILER_POSTGENERATOR_ELEM)
   {
@@ -361,11 +361,19 @@ Compiler::readString(list<int> &result, wstring const &name)
   }
   else if(name == L"w" /*COMPILER_ANYCHAR_ELEM*/) //FIXME "w"
   {
-    result.push_back(static_cast<int>(name));
+      wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader));
+      for(unsigned int i = 0, limit = value.size(); i < limit; i++)
+      {
+        result.push_back(static_cast<int>(value[i]));
+      }
   }
   else if(name == L"t" /*COMPILER_ANYTAG_ELEM*/ ) //FIXME "t"
   {
-    result.push_back(static_cast<int>(symbol));
+    wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader));
+    for(unsigned int i = 0, limit = value.size(); i < limit; i++)
+    {
+      result.push_back(static_cast<int>(value[i]));
+    }
   }
   else if(name == COMPILER_S_ELEM)
   {
