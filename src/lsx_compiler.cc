@@ -35,6 +35,11 @@ int main (/*int argc, char** argv*/) {
     Compiler c;
     c.parse("examples/new-example.dix", L"lr");
 
+
+    // xmlTextReaderPtr reader;
+    // reader = xmlReaderForFile("examples/new-example.dix", NULL, 0);
+
+
     alphabet.includeSymbol(L"<vblex>");
     alphabet.includeSymbol(L"<n>");
     alphabet.includeSymbol(L"<adj>");
@@ -64,7 +69,6 @@ int main (/*int argc, char** argv*/) {
     int initial = t.getInitial();
     int take_out = initial;
 
-    /* insert stuff between <r> , separated by <g> */
     take_out = t.insertSingleTransduction(alphabet(L't',L't'), take_out);
     take_out = t.insertSingleTransduction(alphabet(L'a',L'a'), take_out);
     take_out = t.insertSingleTransduction(alphabet(L'k',L'k'), take_out);
@@ -83,7 +87,6 @@ int main (/*int argc, char** argv*/) {
     int after_takeout = take_out;
 
 
-/* create for the pattern in par n=" " */
 
     /* no det */
     int from_nodet = after_takeout;
