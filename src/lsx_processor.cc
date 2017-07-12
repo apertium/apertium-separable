@@ -39,6 +39,11 @@ int main (int argc, char** argv)
 
   LtLocale::tryToSetLocale();
 
+  if (argc != 2) {
+    cout << "incorrect usage: needs one input file" << endl;
+    exit(1);
+  }
+
   FILE *fst = fopen(argv[1], "r");
 
   set<wchar_t> alphabetic_chars;
