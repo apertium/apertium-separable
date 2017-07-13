@@ -352,16 +352,17 @@ Compiler::readString(list<int> &result, wstring const &name)
 
   /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
-    result.push_back(alphabet(L"anytag"));
+    result.push_back(alphabet(L"<anytag>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
-    result.push_back(alphabet(L"anychar"));
+    result.push_back(alphabet(L"<anychar>"));
   }
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
     // wstring symbol = L"<" + name + L">";
     // result.push_back(alphabet(symbol));
-    result.push_back(alphabet(L"wb"));
+    result.push_back(alphabet(L"<wb>"));
+
   }
 
   else
@@ -372,7 +373,9 @@ Compiler::readString(list<int> &result, wstring const &name)
     wcerr << L"anytag_elem: " << COMPILER_ANYTAG_ELEM << endl;
     exit(EXIT_FAILURE);
   }
-
+  // for (auto v : result)
+  //       std::cout << v << " ";
+  // cout << endl;
 }
 
 void
