@@ -341,8 +341,8 @@ public:
   void parseACX(string const &fichero, wstring const &dir);
 
 
-  auto getAlt();
-  auto getInt();
+//  auto getAlt();
+//  auto getInt();
 
 
   /**

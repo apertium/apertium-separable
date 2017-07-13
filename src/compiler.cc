@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-#include <lttoolbox/compiler.h>
 #include <lttoolbox/compression.h>
 #include <lttoolbox/entry_token.h>
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/xml_parse_util.h>
 #include <apertium/string_utils.h>
+#include <compiler.h>
 
 #include <cstdlib>
 #include <iostream>
@@ -59,7 +59,6 @@ wstring const Compiler::COMPILER_ALT_ATTR           = L"alt";
 wstring const Compiler::COMPILER_V_ATTR             = L"v";
 wstring const Compiler::COMPILER_VL_ATTR            = L"vl";
 wstring const Compiler::COMPILER_VR_ATTR            = L"vr";
-
 wstring const Compiler::COMPILER_ANYTAG_ELEM        = L"t";
 wstring const Compiler::COMPILER_ANYCHAR_ELEM       = L"w";
 wstring const Compiler::COMPILER_WB_ELEM            = L"j";
