@@ -12,31 +12,31 @@
   </sdefs>
   <pardefs>
     <pardef n="time-adv">
-      <e><p><i>always</i><s n="adv"/><j/></p></e>
-      <e><p><i>never</i><s n="adv"/><j/></p></e>
-      <e><p><i>often</i><s n="adv"/><j/></p></e>
-      <e><p><i>sometimes</i><s n="adv"/><j/></p></e>
-      <e><p><i>rarely</i><s n="adv"/><j/></p></e>
+      <e><i>always<s n="adv"/><j/></i></e>
+      <e><i>never<s n="adv"/><j/></i></e>
+      <e><i>often<s n="adv"/><j/></i></e>
+      <e><i>sometimes<s n="adv"/><j/></i></e>
+      <e><i>rarely<s n="adv"/><j/></i></e>
     </pardef>
     <pardef n="nom">
-      <e><p><i><w/><s n="n"/><t/><j/></p></e>
+      <e><i><w/><s n="n"/><t/><j/></i></e>
     </pardef>
     <pardef n="det">
-      <e><p><i><w/><s n="det"/><t/><j/></p></e>
+      <e><i><w/><s n="det"/><t/><j/></i></e>
     </pardef>
     <pardef n="det-pos">
-      <e><p><i><w/><s n="det"/><s n="pos"/><t/><j/></p></e>
+      <e><i><w/><s n="det"/><s n="pos"/><t/><j/></i></e>
     </pardef>
     <pardef n="prn">
-      <e><p><i><w/><s n="prn"/><t/><j/></p></e>
+      <e><i><w/><s n="prn"/><t/><j/></i></e>
     </pardef>
     <pardef n="num">
-      <e><p><i><w/><s n="num"/><j/></p></e>
-      <e><p><i><w/><s n="num"/><t/><j/></p></e>
+      <e><i><w/><s n="num"/><j/></i></e>
+      <e><i><w/><s n="num"/><t/><j/></i></e>
     </pardef>
     <pardef n="adj">
-      <e><p><i><w/><s n="adj"/><j/></i></p></e> -->
-      <e><p><i><w/><s n="adj"/><t/><j/></p></e>
+      <e><i><w/><s n="adj"/><j/></i></e> 
+      <e><i><w/><s n="adj"/><t/><j/></i></e>
     </pardef>
     <pardef n="mod-nom">
       <e><par n="adj"/><par n="nom"/></e>
@@ -287,4 +287,4 @@ dig up
     <r/>
     <s/>
 
-
+-->
