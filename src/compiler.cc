@@ -352,15 +352,16 @@ Compiler::readString(list<int> &result, wstring const &name)
 
   /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
-    result.push_back(alphabet(L"<ANY_TAG>"));
+    result.push_back(alphabet(L"anytag"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
-    result.push_back(alphabet(L"<ANY_CHAR>"));
+    result.push_back(alphabet(L"anychar"));
   }
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
-    wstring symbol = L"<" + name + L">";
-    result.push_back(alphabet(symbol));
+    // wstring symbol = L"<" + name + L">";
+    // result.push_back(alphabet(symbol));
+    result.push_back(alphabet(L"wb"));
   }
 
   else
@@ -371,6 +372,7 @@ Compiler::readString(list<int> &result, wstring const &name)
     wcerr << L"anytag_elem: " << COMPILER_ANYTAG_ELEM << endl;
     exit(EXIT_FAILURE);
   }
+
 }
 
 void
@@ -842,7 +844,7 @@ Compiler::procNode()
 
   // HACER: optimizar el orden de ejecuci�n de esta ristra de "ifs"
 
-  // wcout << L"nombre: " << nombre << endl;
+  // wcout << L"nombre: " << nombklsre << endl;
   if(nombre == L"#text")
   {
     /* ignorar */
