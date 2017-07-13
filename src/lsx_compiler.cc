@@ -8,7 +8,6 @@
 #include <iostream>
 #include <list>
 #include <set>
-#include <regex>
 
 #include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
@@ -24,7 +23,7 @@
 
 using namespace std;
 
-int main (/*int argc, char** argv*/) {
+int main (int argc, char** argv) {
     Alphabet alphabet;
     Transducer t;
 
@@ -33,7 +32,7 @@ int main (/*int argc, char** argv*/) {
     cout << "1" << endl;
 
     Compiler c;
-    c.parse("examples/new-example.dix", L"lr");
+    c.parse(argv[1], L"lr");
 
 
     // xmlTextReaderPtr reader;
