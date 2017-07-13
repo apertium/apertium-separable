@@ -2,8 +2,12 @@
   <sdefs>
     <sdef n="n"/>
     <sdef n="det"/>
+    <sdef n="pr"/>
     <sdef n="adj"/>
+    <sdef n="pl"/>
+    <sdef n="sg"/>
     <sdef n="adv"/>
+    <sdef n="pos"/>
     <sdef n="prn"/>
     <sdef n="np"/>
     <sdef n="num"/>
