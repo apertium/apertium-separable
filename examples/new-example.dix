@@ -17,6 +17,8 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
     <sdef n="num"/>
     <sdef n="vblex"/>
     <sdef n="anytag"/>
+    <sdef n="anychar"/>
+    <sdef n="wb"/>
   </sdefs>
   <pardefs>
     <pardef n="time-adv">
