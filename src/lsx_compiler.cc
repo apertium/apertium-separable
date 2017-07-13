@@ -1,6 +1,3 @@
-// #ifndef _MYCOMPILER_
-// #define _MYCOMPILER_
-
 #include <cwchar>
 #include <cstdio>
 #include <cerrno>
@@ -29,14 +26,8 @@ int main (int argc, char** argv) {
 
     LtLocale::tryToSetLocale();
 
-    cout << "1" << endl;
-
     Compiler c;
-    c.parse(argv[1], L"lr");
-
-
-    // xmlTextReaderPtr reader;
-    // reader = xmlReaderForFile("examples/new-example.dix", NULL, 0);
+    c.parse(argv[1], L"lr"); // writes to alphabet and transducer
 
     alphabet.includeSymbol(L"<vblex>");
     alphabet.includeSymbol(L"<n>");

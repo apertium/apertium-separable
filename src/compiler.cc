@@ -99,7 +99,6 @@ void
 Compiler::parse(string const &fichero, wstring const &dir)
 {
   direction = dir;
-  wcout << direction << endl; //NOTE never prints
 
   reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
   if(reader == NULL)
@@ -110,13 +109,10 @@ Compiler::parse(string const &fichero, wstring const &dir)
 
   int ret = xmlTextReaderRead(reader);
 
-  cout << ret << endl; //NOTE never prints
-
   while(ret == 1)
   {
     procNode();
     ret = xmlTextReaderRead(reader);
-    cout << ret << endl; //NOTE never prints
   }
 
   if(ret != 0)
@@ -308,9 +304,6 @@ Compiler::allBlanks()
 void
 Compiler::readString(list<int> &result, wstring const &name)
 {
-
-  wcout << name << endl; //NOTE never prints
-
   if(name == L"#text")
   {
     wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader));
@@ -359,11 +352,10 @@ Compiler::readString(list<int> &result, wstring const &name)
 
   /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
-    // wstring symbol = L"<" + name + L">";
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
-    result.push_back(alphabet(L"<ANY_TAG>"));
+    result.push_back(alphabet(L"<ANY_CHAR>"));
   }
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
@@ -802,9 +794,9 @@ Compiler::procEntry()
   }
 }
 
-void Compiler::procTag() {} //TODO
+void Compiler::procAnytag() {} //TODO
 
-void Compiler::procChar() {} //TODO
+void Compiler::procAnychar() {} //TODO
 
 void Compiler::procWb() {} //TODO
 
@@ -850,6 +842,7 @@ Compiler::procNode()
 
   // HACER: optimizar el orden de ejecuci�n de esta ristra de "ifs"
 
+  // wcout << L"nombre: " << nombre << endl;
   if(nombre == L"#text")
   {
     /* ignorar */
@@ -890,15 +883,15 @@ Compiler::procNode()
   {
     /* ignorar */
   }
-  else if(nombre == COMPILER_ANYTAG_ELEM) {
-    procTag();
-  }
-  else if(nombre == COMPILER_ANYCHAR_ELEM) {
-    procChar();
-  }
-  else if(nombre == COMPILER_WB_ELEM) {
-    procWb();
-  }
+  // else if(nombre == COMPILER_ANYTAG_ELEM) {
+  //   procAnytag();
+  // }
+  // else if(nombre == COMPILER_ANYCHAR_ELEM) {
+  //   procAnychar();
+  // }
+  // else if(nombre == COMPILER_WB_ELEM) {
+  //   procWb();
+  // }
   else
   {
     wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);

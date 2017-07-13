@@ -170,10 +170,18 @@ private:
 
 
   /*
-   * added
+   * Parse the Anytag element
    */
-  void procTag();
-  void procChar();
+  void procAnytag();
+
+  /*
+   * Parse the Anychar element
+   */
+  void procAnychar();
+
+  /*
+   * Parse the word boundary element
+   */
   void procWb();
 
   /**
