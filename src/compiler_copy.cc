@@ -360,27 +360,26 @@ Compiler::readString(list<int> &result, wstring const &name)
 
   /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
+    // wstring symbol = L"<" + name + L">";
+    result.push_back(alphabet(L"<ANY_TAG>"));
+  }
+  else if(name == COMPILER_ANYCHAR_ELEM) {
+    result.push_back(alphabet(L"<ANY_TAG>"));
+  }
+  else if(name == COMPILER_WB_ELEM) {
+    requireEmptyError(name);
     wstring symbol = L"<" + name + L">";
     result.push_back(alphabet(symbol));
   }
-  else if(name == COMPILER_ANYCHAR_ELEM) {
-    wstring symbol = L"?";
-  }
+
   else
   {
     wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);
     wcerr << L"): Invalid specification of element '<" << name;
     wcerr << L">' in this context." << endl;
+    wcerr << L"anytag_elem: " << COMPILER_ANYTAG_ELEM << endl;
     exit(EXIT_FAILURE);
   }
-}
-
-auto Compiler::getAlt() {
-  return alt;
-}
-
-auto Compiler::getInt() {
-  return 1;
 }
 
 void
@@ -804,12 +803,11 @@ Compiler::procEntry()
   }
 }
 
-void Compiler::procTag() {//TODO}
+void Compiler::procTag() {} //TODO
 
-void Compiler::procChar() {//TODO}
+void Compiler::procChar() {} //TODO
 
-void Compiler::procWb() {//TODO}
-
+void Compiler::procWb() {} //TODO
 
 void
 Compiler::procNodeACX()

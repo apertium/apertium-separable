@@ -12,40 +12,40 @@
   </sdefs>
   <pardefs>
     <pardef n="time-adv">
-      <!-- <e><p><i>always<s n="adv"/><j/></p></e>
-      <e><p><i>nevers n="adv"/><j/></p></e>
-      <e><p><i>often<s n="adv"/><j/></p></e>
-      <e><p><i>sometimes<s n="adv"/><j/></p></e>
-      <e><p><i>rarely<s n="adv"/><j/></p></e> -->
+      <e><p><i>always</i><s n="adv"/><j/></p></e>
+      <e><p><i>never</i><s n="adv"/><j/></p></e>
+      <e><p><i>often</i><s n="adv"/><j/></p></e>
+      <e><p><i>sometimes</i><s n="adv"/><j/></p></e>
+      <e><p><i>rarely</i><s n="adv"/><j/></p></e>
     </pardef>
     <pardef n="nom">
-      <!-- <e><p><i><w/><s n="n"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="n"/><t/><j/></p></e>
     </pardef>
     <pardef n="det">
-      <!-- <e><p><i><w/><s n="det"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="det"/><t/><j/></p></e>
     </pardef>
     <pardef n="det-pos">
-      <!-- <e><p><i><w/><s n="det"/><s n="pos"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="det"/><s n="pos"/><t/><j/></p></e>
     </pardef>
     <pardef n="prn">
-      <!-- <e><p><i><w/><s n="prn"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="prn"/><t/><j/></p></e>
     </pardef>
     <pardef n="num">
-      <!-- <e><p><i><w/><s n="num"/><j/></p></e>
-      <e><p><i><w/><s n="num"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="num"/><j/></p></e>
+      <e><p><i><w/><s n="num"/><t/><j/></p></e>
     </pardef>
     <pardef n="adj">
-      <!-- <e><p><i><w/><s n="adj"/><j/></i></p></e> -->
-      <!-- <e><p><i><w/><s n="adj"/><t/><j/></p></e> -->
+      <e><p><i><w/><s n="adj"/><j/></i></p></e> -->
+      <e><p><i><w/><s n="adj"/><t/><j/></p></e>
     </pardef>
     <pardef n="mod-nom">
-      <!-- <e><par n="adj"/><par n="nom"/></e>
+      <e><par n="adj"/><par n="nom"/></e>
       <e><par n="det"/><par n="nom"/></e>
-      <e><par n="num"/><par n="nom"/></e> -->
+      <e><par n="num"/><par n="nom"/></e>
     </pardef>
     <pardef n="det-mod-nom">
-      <!-- <e><par n="det"/><par n="adj"/><par n="nom"/></e>
-      <e><par n="det"/><par n="num"/><par n="nom"/></e> -->
+      <e><par n="det"/><par n="adj"/><par n="nom"/></e>
+      <e><par n="det"/><par n="num"/><par n="nom"/></e>
     </pardef>
     <pardef n="SAdv">
     </pardef>
@@ -63,11 +63,11 @@
       <p><l>out<t/></l><r></r></p>
     </e>
 
-    <!-- <e lm="take away" c="sacar, quitar">
+    <e lm="take away" c="sacar, quitar">
       <p><l>take</l><r>take<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
       <p><l>away<t/></l><r></r></p>
-    </e> -->
+    </e>
 
     <e lm="take out of" c="sacar de">
       <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
@@ -287,4 +287,4 @@ dig up
     <r/>
     <s/>
 
-  -->
+
