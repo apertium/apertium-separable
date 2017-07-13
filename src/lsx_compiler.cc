@@ -39,7 +39,6 @@ int main (/*int argc, char** argv*/) {
     // xmlTextReaderPtr reader;
     // reader = xmlReaderForFile("examples/new-example.dix", NULL, 0);
 
-
     alphabet.includeSymbol(L"<vblex>");
     alphabet.includeSymbol(L"<n>");
     alphabet.includeSymbol(L"<adj>");
