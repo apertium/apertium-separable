@@ -19,7 +19,7 @@
 #include <lttoolbox/entry_token.h>
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/xml_parse_util.h>
-#include <lttoolbox/string_to_wostream.h>
+#include <apertium/string_utils.h>
 
 #include <cstdlib>
 #include <iostream>
