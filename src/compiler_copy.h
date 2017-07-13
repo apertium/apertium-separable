@@ -340,11 +340,6 @@ public:
    */
   void parseACX(string const &fichero, wstring const &dir);
 
-
-  auto getAlt();
-  auto getInt();
-
-
   /**
    * Write the result of compilation
    * @param fd the stream where write the result
