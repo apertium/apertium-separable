@@ -1,4 +1,8 @@
 <dictionary type="separable">
+  <alphabet>
+    ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäçèéêëìíîïñòóôöùúûüABCDEFGHIJKLMNOPQRSTUVW
+XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
+  </alphabet>
   <sdefs>
     <sdef n="n"/>
     <sdef n="det"/>
@@ -11,8 +15,8 @@
     <sdef n="prn"/>
     <sdef n="np"/>
     <sdef n="num"/>
-
     <sdef n="vblex"/>
+    <sdef n="anytag"/>
   </sdefs>
   <pardefs>
     <pardef n="time-adv">
@@ -39,7 +43,7 @@
       <e><i><w/><s n="num"/><t/><j/></i></e>
     </pardef>
     <pardef n="adj">
-      <e><i><w/><s n="adj"/><j/></i></e> 
+      <e><i><w/><s n="adj"/><j/></i></e>
       <e><i><w/><s n="adj"/><t/><j/></i></e>
     </pardef>
     <pardef n="mod-nom">
