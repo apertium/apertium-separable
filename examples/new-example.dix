@@ -16,6 +16,7 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
     <sdef n="np"/>
     <sdef n="num"/>
     <sdef n="vblex"/>
+    <sdef n="pp"/>
     <sdef n="anytag"/>
     <sdef n="anychar"/>
     <sdef n="wb"/>
@@ -40,6 +41,9 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
     <pardef n="prn">
       <e><i><w/><s n="prn"/><t/><j/></i></e>
     </pardef>
+    <pardef n="np">
+      <e><i><w/><s n="np"/><t/><j/></i></e>
+    </pardef>
     <pardef n="num">
       <e><i><w/><s n="num"/><j/></i></e>
       <e><i><w/><s n="num"/><t/><j/></i></e>
@@ -52,6 +56,12 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
       <e><par n="adj"/><par n="nom"/></e>
       <e><par n="det"/><par n="nom"/></e>
       <e><par n="num"/><par n="nom"/></e>
+    </pardef>
+    <pardef n="person">
+      <e><par n="prn"/></e>
+      <e><par n="det"/><par n="prn"/></e>
+      <e><par n="det"/><par n="adj"/><par n="prn"/></e>
+      <e><par n="np"/></e>
     </pardef>
     <pardef n="det-mod-nom">
       <e><par n="det"/><par n="adj"/><par n="nom"/></e>
@@ -183,7 +193,7 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
     <e lm="take for granted" c="dar por hecho">
       <p><l>take</l><r>take<g><b/>for<b/>granted</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/>
-      <p><l>for<b/>granted<t/></l><r></r></p>
+      <p><l>for<b/>granted<s n="vblex"/><s n="pp"/><t/></l><r></r></p>
     </e>
 
     <e lm="take off" c="quitarse">
@@ -217,46 +227,202 @@ XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
       <p><l>way<s n="n"/><s n="sg"/></l><r></r></p>
     </e>
 
+    <e lm="turn off" c="apagar">
+      <p><l>turn</l><r>turn<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="fill up" c="llenar">
+      <p><l>fill</l><r>fill<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="dress up" c="ponerse elegante">
+      <p><l>dress</l><r>dress<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="person"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="knock down" c="tirar abajo">
+      <p><l>knock</l><r>down<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>down<t/></l><r></r></p>
+    </e>
+
+    <e lm="wall off" c="aislar">
+      <p><l>wall</l><r>wall<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="wall in" c="vallar, cerrar">
+      <p><l>wall</l><r>wall<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="make up" c="inventar">
+      <p><l>make</l><r>make<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="stir up" c="suscitar">
+      <p><l>stir</l><r>stir<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="bring down" c="hacer desaparecer, bajar">
+      <p><l>bring</l><r>bring<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>down<t/></l><r></r></p>
+    </e>
+
+    <e lm="bring down" c="abatir">
+      <p><l>bring</l><r>bring<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="person"/>
+      <p><l>down<t/></l><r></r></p>
+    </e>
+
+    <e lm="get across" c="hacer entender">
+      <p><l>get</l><r>get<g><b/>across</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>across<t/></l><r></r></p>
+    </e>
+
+    <e lm="make possible" c="hacer posible">
+      <p><l>make</l><r>make<g><b/>possible</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>possible<t/></l><r></r></p>
+    </e>
+
+    <e lm="make impossible" c="hacer imposible">
+      <p><l>make</l><r>make<g><b/>impossible</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>impossible<t/></l><r></r></p>
+    </e>
+
+    <e lm="turn into" c="transformarse en">
+      <p><l>turn</l><r>turn<g><b/>into</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>into<t/></l><r></r></p>
+    </e>
+
+    <e lm="fill in" c="completar">
+      <p><l>fill</l><r>fill<g><b/>in</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>possible<t/></l><r></r></p>
+    </e>
+
+    <e lm="move away" c="quitar">
+      <p><l>move</l><r>move<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>away<t/></l><r></r></p>
+    </e>
+
+    <e lm="fire off" c="mandar, disparar">
+      <p><l>fire</l><r>fire<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="put off" c="desalentar, postergar">
+      <p><l>put</l><r>put<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="give off" c="emanar">
+      <p><l>give</l><r>give<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="set off" c="activar">
+      <p><l>set</l><r>set<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="wipe off" c="quitar">
+      <p><l>wipe</l><r>wipe<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>off<t/></l><r></r></p>
+    </e>
+
+    <e lm="wipe away" c="secar">
+      <p><l>wipe</l><r>wipe<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>away<t/></l><r></r></p>
+    </e>
+
+    <e lm="wipe out" c="barrer">
+      <p><l>wipe</l><r>wipe<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>out<t/></l><r></r></p>
+    </e>
+
+    <e lm="wipe up" c="limpiar">
+      <p><l>wipe</l><r>wipe<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="wear out" c="agotar">
+      <p><l>wear</l><r>wear<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="person"/>
+      <p><l>out<t/></l><r></r></p>
+    </e>
+
+    <e lm="hike up" c="levantar, subir algo">
+      <p><l>hike</l><r>hike<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="shake up" c="agitar">
+      <p><l>shake</l><r>shake<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="churn up" c="producir">
+      <p><l>churn</l><r>churn<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>up<t/></l><r></r></p>
+    </e>
+
+    <e lm="throw out" c="tirar, desechar">
+      <p><l>throw</l><r>throw<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>out<t/></l><r></r></p>
+    </e>
+
+    <e lm="blow out" c="apagar">
+      <p><l>blow</l><r>blow<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>out<t/></l><r></r></p>
+    </e>
+
+    <e lm="wear away" c="erosionarse">
+      <p><l>wear</l><r>wear<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/>
+      <p><l>away<t/></l><r></r></p>
+    </e>
 <!--
-turn off
-fill up
 take off prominence
-dress up
 throw off balance
-knock down
-wall off
-wall in
-make up
-stir up
-bring down
 hold responsible
 take into account
-get across
-make possible
-make impossible
-turn into
-fill in
-move away
-fire off
-put off
-hike up
-give off
-set off
-shake up
-wipe away
-wipe off
-wipe out
-wipe up
-wear out
-wear away
 foul up
 put aside
 remand in custody
 remand on bail
-churn up
 coil up
 roll up
-blow out
 blow out of the water
 depend on
 depend upon

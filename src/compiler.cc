@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
+#include <compiler.h>
 #include <lttoolbox/compression.h>
 #include <lttoolbox/entry_token.h>
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/xml_parse_util.h>
 #include <apertium/string_utils.h>
-#include <compiler.h>
 
 #include <cstdlib>
 #include <iostream>
@@ -99,7 +99,6 @@ void
 Compiler::parse(string const &fichero, wstring const &dir)
 {
   direction = dir;
-
   reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
   if(reader == NULL)
   {
@@ -108,7 +107,6 @@ Compiler::parse(string const &fichero, wstring const &dir)
   }
 
   int ret = xmlTextReaderRead(reader);
-
   while(ret == 1)
   {
     procNode();
@@ -259,7 +257,12 @@ Compiler::matchTransduction(list<int> const &pi,
       }
 
       int nuevo_estado = t.insertSingleTransduction(etiqueta, estado);
-
+      if(etiqueta == alphabet(alphabet(L"<anytag>"),alphabet(L"<anytag>"))
+        || etiqueta == alphabet(alphabet(L"<anychar>"),alphabet(L"<anychar>")))
+      {
+        t.linkStates(nuevo_estado, estado, 0);
+      }
+      
       if(acx_map_ptr != acx_map.end())
       {
         for(set<int>::iterator it = acx_map_ptr->second.begin();
@@ -346,7 +349,6 @@ Compiler::readString(list<int> &result, wstring const &name)
       wcerr << L"): Undefined symbol '" << symbol << L"'." << endl;
       exit(EXIT_FAILURE);
     }
-
     result.push_back(alphabet(symbol));
   }
 
@@ -359,8 +361,6 @@ Compiler::readString(list<int> &result, wstring const &name)
   }
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
-    // wstring symbol = L"<" + name + L">";
-    // result.push_back(alphabet(symbol));
     result.push_back(alphabet(L"<wb>"));
 
   }
@@ -370,12 +370,8 @@ Compiler::readString(list<int> &result, wstring const &name)
     wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);
     wcerr << L"): Invalid specification of element '<" << name;
     wcerr << L">' in this context." << endl;
-    wcerr << L"anytag_elem: " << COMPILER_ANYTAG_ELEM << endl;
     exit(EXIT_FAILURE);
   }
-  // for (auto v : result)
-  //       std::cout << v << " ";
-  // cout << endl;
 }
 
 void
@@ -799,10 +795,6 @@ Compiler::procEntry()
   }
 }
 
-void Compiler::procAnytag() {} //TODO
-
-void Compiler::procAnychar() {} //TODO
-
 void Compiler::procWb() {} //TODO
 
 void
@@ -888,15 +880,7 @@ Compiler::procNode()
   {
     /* ignorar */
   }
-  // else if(nombre == COMPILER_ANYTAG_ELEM) {
-  //   procAnytag();
-  // }
-  // else if(nombre == COMPILER_ANYCHAR_ELEM) {
-  //   procAnychar();
-  // }
-  // else if(nombre == COMPILER_WB_ELEM) {
-  //   procWb();
-  // }
+
   else
   {
     wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);
