@@ -147,7 +147,6 @@ private:
    */
   void procNodeACX();
 
-
   /**
    * Parse the &lt;alphabet&gt; element
    */
@@ -167,22 +166,6 @@ private:
    * Parse the &lt;e&gt; element
    */
   void procEntry();
-
-
-  /*
-   * Parse the Anytag element
-   */
-  void procAnytag();
-
-  /*
-   * Parse the Anychar element
-   */
-  void procAnychar();
-
-  /*
-   * Parse the word boundary element
-   */
-  void procWb();
 
   /**
    * Parse the &lt;re&gt; element
