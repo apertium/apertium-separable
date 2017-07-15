@@ -257,8 +257,8 @@ Compiler::matchTransduction(list<int> const &pi,
       }
 
       int nuevo_estado = t.insertSingleTransduction(etiqueta, estado);
-      if(etiqueta == alphabet(alphabet(L"<anytag>"),alphabet(L"<anytag>"))
-        || etiqueta == alphabet(alphabet(L"<anychar>"),alphabet(L"<anychar>")))
+      if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
+        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>")))
       {
         t.linkStates(nuevo_estado, estado, 0);
       }
@@ -354,14 +354,14 @@ Compiler::readString(list<int> &result, wstring const &name)
 
   /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
-    result.push_back(alphabet(L"<anytag>"));
+    result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
-    result.push_back(alphabet(L"<anychar>"));
+    result.push_back(alphabet(L"<ANY_CHAR>"));
   }
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
-    result.push_back(alphabet(L"<wb>"));
+    result.push_back(alphabet(L"<$>"));
 
   }
 
