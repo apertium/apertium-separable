@@ -307,6 +307,7 @@ Compiler::allBlanks()
 void
 Compiler::readString(list<int> &result, wstring const &name)
 {
+  wcerr << name << endl;
   if(name == L"#text")
   {
     wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader));
@@ -351,9 +352,8 @@ Compiler::readString(list<int> &result, wstring const &name)
     }
     result.push_back(alphabet(symbol));
   }
-
-  /* additions */
   else if(name == COMPILER_ANYTAG_ELEM) {
+    wcerr << L"<ANY_TAG>" << endl;  
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
