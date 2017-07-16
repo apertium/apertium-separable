@@ -168,6 +168,11 @@ private:
   void procEntry();
 
   /**
+   * Parse the &lt;j&gt; element
+   */
+  void procWb();
+
+  /**
    * Parse the &lt;re&gt; element
    * @return a list of tokens from the dictionary's entry
    */
