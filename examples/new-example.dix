@@ -6,6 +6,7 @@
   <sdefs>
     <sdef n="adj"/>
     <sdef n="adv"/>
+    <sdef n="cnjcoo"/>
     <sdef n="det"/>
     <sdef n="n"/>
     <sdef n="np"/>
@@ -97,9 +98,9 @@
     </pardef>
     <pardef n="SAdv">
       <e><par n="adv"/></e>
-      <e><par n="adv"/><par n="freq-adv"></e>
+      <e><par n="adv"/><par n="freq-adv"/></e>
       <e><par n="freq-adv"/></e>
-      <e><par n="freq-adv"/><par n="adv"></e>
+      <e><par n="freq-adv"/><par n="adv"/></e>
     </pardef>
     <pardef n="SN">
       <e><par n="n"/></e>
@@ -140,7 +141,7 @@
     </e>
     <e lm="blow out of the water" c="vencer">
       <p><l>blow</l><r>blow<g><b/>out<b/>of<b/>the<b/>water</g></r></p><i><s n="vblex"/><t/><j/></i>
-      <par n="SN"/><p><l>out<t/></b>of<t/><b/>the<t/><b/>water<t/></l><r></r></p>
+      <par n="SN"/><p><l>out<t/><b/>of<t/><b/>the<t/><b/>water<t/></l><r></r></p>
     </e>
     <e lm="bring down" c="hacer desaparecer, bajar">
       <p><l>bring</l><r>bring<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
