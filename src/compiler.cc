@@ -262,7 +262,7 @@ Compiler::matchTransduction(list<int> const &pi,
       {
         t.linkStates(nuevo_estado, estado, 0);
       }
-      
+
       if(acx_map_ptr != acx_map.end())
       {
         for(set<int>::iterator it = acx_map_ptr->second.begin();
@@ -307,7 +307,6 @@ Compiler::allBlanks()
 void
 Compiler::readString(list<int> &result, wstring const &name)
 {
-  wcerr << name << endl;
   if(name == L"#text")
   {
     wstring value = XMLParseUtil::towstring(xmlTextReaderConstValue(reader));
@@ -353,7 +352,6 @@ Compiler::readString(list<int> &result, wstring const &name)
     result.push_back(alphabet(symbol));
   }
   else if(name == COMPILER_ANYTAG_ELEM) {
-    wcerr << L"<ANY_TAG>" << endl;  
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
@@ -362,7 +360,6 @@ Compiler::readString(list<int> &result, wstring const &name)
   else if(name == COMPILER_WB_ELEM) {
     requireEmptyError(name);
     result.push_back(alphabet(L"<$>"));
-
   }
 
   else
@@ -794,8 +791,6 @@ Compiler::procEntry()
     }
   }
 }
-
-void Compiler::procWb() {} //TODO
 
 void
 Compiler::procNodeACX()
