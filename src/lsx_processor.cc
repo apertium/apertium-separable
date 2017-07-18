@@ -123,37 +123,41 @@ int main (int argc, char** argv)
     }
     new_states.clear();
 
-    cout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << endl;
+    cout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << " isTag: " << alphabet.isTag(val) << endl;
     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
     {
       State s = *it;
 
       if(val == L'$') {
         s.step(alphabet(L"<$>"));
-        cout << "wb" << endl;
+        cout << " wb" << endl;
         tagCount = 0;
       }
       else if(alphabet.isTag(val) && tagCount <= 1) {
-        cout << "first tag" << endl;
+        cout << " first tag" << endl;
+        // if ( alphabet(L"<vblex>") == val) { cout << "equal" ;} else { cout << "not equal" ;}
         // cout << "vblex defined? " << alphabet.isSymbolDefined(L"<vblex>") << endl;
+        s.step(val);
+        // s.step(-18);
         // s.step(alphabet(L"<vblex>"));
-        s.step_override(val, alphabet(L"<vblex>"), val);
+        // s.step_override(val, alphabet(L"<vblex>"), val);
 
-      } else if(alphabet.isTag(val) && tagCount > 1) {
-        cout << "second tag" << endl;
+      } else if(/*alphabet.isTag(val) &&*/ tagCount > 1) {
+        cout << " second tag" << endl;
         s.step_override(val, alphabet(L"<ANY_TAG>"), val);
       }
       else if(val > 0)
       {
         // s.step_override(val, alphabet(L"<ANY_CHAR>"), val);
         s.step(val);
-        cout << "original char" << endl;
+        cout << " original char" << endl;
       }
       else {
         cout << "error?" << endl;
       }
       if(s.size() > 0) // alive if the vector isn't empty
       {
+        cout << "pushing new states" << endl;
       new_states.push_back(s);
       }
 
