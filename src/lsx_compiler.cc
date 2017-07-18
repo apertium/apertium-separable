@@ -76,26 +76,6 @@ Compiler::~Compiler()
 }
 
 void
-Compiler::parseACX(string const &fichero, wstring const &dir)
-{
-  if(dir == COMPILER_RESTRICTION_LR_VAL)
-  {
-    reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
-    if(reader == NULL)
-    {
-      wcerr << "Error: cannot open '" << fichero << "'." << endl;
-      exit(EXIT_FAILURE);
-    }
-    int ret = xmlTextReaderRead(reader);
-    while(ret == 1)
-    {
-      procNodeACX();
-      ret = xmlTextReaderRead(reader);
-    }
-  }
-}
-
-void
 Compiler::parse(string const &fichero, wstring const &dir)
 {
   direction = dir;
@@ -105,6 +85,10 @@ Compiler::parse(string const &fichero, wstring const &dir)
     wcerr << "Error: Cannot open '" << fichero << "'." << endl;
     exit(EXIT_FAILURE);
   }
+
+  alphabet.includeSymbol(L"<ANY_TAG>");
+  alphabet.includeSymbol(L"<ANY_CHAR>");
+  alphabet.includeSymbol(L"<$>");
 
   int ret = xmlTextReaderRead(reader);
   while(ret == 1)
@@ -352,6 +336,7 @@ Compiler::readString(list<int> &result, wstring const &name)
     result.push_back(alphabet(symbol));
   }
   else if(name == COMPILER_ANYTAG_ELEM) {
+    wcout << "ANYTAG" << endl;
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
@@ -903,6 +888,8 @@ Compiler::write(FILE *output)
 
   // symbols
   alphabet.write(output);
+
+  wcout << L"@" << alphabet.size() << endl ;
 
   // transducers
   Compression::multibyte_write(sections.size(), output);

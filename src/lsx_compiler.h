@@ -331,12 +331,6 @@ public:
    */
   void parse(string const &fichero, wstring const &dir);
 
-  /**
-   * Read ACX file
-   */
-  void parseACX(string const &fichero, wstring const &dir);
-
-
 //  auto getAlt();
 //  auto getInt();
 

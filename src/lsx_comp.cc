@@ -17,7 +17,7 @@ int main (int argc, char** argv)
   LtLocale::tryToSetLocale();
 
   Compiler c;
-  c.parse(argv[1], L"lr");
+  c.parse(argv[1], L"LR");
 
   FILE* fst = fopen(argv[2], "w+");
   if(!fst)
