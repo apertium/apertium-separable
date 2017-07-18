@@ -1,0 +1,156 @@
+<dictionary type="separable">
+  <alphabet>
+    ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäçèéêëìíîïñòóôöùúûüABCDEFGHIJKLMNOPQRSTUVW
+    XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
+  </alphabet>
+  <sdefs>
+    <sdef n="adj"/>
+    <sdef n="adv"/>
+    <sdef n="cnjcoo"/>
+    <sdef n="det"/>
+    <sdef n="n"/>
+    <sdef n="np"/>
+    <sdef n="num"/>
+    <sdef n="pl"/>
+    <sdef n="pos"/>
+    <sdef n="pp"/>
+    <sdef n="pr"/>
+    <sdef n="prn"/>
+    <sdef n="sg"/>
+    <sdef n="vblex"/>
+  </sdefs>
+  <pardefs>
+    <pardef n="adj">
+      <e><i><w/><s n="adj"/><j/></i></e>
+      <e><i><w/><s n="adj"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="adv">
+      <e><i><w/><s n="adv"/><j/></i></e>
+    </pardef>
+    <pardef n="cnjcoo">
+      <e><i><w/><s n="cnjcoo"/><j/></i></e>
+    </pardef>
+    <pardef n="det">
+      <e><i><w/><s n="det"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="det-pos">
+      <e><i><w/><s n="det"/><s n="pos"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="n">
+      <e><i><w/><s n="n"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="np">
+      <e><i><w/><s n="np"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="num">
+      <e><i><w/><s n="num"/><j/></i></e>
+      <e><i><w/><s n="num"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="prn">
+      <e><i><w/><s n="prn"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="modifier-n">
+      <e><par n="adj"/><par n="n"/></e>
+      <e><par n="adj"/><par n="adj"/><par n="n"/></e>
+      <e><par n="adj"/><par n="cnjcoo"/><par n="adj"/><par n="n"/></e>
+      <e><par n="num"/><par n="n"/></e>
+      <e><par n="num"/><par n="adj"/><par n="n"/></e>
+    </pardef>
+    <pardef n="det-modifier-n">
+      <e><par n="det"/><par n="modifier-n"/></e>
+    </pardef>
+    <pardef n="freq-adv">
+      <e><i>always<s n="adv"/><j/></i></e>
+      <e><i>anually<s n="adv"/><j/></i></e>
+      <e><i>bianually<s n="adv"/><j/></i></e>
+      <e><i>constantly<s n="adv"/><j/></i></e>
+      <e><i>daily<s n="adv"/><j/></i></e>
+      <e><i>eventually<s n="adv"/><j/></i></e>
+      <e><i>ever<s n="adv"/><j/></i></e>
+      <e><i>frequently<s n="adv"/><j/></i></e>
+      <e><i>generally<s n="adv"/><j/></i></e>
+      <e><i>hourly<s n="adv"/><j/></i></e>
+      <e><i>monthly<s n="adv"/><j/></i></e>
+      <e><i>never<s n="adv"/><j/></i></e>
+      <e><i>nightly<s n="adv"/><j/></i></e>
+      <e><i>normally<s n="adv"/><j/></i></e>
+      <e><i>occasionally<s n="adv"/><j/></i></e>
+      <e><i>often<s n="adv"/><j/></i></e>
+      <e><i>quarterly<s n="adv"/><j/></i></e>
+      <e><i>rarely<s n="adv"/><j/></i></e>
+      <e><i>regularly<s n="adv"/><j/></i></e>
+      <e><i>seldom<s n="adv"/><j/></i></e>
+      <e><i>semi-anually<s n="adv"/><j/></i></e>
+      <e><i>sometimes<s n="adv"/><j/></i></e>
+      <e><i>weekly<s n="adv"/><j/></i></e>
+      <e><i>yearly<s n="adv"/><j/></i></e>
+    </pardef>
+    <pardef n="person">
+      <e><par n="np"/></e>
+      <e><par n="prn"/></e>
+      <e><par n="det-modifier-n"/></e>
+    </pardef>
+    <pardef n="SA">
+      <e><par n="adj"/><par n="cnjcoo"/><par n="adj"/></e>
+    </pardef>
+    <pardef n="SAdv">
+      <e><par n="adv"/></e>
+      <e><par n="adv"/><par n="freq-adv"/></e>
+      <e><par n="freq-adv"/></e>
+      <e><par n="freq-adv"/><par n="adv"/></e>
+    </pardef>
+    <pardef n="SN">
+      <e><par n="n"/></e>
+      <e><par n="np"/></e>
+      <e><par n="prn"/></e>
+      <e><par n="modifier-n"/></e>
+      <e><par n="det-modifier-n"/></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+
+    <e lm="take out" c="sacar">
+      <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/><p><l>out<t/></l><r></r></p>
+    </e>
+
+    <!--
+    take off prominence
+    throw off balance
+    hold responsible
+    take into account
+    remand in custody
+    remand on bail
+    coil up
+    depend on
+    buoy up
+    pay out
+    serve up
+    make compatible
+    dig up
+  -->
+
+</section>
+</dictionary>
+
+<!--
+<b/> = blank
+<w/> = ANY_CHAR (loop)
+<t/> = ANY_TAG (loop)
+<j/> = <$>
+
+Available:
+<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
+
+Taken:
+<a/>
+<b/>
+<e/>
+<g/>
+<i/>
+<j/>
+<l/>
+<p/>
+<r/>
+<s/>
+ -->
