@@ -137,7 +137,8 @@ int main (int argc, char** argv)
         wcout << " first tag" << endl;
         // if ( alphabet(L"<vblex>") == val) { wcout << "equal" ;} else { wcout << "not equal" ;}
         // wcout << "vblex defined? " << alphabet.isSymbolDefined(L"<vblex>") << endl;
-        s.step(val);
+        //s.step(val);
+        s.step_override(val, alphabet(L"<ANY_TAG>"), val);
         // s.step(-18);
         // s.step(alphabet(L"<vblex>"));
         // s.step_override(val, alphabet(L"<vblex>"), val);
@@ -148,9 +149,9 @@ int main (int argc, char** argv)
       }
       else if(val > 0)
       {
-        // s.step_override(val, alphabet(L"<ANY_CHAR>"), val);
-        s.step(val);
-        wcout << " original char" << endl;
+        s.step_override(val, alphabet(L"<ANY_CHAR>"), val);
+        //s.step(val);
+        wcout << " original char: " << val << endl;
       }
       else {
         wcout << "error?" << endl;
@@ -158,7 +159,7 @@ int main (int argc, char** argv)
       if(s.size() > 0) // alive if the vector isn't empty
       {
         wcout << "pushing new states" << endl;
-      new_states.push_back(s);
+        new_states.push_back(s);
       }
 
       if(s.isFinal(anfinals))
