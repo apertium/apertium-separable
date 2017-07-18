@@ -336,7 +336,6 @@ Compiler::readString(list<int> &result, wstring const &name)
     result.push_back(alphabet(symbol));
   }
   else if(name == COMPILER_ANYTAG_ELEM) {
-    wcout << "ANYTAG" << endl;
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
   else if(name == COMPILER_ANYCHAR_ELEM) {
@@ -889,7 +888,7 @@ Compiler::write(FILE *output)
   // symbols
   alphabet.write(output);
 
-  wcout << L"@" << alphabet.size() << endl ;
+//  wcout << L"@" << alphabet.size() << endl ;
 
   // transducers
   Compression::multibyte_write(sections.size(), output);
