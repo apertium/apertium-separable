@@ -20,7 +20,7 @@
     <sdef n="vblex"/>
     <sdef n="ANY_TAG"/>
     <sdef n="ANY_CHAR"/>
-    <sdef n="WB"/>
+    <sdef n="$"/>
   </sdefs>
   <pardefs>
     <pardef n="adj">
