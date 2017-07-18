@@ -123,6 +123,11 @@ int main (int argc, char** argv)
     }
     new_states.clear();
 
+      if(val == L'^') {
+        outOfWord = false;
+        continue;
+      }
+
     wcout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << " isTag: " << alphabet.isTag(val) << endl;
     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
     {
