@@ -173,6 +173,7 @@ int main (int argc, char** argv)
         wcerr << "FINAL: " << out << endl;
         new_states.push_back(*initial_state);
       }
+      wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
     }
     // wcout << "new-states size: " << new_states.size() << endl;
     alive_states.swap(new_states);
