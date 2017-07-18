@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <set>
+#include <stdlib.h>
 
 #include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
@@ -20,31 +21,35 @@ wstring
 readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 {
   wstring result = L"";
-  result += delim1;
   wchar_t c = delim1;
+  result += c;
 
   while(!feof(input) && c != delim2)
   {
     c = static_cast<wchar_t>(fgetwc(input));
     result += c;
   }
-
   return result;
 }
 
 int main (int argc, char** argv)
 {
-  Alphabet alphabet;
-  TransExe transducer;
-
-  LtLocale::tryToSetLocale();
-
-  if (argc != 2) {
-    cout << "incorrect usage: needs one input file" << endl;
-    exit(1);
+  if(argc != 2)
+  {
+    wcout << L"./lsx-proc <bin file>" << endl;
+    exit(0);
   }
 
-  FILE *fst = fopen(argv[1], "r");
+  Alphabet alphabet;
+  TransExe transducer;
+  LtLocale::tryToSetLocale();
+
+  FILE* fst = fopen(argv[1], "r");
+  if(!fst)
+  {
+    wcerr << "Error: Cannot open file '" << argv[2] << "'." << endl;
+    exit(EXIT_FAILURE);
+  }
 
   set<wchar_t> alphabetic_chars;
   int len = Compression::multibyte_read(fst);
@@ -55,19 +60,18 @@ int main (int argc, char** argv)
   }
 
   alphabet.read(fst);
-  wcerr << L"alphabet_size: " << alphabet.size() << endl;
+  wcerr << L"alphabet_size: " << alphabet.size() << endl; //NOTE
 
   len = Compression::multibyte_read(fst);
-
   len = Compression::multibyte_read(fst);
-  wcerr << len << endl;
+
   wstring name = L"";
   while(len > 0)
   {
     name += static_cast<wchar_t>(Compression::multibyte_read(fst));
     len--;
   }
-  wcerr << name << endl;
+  wcerr << name << endl; //NOTE
 
   transducer.read(fst, alphabet);
 
@@ -75,6 +79,7 @@ int main (int argc, char** argv)
   FILE *output = stdout;
 
   set<Node *> anfinals;
+  vector<State> new_states, alive_states;
   set<wchar_t> escaped_chars;
 
   escaped_chars.insert(L'[');
@@ -93,97 +98,157 @@ int main (int argc, char** argv)
   initial_state = new State();
   initial_state->init(transducer.getInitial());
   anfinals.insert(transducer.getFinals().begin(), transducer.getFinals().end());
-
-
-  vector<State> new_states;
-  vector<State> alive_states;
-
   alive_states.push_back(*initial_state);
 
   bool outOfWord = true;
   bool isEscaped = false;
 
+  int tagCount = 0;
+
+  int val = 0;
   while(!feof(input))
   {
-      int val = fgetwc(input); // read 1 wide char
+    val = fgetwc(input); // read 1 wide char
 
-      wcerr << L"| " << (wchar_t)val << L" | val: " << val << L" || s.size(): " << alive_states.size() << L" || " << outOfWord << endl;
-
-      if(val == L'^' && !isEscaped && outOfWord)
+    if(val == L'<') // tag
+    {
+      wstring tag = L"";
+      tag = readFullBlock(input, L'<', L'>');
+      if(!alphabet.isSymbolDefined(tag))
       {
-        outOfWord = false;
-        continue;
+        alphabet.includeSymbol(tag);
+      }
+      val = static_cast<int>(alphabet(tag));
+      tagCount++;
+    }
+    new_states.clear();
+
+    cout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << endl;
+    for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
+    {
+      State s = *it;
+
+      if(val == L'$') {
+        s.step(alphabet(L"<$>"));
+        cout << "wb" << endl;
+        tagCount = 0;
+      }
+      else if(alphabet.isTag(val) && tagCount <= 1) {
+        cout << "first tag" << endl;
+        // cout << "vblex defined? " << alphabet.isSymbolDefined(L"<vblex>") << endl;
+        // s.step(alphabet(L"<vblex>"));
+        s.step_override(val, alphabet(L"<vblex>"), val);
+
+      } else if(alphabet.isTag(val) && tagCount > 1) {
+        cout << "second tag" << endl;
+        s.step_override(val, alphabet(L"<ANY_TAG>"), val);
+      }
+      else if(val > 0)
+      {
+        // s.step_override(val, alphabet(L"<ANY_CHAR>"), val);
+        s.step(val);
+        cout << "original char" << endl;
+      }
+      else {
+        cout << "error?" << endl;
+      }
+      if(s.size() > 0) // alive if the vector isn't empty
+      {
+      new_states.push_back(s);
       }
 
-      if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
+      if(s.isFinal(anfinals))
       {
-        new_states.clear();
-        for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
-        {
-          State s = *it;
-          s.step(alphabet(L"<$>"));
-          if(s.size() > 0)
-          {
-            new_states.push_back(s);
-          }
-
-          if(s.isFinal(anfinals))
-          {
-            wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
-            wcerr << "FINAL: " << out << endl;
-            new_states.push_back(*initial_state);
-          }
-        }
-        alive_states.swap(new_states);
-
-        outOfWord = true;
-        continue;
+        wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
+        wcerr << "FINAL: " << out << endl;
+        new_states.push_back(*initial_state);
       }
+    }
+    // cout << "new-states size: " << new_states.size() << endl;
+    alive_states.swap(new_states);
 
-      if(val == L'<' && !outOfWord) // if in tag, get the whole tag and modify if necessary
-      {
-        wstring tag = L"";
-        tag = readFullBlock(input, L'<', L'>');
-        if(!alphabet.isSymbolDefined(tag))
-        {
-          alphabet.includeSymbol(tag);
-        }
-        val = static_cast<int>(alphabet(tag));
 
-        fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
-      }
-
-      if(!outOfWord)
-      {
-        new_states.clear();
-        wstring res = L"";
-        for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
-        {
-          res = L"";
-          State s = *it;
-          if(val < 0)
-          {
-            s.step_override(val, alphabet(L"<ANY_TAG>"), val);
-          }
-          else if(val > 0)
-          {
-            s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
-          }
-          if(s.size() > 0)
-          {
-            new_states.push_back(s);
-          }
-          wcerr << L"|   | " << (wchar_t) val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
-          wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
-        }
-        alive_states.swap(new_states);
-      }
-
-      if(outOfWord)
-      {
-        continue;
-      }
-
+  //
+  //   if(val == L'$' && !isEscaped /*&& outOfWord*/)
+  //   {
+  //     cout << "val: " << val << " " << (char) val << endl;
+  //     outOfWord = false;
+  //     continue;
+  //   }
+  //
+  //   if((feof(input) || val == L'$') && !isEscaped /*&& !outOfWord*/)
+  //   {
+  //     cout << "val: " << val << " " << (char) val << endl;
+  //     new_states.clear();
+  //     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
+  //     {
+  //       State s = *it;
+  //       s.step(alphabet(L"<$>"));
+  //       cout << "alive_states size: " << alive_states.size() << endl;
+  //       if(s.size() > 0)
+  //       {
+  //         new_states.push_back(s);
+  //       }
+  //
+  //       if(s.isFinal(anfinals))
+  //       {
+  //         wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
+  //         wcerr << "FINAL: " << out << endl;
+  //         new_states.push_back(*initial_state);
+  //       }
+  //     }
+  //     alive_states.swap(new_states);
+  //
+  //     outOfWord = true;
+  //     continue;
+  //   }
+  //
+  //   if(val == L'<' /*&& !outOfWord*/) // tag
+  //   {
+  //     wstring tag = L"";
+  //     tag = readFullBlock(input, L'<', L'>');
+  //     if(!alphabet.isSymbolDefined(tag))
+  //     {
+  //       alphabet.includeSymbol(tag);
+  //     }
+  //     val = static_cast<int>(alphabet(tag));
+  //     cout << "val: " << val << " " << (char) val << endl;
+  //
+  //     // fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
+  //   }
+  //
+  //   if(!outOfWord)
+  //   {
+  //     cout << "val: " << val << " " << (char) val << endl;
+  //     new_states.clear();
+  //     wstring res = L"";
+  //     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
+  //     {
+  //       res = L"";
+  //       State s = *it;
+  //       if(val < 0)
+  //       {
+  //         s.step_override(val, alphabet(L"<ANY_TAG>"), val);
+  //       }
+  //       else if(val > 0)
+  //       {
+  //         s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
+  //       }
+  //       if(s.size() > 0)
+  //       {
+  //         new_states.push_back(s);
+  //       }
+  //       // wcerr << L"|   | " << (wchar_t) val << L" " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
+  //       // wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
+  //
+  //     }
+  //     alive_states.swap(new_states);
+  //   }
+  //
+  //   if(outOfWord)
+  //   {
+  //     continue;
+  //   }
   }
 
   return 0;
