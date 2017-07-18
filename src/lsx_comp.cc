@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include <lttoolbox/compiler.h>
+#include <lsx_compiler.h>
 #include <lttoolbox/lt_locale.h>
 
 int main (int argc, char** argv)
