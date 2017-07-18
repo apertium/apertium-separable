@@ -123,41 +123,41 @@ int main (int argc, char** argv)
     }
     new_states.clear();
 
-    cout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << " isTag: " << alphabet.isTag(val) << endl;
+    wcout << "val: " << val << " " << (char) val << " alive_states size: " << alive_states.size() << " tagCount: " << tagCount << " isTag: " << alphabet.isTag(val) << endl;
     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
     {
       State s = *it;
 
       if(val == L'$') {
         s.step(alphabet(L"<$>"));
-        cout << " wb" << endl;
+        wcout << " wb" << endl;
         tagCount = 0;
       }
       else if(alphabet.isTag(val) && tagCount <= 1) {
-        cout << " first tag" << endl;
-        // if ( alphabet(L"<vblex>") == val) { cout << "equal" ;} else { cout << "not equal" ;}
-        // cout << "vblex defined? " << alphabet.isSymbolDefined(L"<vblex>") << endl;
+        wcout << " first tag" << endl;
+        // if ( alphabet(L"<vblex>") == val) { wcout << "equal" ;} else { wcout << "not equal" ;}
+        // wcout << "vblex defined? " << alphabet.isSymbolDefined(L"<vblex>") << endl;
         s.step(val);
         // s.step(-18);
         // s.step(alphabet(L"<vblex>"));
         // s.step_override(val, alphabet(L"<vblex>"), val);
 
       } else if(/*alphabet.isTag(val) &&*/ tagCount > 1) {
-        cout << " second tag" << endl;
+        wcout << " second tag" << endl;
         s.step_override(val, alphabet(L"<ANY_TAG>"), val);
       }
       else if(val > 0)
       {
         // s.step_override(val, alphabet(L"<ANY_CHAR>"), val);
         s.step(val);
-        cout << " original char" << endl;
+        wcout << " original char" << endl;
       }
       else {
-        cout << "error?" << endl;
+        wcout << "error?" << endl;
       }
       if(s.size() > 0) // alive if the vector isn't empty
       {
-        cout << "pushing new states" << endl;
+        wcout << "pushing new states" << endl;
       new_states.push_back(s);
       }
 
@@ -168,27 +168,27 @@ int main (int argc, char** argv)
         new_states.push_back(*initial_state);
       }
     }
-    // cout << "new-states size: " << new_states.size() << endl;
+    // wcout << "new-states size: " << new_states.size() << endl;
     alive_states.swap(new_states);
 
 
   //
   //   if(val == L'$' && !isEscaped /*&& outOfWord*/)
   //   {
-  //     cout << "val: " << val << " " << (char) val << endl;
+  //     wcout << "val: " << val << " " << (char) val << endl;
   //     outOfWord = false;
   //     continue;
   //   }
   //
   //   if((feof(input) || val == L'$') && !isEscaped /*&& !outOfWord*/)
   //   {
-  //     cout << "val: " << val << " " << (char) val << endl;
+  //     wcout << "val: " << val << " " << (char) val << endl;
   //     new_states.clear();
   //     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
   //     {
   //       State s = *it;
   //       s.step(alphabet(L"<$>"));
-  //       cout << "alive_states size: " << alive_states.size() << endl;
+  //       wcout << "alive_states size: " << alive_states.size() << endl;
   //       if(s.size() > 0)
   //       {
   //         new_states.push_back(s);
@@ -216,14 +216,14 @@ int main (int argc, char** argv)
   //       alphabet.includeSymbol(tag);
   //     }
   //     val = static_cast<int>(alphabet(tag));
-  //     cout << "val: " << val << " " << (char) val << endl;
+  //     wcout << "val: " << val << " " << (char) val << endl;
   //
   //     // fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
   //   }
   //
   //   if(!outOfWord)
   //   {
-  //     cout << "val: " << val << " " << (char) val << endl;
+  //     wcout << "val: " << val << " " << (char) val << endl;
   //     new_states.clear();
   //     wstring res = L"";
   //     for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
