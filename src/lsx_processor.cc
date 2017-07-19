@@ -110,8 +110,8 @@ int main (int argc, char** argv)
   bool isEscaped = false;
   bool finalFound = false;
 
-  wstring in;
   wstring out;
+  wstring in;
 
   while(!feof(input))
   {
@@ -122,6 +122,7 @@ int main (int argc, char** argv)
       {
         outOfWord = false;
         // wcout << "| continue " << (wchar_t)val << endl;
+        in += val;
         continue;
       }
 
@@ -147,20 +148,26 @@ int main (int argc, char** argv)
         alive_states.swap(new_states);
 
         outOfWord = true;
+        in += val;
         continue;
       }
 
       if(val == L'<' && !outOfWord) // tag
       {
-        wstring tag = L"";
-        tag = readFullBlock(input, L'<', L'>');
+        wstring tag = readFullBlock(input, L'<', L'>');
         if(!alphabet.isSymbolDefined(tag))
         {
           alphabet.includeSymbol(tag);
         }
         val = static_cast<int>(alphabet(tag));
+        in += tag;
+        // wcout << tag << endl;
 
         // fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
+      }
+      else {
+        in += (wchar_t) val;
+        // wcout << (wchar_t) val << endl;
       }
 
       if(!outOfWord)
@@ -202,30 +209,32 @@ int main (int argc, char** argv)
       {
         continue;
       }
-
-      in += val;
   }
   if(finalFound)
   {
     for (int i=0; i < (int) out.size(); i++)
     {
-      wchar_t wc = out[i];
-      if(wc == L'/')
+      wchar_t c = out[i];
+      if(c == L'/')
       {
-        // wc = L'^';
+        out[i] = L'^';
       }
-      else if(wc == L'$')
+      else if(c == L'$')
       {
-        // out[i+1] = L' ';
-        // out[i-1];
+        out[i-1] = '$';
+        out[i] = L' ';
+        out[i+1] = L'^';
       }
     }
+    out = out.substr(0, out.length()-1);
   }
   else
   {
-    wcout << in;
+    // out.assign(in);
     out = in;
+    // wcout << "equals? " << (out==in);
   }
+  // wcout << out.c_str() << endl;
   fputws(out.c_str(), output);
   fputwc(L'\n', output);
   return 0;
