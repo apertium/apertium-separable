@@ -63,23 +63,20 @@ int main (int argc, char** argv)
   }
 
   alphabet.read(fst);
-  wcerr << L"alphabet_size: " << alphabet.size() << endl;
+  // wcerr << L"alphabet_size: " << alphabet.size() << endl;
 
   len = Compression::multibyte_read(fst);
   len = Compression::multibyte_read(fst);
-  wcerr << L"len: " << len << endl;
+  // wcerr << L"len: " << len << endl;
   wstring name = L"";
   while(len > 0)
   {
     name += static_cast<wchar_t>(Compression::multibyte_read(fst));
     len--;
   }
-  wcerr << name << endl << endl;
+  // wcerr << name << endl << endl;
 
   transducer.read(fst, alphabet);
-
-  FILE *input = stdin;
-  FILE *output = stdout;
 
   set<Node *> anfinals;
   set<wchar_t> escaped_chars;
@@ -106,14 +103,20 @@ int main (int argc, char** argv)
 
   alive_states.push_back(*initial_state);
 
+  FILE *input = stdin;
+  FILE *output = stdout;
+
   bool outOfWord = true;
   bool isEscaped = false;
+  bool finalFound = false;
+
+  wstring in;
+  wstring out;
 
   while(!feof(input))
   {
       int val = fgetwc(input); // read 1 wide char
       // wcout << L"| " << (wchar_t)val << L" | val: " << val << L" || as.size(): " << alive_states.size() << L" || out of word: " << outOfWord << endl;
-
 
       if((val == L'^' && !isEscaped && outOfWord) /*|| val == L' '*/)
       {
@@ -185,12 +188,11 @@ int main (int argc, char** argv)
           if(s.isFinal(anfinals))
           {
             // cout << "finals size: " << s.size() << endl;
-            wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
-            wcout << out << endl; //FIXME
+            out = s.filterFinals(anfinals, alphabet, escaped_chars);
+            // wcout << out << endl;s
             // wcerr << s.getReadableString(alphabet) << endl;
             new_states.push_back(*initial_state);
-            // const wchar_t* ws = out;
-            // fputws(out, output);
+            finalFound = true;
           }
         }
         alive_states.swap(new_states);
@@ -200,6 +202,31 @@ int main (int argc, char** argv)
       {
         continue;
       }
+
+      in += val;
   }
+  if(finalFound)
+  {
+    for (int i=0; i < (int) out.size(); i++)
+    {
+      wchar_t wc = out[i];
+      if(wc == L'/')
+      {
+        // wc = L'^';
+      }
+      else if(wc == L'$')
+      {
+        // out[i+1] = L' ';
+        // out[i-1];
+      }
+    }
+  }
+  else
+  {
+    wcout << in;
+    out = in;
+  }
+  fputws(out.c_str(), output);
+  fputwc(L'\n', output);
   return 0;
 }
