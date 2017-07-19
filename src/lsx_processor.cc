@@ -1,19 +1,16 @@
-#include <cwchar>
-#include <cstdio>
-#include <cerrno>
-#include <string>
-#include <iostream>
-// #include <fstream>
-#include <list>
-#include <set>
+// #include <cwchar>
+// #include <cstdio>
+// #include <cerrno>
+// #include <string>
+// #include <iostream>
+// #include <list>
+// #include <set>
 
-#include <lttoolbox/ltstr.h>
 #include <lttoolbox/lt_locale.h>
-#include <lttoolbox/transducer.h>
 #include <lttoolbox/compression.h>
 #include <lttoolbox/alphabet.h>
-#include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
+#include <lttoolbox/state.h>
 
 /* get the text between delim1 and delim2 */
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
@@ -93,8 +90,7 @@ int main (int argc, char** argv)
   escaped_chars.insert(L'<');
   escaped_chars.insert(L'>');
 
-  State *initial_state;
-  initial_state = new State();
+  State *initial_state = new State();
   initial_state->init(transducer.getInitial());
   anfinals.insert(transducer.getFinals().begin(), transducer.getFinals().end());
 
@@ -110,18 +106,23 @@ int main (int argc, char** argv)
   bool isEscaped = false;
   bool finalFound = false;
 
-  wstring out;
-  wstring in;
+  wstring in, out;
 
   while(!feof(input))
   {
+      if(alive_states.size() == 0 && !finalFound)
+      {
+        alive_states.push_back(*initial_state);
+        fputws(in.c_str(), output);
+        in = L"";
+      }
+
       int val = fgetwc(input); // read 1 wide char
       // wcout << L"| " << (wchar_t)val << L" | val: " << val << L" || as.size(): " << alive_states.size() << L" || out of word: " << outOfWord << endl;
 
-      if((val == L'^' && !isEscaped && outOfWord) /*|| val == L' '*/)
+      if((val == L'^' && !isEscaped && outOfWord))
       {
         outOfWord = false;
-        // wcout << "| continue " << (wchar_t)val << endl;
         in += val;
         continue;
       }
@@ -140,8 +141,7 @@ int main (int argc, char** argv)
 
           if(s.isFinal(anfinals))
           {
-            wstring out = s.filterFinals(anfinals, alphabet, escaped_chars);
-            // cout << "FINAL: " << /*out <<*/ endl;
+            out += s.filterFinals(anfinals, alphabet, escaped_chars);
             new_states.push_back(*initial_state);
           }
         }
@@ -161,7 +161,6 @@ int main (int argc, char** argv)
         }
         val = static_cast<int>(alphabet(tag));
         in += tag;
-        // wcout << tag << endl;
 
         // fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
       }
@@ -196,10 +195,27 @@ int main (int argc, char** argv)
           {
             // cout << "finals size: " << s.size() << endl;
             out = s.filterFinals(anfinals, alphabet, escaped_chars);
-            // wcout << out << endl;s
             // wcerr << s.getReadableString(alphabet) << endl;
             new_states.push_back(*initial_state);
             finalFound = true;
+
+            for (int i=0; i < (int) out.size(); i++)
+            {
+              wchar_t c = out[i];
+              if(c == L'/')
+              {
+                out[i] = L'^';
+              }
+              else if(c == L'$')
+              {
+                out[i-1] = '$';
+                out[i] = L' ';
+                out[i+1] = L'^';
+              }
+            }
+            out = out.substr(0, out.length()-2); // remove extra trailing ' ^
+            fputwc(L' ', output);
+            fputws(out.c_str(), output);
           }
         }
         alive_states.swap(new_states);
@@ -210,32 +226,34 @@ int main (int argc, char** argv)
         continue;
       }
   }
-  if(finalFound)
+
+  // if(finalFound)
+  // {
+  //   for (int i=0; i < (int) out.size(); i++)
+  //   {
+  //     wchar_t c = out[i];
+  //     if(c == L'/')
+  //     {
+  //       out[i] = L'^';
+  //     }
+  //     else if(c == L'$')
+  //     {
+  //       out[i-1] = '$';
+  //       out[i] = L' ';
+  //       out[i+1] = L'^';
+  //     }
+  //   }
+  //   out = out.substr(0, out.length()-2); // remove extra trailing ' ^'
+  // }
+  // else
+  if (!finalFound)
   {
-    for (int i=0; i < (int) out.size(); i++)
-    {
-      wchar_t c = out[i];
-      if(c == L'/')
-      {
-        out[i] = L'^';
-      }
-      else if(c == L'$')
-      {
-        out[i-1] = '$';
-        out[i] = L' ';
-        out[i+1] = L'^';
-      }
-    }
-    out = out.substr(0, out.length()-1);
-  }
-  else
-  {
-    // out.assign(in);
     out = in;
+    // wcout << out << endl;
     // wcout << "equals? " << (out==in);
   }
   // wcout << out.c_str() << endl;
-  fputws(out.c_str(), output);
+  // fputws(out.c_str(), output);
   fputwc(L'\n', output);
   return 0;
 }
