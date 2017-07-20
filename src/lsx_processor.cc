@@ -261,23 +261,9 @@ int main (int argc, char** argv)
   if (!finalFound)
   {
     fflush(output);
-  /*  wstring test;
-    for (int i=0; i < (int) test.size(); i++)
-    {
-      test += in[i];
-    }
-    */
-    // test = L"test";
-    fputws(L"\n",output);
-    fflush(output);
-    // fputws(test.c_str(), output);
+    fflush(stdout);
     fputws(in.c_str(), output);
     // wcout << in << endl;
-
-    /*
-        // wcout << out << endl;
-        // wcout << "equals? " << (out==in);
-        */
   }
   // wcout << out.c_str() << endl;
 
