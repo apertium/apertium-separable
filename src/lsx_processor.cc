@@ -221,7 +221,7 @@ int main (int argc, char** argv)
           // wcerr << s.getReadableString(alphabet) << endl;
           new_states.push_back(*initial_state);
 
-          reset = true;
+          // reset = true;
           finalFound = true;
 
           for (int i=0; i < (int) out.size(); i++)
@@ -233,7 +233,7 @@ int main (int argc, char** argv)
             }
             else if(c == L'$')
             {
-              out[i-1] = '$';
+              out[i-1] = L'$';
               out[i] = L' ';
               out[i+1] = L'^';
             }
@@ -257,32 +257,27 @@ int main (int argc, char** argv)
     }
   }
 
-  // if(finalFound)
-  // {
-  //   for (int i=0; i < (int) out.size(); i++)
-  //   {
-  //     wchar_t c = out[i];
-  //     if(c == L'/')
-  //     {
-  //       out[i] = L'^';
-  //     }
-  //     else if(c == L'$')
-  //     {
-  //       out[i-1] = '$';
-  //       out[i] = L' ';
-  //       out[i+1] = L'^';
-  //     }
-  //   }
-  //   out = out.substr(0, out.length()-2); // remove extra trailing ' ^'
-  // }
-  // else
+
   if (!finalFound)
   {
+    fflush(output);
+  /*  wstring test;
+    for (int i=0; i < (int) test.size(); i++)
+    {
+      test += in[i];
+    }
+    */
+    // test = L"test";
+    fputws(L"\n",output);
+    fflush(output);
+    // fputws(test.c_str(), output);
+    fputws(in.c_str(), output);
     // wcout << in << endl;
-  fputws(in.c_str(), output);
-    // wcout << in << endl;
-    // wcout << out << endl;
-    // wcout << "equals? " << (out==in);
+
+    /*
+        // wcout << out << endl;
+        // wcout << "equals? " << (out==in);
+        */
   }
   // wcout << out.c_str() << endl;
 
