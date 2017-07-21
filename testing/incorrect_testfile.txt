@@ -1,6 +1,0 @@
-^take<vblex>$ ^birdog<n><tag1><tag2>$ ^out<pr>$
-^take<vblex><tag1>$ ^birdog<n>$ ^out<pr>$
-^big<adj>$ ^birdog<n><sg> ^out<pr>$
-^take<vblex><tag1>$ ^big<adj><tag1>$ ^out<pr>$
-^take<vblex><tag1>$ ^birdog<n><sg>$ ^to<pr>$ ^the<det><tag1> ^park<n><tag1>$ ^out<pr>$ ^there<tag><tag>$
-^prpers<prn><subj><p3><nt><sg>$ ^take<vblex><past>$ ^one<prn><tn><mf><sg>$ ^out of<pr>$ ^ten<num><sp>$ ^try<vblex><pri><p3><sg>$
