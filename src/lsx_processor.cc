@@ -1,11 +1,3 @@
-// #include <cwchar>
-// #include <cstdio>
-// #include <cerrno>
-// #include <string>
-// #include <iostream>
-// #include <list>
-// #include <set>
-
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/compression.h>
 #include <lttoolbox/alphabet.h>
@@ -60,18 +52,16 @@ int main (int argc, char** argv)
   }
 
   alphabet.read(fst);
-  // wcerr << L"alphabet_size: " << alphabet.size() << endl;
 
   len = Compression::multibyte_read(fst);
   len = Compression::multibyte_read(fst);
-  // wcerr << L"len: " << len << endl;
+
   wstring name = L"";
   while(len > 0)
   {
     name += static_cast<wchar_t>(Compression::multibyte_read(fst));
     len--;
   }
-  // wcerr << name << endl << endl;
 
   transducer.read(fst, alphabet);
 
@@ -105,24 +95,17 @@ int main (int argc, char** argv)
   bool outOfWord = true;
   bool isEscaped = false;
   bool finalFound = false;
-  bool reset = false;
+  bool leading = false;
 
   wstring in = L"";
   wstring out;
 
-  bool leading = false;
-  // int i=0;
   while(!feof(input))
   {
-    // i++;
-    int val = fgetwc(input); // read 1 wide char
-    // cout << i << " " << &alive_states[0] << endl;
-    // cout << &alive_states.front() << " " << initial_state << endl << endl;
+    int val = fgetwc(input);
     if(alive_states.size() == 0 && !finalFound)
     {
-      // wcout << "val: " << (wchar_t)val << endl;
       alive_states.push_back(*initial_state);
-      // fputws(L"IN",output);
       fputws(in.c_str(), output);
       in = L"";
       leading = true;
@@ -132,16 +115,6 @@ int main (int argc, char** argv)
       in = L"";
       finalFound = false;
     }
-    else if(alive_states.size() == 1 && &alive_states.front() == initial_state)
-    {
-      // fputws(in.c_str(), output);
-      // in = L"";
-      // cout <<"Here"<<endl;
-      // finalFound = false;
-    }
-
-    // cout << "val: " << (char) val << endl;
-    // wcout << L"| " << (wchar_t)val << L" | val: " << val << L" || as.size(): " << alive_states.size() << L" || out of word: " << outOfWord << endl;
 
     if((val == L'^' && !isEscaped && outOfWord))
     {
@@ -184,11 +157,9 @@ int main (int argc, char** argv)
       }
       val = static_cast<int>(alphabet(tag));
       in += tag;
-      // fwprintf(stderr, L"tag %S: %d\n", tag.c_str(), val);
     }
     else {
       in += (wchar_t) val;
-      // wcout << (wchar_t) val << endl;
     }
 
     if(!outOfWord)
@@ -207,20 +178,17 @@ int main (int argc, char** argv)
         {
           s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
         }
+
         if(s.size() > 0)
         {
           new_states.push_back(s);
         }
-        // wcout << L"|   | " << /*(wchar_t) val << */L"val " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
-        // wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
+
         if(s.isFinal(anfinals))
         {
-          // cout << "finals size: " << s.size() << endl;
           out = s.filterFinals(anfinals, alphabet, escaped_chars);
-          // wcerr << s.getReadableString(alphabet) << endl;
           new_states.push_back(*initial_state);
 
-          // reset = true;
           finalFound = true;
 
           for (int i=0; i < (int) out.size(); i++)
@@ -237,9 +205,7 @@ int main (int argc, char** argv)
               out[i+1] = L'^';
             }
           }
-          out = out.substr(0, out.length()-3); // remove extra trailing '$ ^
-                                               // '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
-          // fputwc(L' ', output);
+          out = out.substr(0, out.length()-3); // remove extra trailing '$ ^' : '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
           if(leading) {
             fputwc(L' ', output);
           }
@@ -256,15 +222,12 @@ int main (int argc, char** argv)
     }
   }
 
-
   if (!finalFound)
   {
-    // fflush(stdout);
     // fputws(in.c_str(), output);
     // fflush(output);
     wcout << in;
   }
-  // wcout << out.c_str() << endl;
 
   fputwc(L'\n', output);
   return 0;
