@@ -210,7 +210,6 @@ int main (int argc, char** argv)
         if(s.size() > 0)
         {
           new_states.push_back(s);
-
         }
         // wcout << L"|   | " << /*(wchar_t) val << */L"val " << L"size: " << s.size() << L" final: " << s.isFinal(anfinals) << endl;
         // wcerr << L"|   | cur: " << s.getReadableString(alphabet) << endl;
@@ -260,10 +259,10 @@ int main (int argc, char** argv)
 
   if (!finalFound)
   {
-    fflush(output);
-    fflush(stdout);
-    fputws(in.c_str(), output);
-    // wcout << in << endl;
+    // fflush(stdout);
+    // fputws(in.c_str(), output);
+    // fflush(output);
+    wcout << in;
   }
   // wcout << out.c_str() << endl;
 

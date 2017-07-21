@@ -20,6 +20,7 @@ while True: #{
 	if tst_l == ref_l: #{
 		hit += 1.0
 	else: #{
+		print (tst_l)
 		miss += 1.0
 	#}
 
