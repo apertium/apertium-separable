@@ -27,7 +27,7 @@ int main (int argc, char** argv)
 {
   if(argc != 2)
   {
-    wcout << L"./lsx-comp <bin file>" << endl;
+    wcout << L"./lsx-proc <bin file>" << endl;
     exit(0);
   }
 
