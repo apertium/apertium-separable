@@ -217,7 +217,6 @@
       <p><l>hike</l><r>hike<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
-    <!--  -->
     <e lm="knock down" c="tirar abajo">
       <p><l>knock</l><r>down<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>down<t/></l><r></r></p>
@@ -250,6 +249,7 @@
       <p><l>note</l><r>note<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>down<t/></l><r></r></p>
     </e>
+    <!--  -->
     <e lm="patch up" c="arreglar">
       <p><l>patch</l><r>patch<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
