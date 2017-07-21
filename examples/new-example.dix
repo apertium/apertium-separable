@@ -69,7 +69,6 @@
       <e><i>constantly<s n="adv"/><j/></i></e>
       <e><i>daily<s n="adv"/><j/></i></e>
       <e><i>eventually<s n="adv"/><j/></i></e>
-      <e><i>ever<s n="adv"/><j/></i></e>
       <e><i>frequently<s n="adv"/><j/></i></e>
       <e><i>generally<s n="adv"/><j/></i></e>
       <e><i>hourly<s n="adv"/><j/></i></e>
@@ -84,7 +83,10 @@
       <e><i>regularly<s n="adv"/><j/></i></e>
       <e><i>seldom<s n="adv"/><j/></i></e>
       <e><i>semi-anually<s n="adv"/><j/></i></e>
+      <e><i>so<s n="adv"/><j/></i></e>
       <e><i>sometimes<s n="adv"/><j/></i></e>
+      <e><i>too<s n="adv"/><j/></i></e>
+      <e><i>usually<s n="adv"/><j/></i></e>
       <e><i>weekly<s n="adv"/><j/></i></e>
       <e><i>yearly<s n="adv"/><j/></i></e>
     </pardef>
@@ -133,7 +135,7 @@
     </e>
     <e lm="be opposed to" c="estar en contrera de">
       <p><l>be</l><r>be<g><b/>opposed</g></r></p><i><s n="vblex"/><t/><j/></i>
-      <par n="SN"/><p><l>opposed<b/>to<t/></l><r>to<s n="pr"/></r></p>
+      <par n="SAdv"/><p><l>opposed<b/>to<t/></l><r>to<s n="pr"/></r></p>
     </e>
     <e lm="blow out" c="apagar">
       <p><l>blow</l><r>blow<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
@@ -215,6 +217,7 @@
       <p><l>hike</l><r>hike<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
+    <!--  -->
     <e lm="knock down" c="tirar abajo">
       <p><l>knock</l><r>down<g><b/>down</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>down<t/></l><r></r></p>
