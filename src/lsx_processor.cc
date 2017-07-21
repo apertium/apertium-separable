@@ -214,10 +214,11 @@ int main (int argc, char** argv)
       }
       alive_states.swap(new_states);
 
-    }
+    } //
 
-    if(outOfWord)
+    if(outOfWord) // need to deal with superblank stuff
     {
+      fputwc(val, output); 
       continue;
     }
   }
@@ -229,6 +230,6 @@ int main (int argc, char** argv)
     wcout << in;
   }
 
-  fputwc(L'\n', output);
+//  fputwc(L'\n', output);
   return 0;
 }
