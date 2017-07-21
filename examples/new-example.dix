@@ -60,6 +60,7 @@
       <e><par n="num"/><par n="adj"/><par n="n"/></e>
     </pardef>
     <pardef n="det-modifier-n">
+      <e><par n="det"/><par n="n"/></e>
       <e><par n="det"/><par n="modifier-n"/></e>
     </pardef>
     <pardef n="freq-adv">
