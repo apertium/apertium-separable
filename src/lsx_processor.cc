@@ -158,12 +158,9 @@ int main (int argc, char** argv)
       val = static_cast<int>(alphabet(tag));
       in += tag;
     }
-    else {
-      in += (wchar_t) val;
-    }
-
-    if(!outOfWord)
+    else if(!outOfWord)
     {
+      in += (wchar_t) val;
       new_states.clear();
       wstring res = L"";
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
@@ -217,18 +214,14 @@ int main (int argc, char** argv)
 
     if(outOfWord) // need to deal with superblank stuff
     {
-      cout << val;
-      // fputwc((char) val, output);
-      // fputwc(val, output);
+      fputwc(val, output);
       continue;
     }
   }
 
   if (!finalFound)
   {
-    // fputws(in.c_str(), output);
-    // fflush(output);
-    wcout << in;
+    fputws(in.c_str(), output);
   }
 
   return 0;
