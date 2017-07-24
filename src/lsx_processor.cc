@@ -27,7 +27,7 @@ int main (int argc, char** argv)
 {
   if(argc != 2)
   {
-    wcout << L"./lsx-proc <bin file>" << endl;
+    wcout << L"./lsx-comp <bin file>" << endl;
     exit(0);
   }
 
@@ -86,6 +86,7 @@ int main (int argc, char** argv)
 
   vector<State> new_states;
   vector<State> alive_states;
+  list<wstring> blanks;
 
   alive_states.push_back(*initial_state);
 
@@ -148,19 +149,23 @@ int main (int argc, char** argv)
       continue;
     }
 
-    if(val == L'<' && !outOfWord) // tag
+    if(!outOfWord)
     {
-      wstring tag = readFullBlock(input, L'<', L'>');
-      if(!alphabet.isSymbolDefined(tag))
+      if(val == L'<') // tag
       {
-        alphabet.includeSymbol(tag);
+        wstring tag = readFullBlock(input, L'<', L'>');
+        if(!alphabet.isSymbolDefined(tag))
+        {
+          alphabet.includeSymbol(tag);
+        }
+        val = static_cast<int>(alphabet(tag));
+        in += tag;
       }
-      val = static_cast<int>(alphabet(tag));
-      in += tag;
-    }
-    else if(!outOfWord)
-    {
-      in += (wchar_t) val;
+      else
+      {
+        in += (wchar_t) val;
+      }
+
       new_states.clear();
       wstring res = L"";
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
@@ -173,7 +178,7 @@ int main (int argc, char** argv)
         }
         else if(val > 0)
         {
-          s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // deal with cases!
+          s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases!
         }
 
         if(s.size() > 0)
@@ -191,38 +196,49 @@ int main (int argc, char** argv)
           for (int i=0; i < (int) out.size(); i++)
           {
             wchar_t c = out[i];
-            if(c == L'/')
-            {
-              out[i] = L'^';
-            }
-            else if(c == L'$')
-            {
-              out[i-1] = L'$';
-              out[i] = L' ';
-              out[i+1] = L'^';
-            }
+            /* FIXME these hacks */
+            // if(c == L'/')
+            // {
+            //   out[i] = L'^';
+            // }
+            // else if(c == L'$')
+            // {
+            //   out[i-1] = L'$';
+            //   out[i] = L' ';
+            //   out[i+1] = L'^';
+            // }
           }
           out = out.substr(0, out.length()-3); // remove extra trailing '$ ^' : '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
-          if(leading) {
-            fputwc(L' ', output);
-          }
+          /* FIXME another hack */
+          // if(leading) {
+          //   fputwc(L' ', output);
+          // }
           fputws(out.c_str(), output);
         }
       }
       alive_states.swap(new_states);
     }
-
-    if(outOfWord) // need to deal with superblank stuff
+    else if(outOfWord) // FIXME need to deal with superblank stuff
     {
-      fputwc(val, output);
-      continue;
+      if(val == L'[') // tag
+      {
+        wstring blank = readFullBlock(input, L'[', L']');
+        blanks.push_back(blank);
+      }
+      else
+      {
+        fputwc(val, output);
+        continue;
+      }
     }
   }
 
-  if (!finalFound)
-  {
-    fputws(in.c_str(), output);
-  }
-
+  /* FIXME removed */
+  // if (!finalFound)
+  // {
+  // fputws(in.c_str(), output);
+  // fflush(output);
+  // wcout << in;
+  // }
   return 0;
 }
