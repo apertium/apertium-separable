@@ -220,16 +220,36 @@ int main (int argc, char** argv)
     }
     else if(outOfWord) // FIXME need to deal with superblank stuff
     {
-      if(val == L'[') // tag
+      // wcout << (wchar_t) val << endl;
+      if(val == L' ')
+      {
+        wstring blank = L"";
+        blank += static_cast<wchar_t>(val);
+        blanks.push_back(blank);
+        // wcout << "b" << blank << "b";
+      }
+      else if(val == L'[') // tag
       {
         wstring blank = readFullBlock(input, L'[', L']');
         blanks.push_back(blank);
+        wcout << "b"<< blank<<"B";
       }
-      else
+      // FIXME anything between $ and ^
+      // else
+      // {
+      //   fputwc(val, output);
+      //   continue;
+      // }
+
+      if(blanks.size() > 0)
       {
-        fputwc(val, output);
-        continue;
+        // wcout << blanks.front();
+        blanks.pop_front();
       }
+    }
+    else
+    {
+      wcerr << L"outOfWord error" << endl;
     }
   }
 
