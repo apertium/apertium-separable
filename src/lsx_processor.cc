@@ -104,24 +104,31 @@ int main (int argc, char** argv)
   while(!feof(input))
   {
     int val = fgetwc(input);
+    // cout << 'v' << (char) val;
 
-    if(outOfWord)
-    {
-      wstring blank = L"";
-      while(val != L'^' && !feof(input))
-      {
-        blank += val;
-        val = fgetwc(input);
-      }
-      blanks.push_back(blank);
-      fputws(blanks.front().c_str(),output);
-      blanks.pop_front();
-    }
+    // if(outOfWord)
+    // {
+    //   wstring blank = L"";
+    //   // while(val != L'^' && !feof(input))
+    //   // {
+    //     blank += val;
+    //   //   val = fgetwc(input);
+    //   // }
+    //   // blanks.push_back(blank);
+    //   // fputws(blanks.front().c_str(),output);
+    //   // fflush(output);
+    //   // blanks.pop_front();
+    //   // outOfWord = false;
+    //   // cout << "val" << (char) val;
+    //   // continue;
+    // }
 
-    if((val == L'^' && !isEscaped && outOfWord))
+    if(val == L'^' && !isEscaped )//&& outOfWord)
     {
+      // cout << "here";
       outOfWord = false;
       in += val;
+      // cout << "here" ;
       continue;
     }
 
@@ -129,6 +136,7 @@ int main (int argc, char** argv)
     {
       alive_states.push_back(*initial_state);
       fputws(in.c_str(), output);
+      fflush(output);
       in = L"";
       leading = true;
     }
@@ -137,14 +145,19 @@ int main (int argc, char** argv)
       in = L"";
       finalFound = false;
     }
-
+    int i = 0;
     if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
     {
       new_states.clear();
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
+        i++;
+        cout << i;
         State s = *it;
         s.step(alphabet(L"<$>"));
+        fputws(L"($$$)", output);
+        fflush(output);
+        // out += L"BLANKHERE";
         if(s.size() > 0)
         {
           new_states.push_back(s);
@@ -209,7 +222,7 @@ int main (int argc, char** argv)
 
           for (int i=0; i < (int) out.size(); i++)
           {
-            wchar_t c = out[i];
+            // wchar_t c = out[i];
             /* FIXME these hacks */
             // if(c == L'/')
             // {
@@ -228,40 +241,42 @@ int main (int argc, char** argv)
           //   fputwc(L' ', output);
           // }
           fputws(out.c_str(), output);
+          fflush(output);
         }
       }
       alive_states.swap(new_states);
     }
-    // else if(outOfWord) // FIXME need to deal with superblank stuff
-    // {
-    //
-    //   // wcout << (wchar_t) val << endl;
-    //   if(val == L' ')
-    //   {
-    //     wstring blank = L"";
-    //     blank += static_cast<wchar_t>(val);
-    //     blanks.push_back(blank);
-    //     // wcout << "b" << blank << "b";
-    //   }
-    //   else if(val == L'[') // tag
-    //   {
-    //     wstring blank = readFullBlock(input, L'[', L']');
-    //     blanks.push_back(blank);
-    //     wcout << "b"<< blank<<"B";
-    //   }
-    //   // FIXME anything between $ and ^
-    //   // else
-    //   // {
-    //   //   fputwc(val, output);
-    //   //   continue;
-    //   // }
-    //
-    //   if(blanks.size() > 0)
-    //   {
-    //     // wcout << blanks.front();
-    //     blanks.pop_front();
-    //   }
-    // }
+    else if(outOfWord) // FIXME need to deal with superblank stuff
+    {
+
+      // wcout << (wchar_t) val << endl;
+      if(val == L' ')
+      {
+        cout << "SPACE" ;
+        wstring blank = L"";
+        blank += static_cast<wchar_t>(val);
+        blanks.push_back(blank);
+        // wcout << "b" << blank << "b";
+      }
+      else if(val == L'[') // tag
+      {
+        wstring blank = readFullBlock(input, L'[', L']');
+        blanks.push_back(blank);
+        wcout << "b"<< blank<<"B";
+      }
+    /*  FIXME anything between $ and ^*/
+      else
+      {
+        fputwc(val, output);
+        continue;
+      }
+
+      if(blanks.size() > 0)
+      {
+        // wcout << blanks.front();
+        blanks.pop_front();
+      }
+    }
     // else
     // {
     //   wcerr << L"outOfWord error" << endl;
