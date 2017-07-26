@@ -120,7 +120,6 @@ int main (int argc, char** argv)
   bool outOfWord = true;
   bool isEscaped = false;
   bool finalFound = false;
-  bool leading = false;
 
   wstring in = L"";
   wstring out;
@@ -128,23 +127,23 @@ int main (int argc, char** argv)
   while(!feof(input))
   {
     int val = fgetwc(input);
-    // cout << 'v' << (char) val;
 
     if(outOfWord)
     {
-      wstring blank = L"";
-      while(val != L'^' && !feof(input))
-      {
-        blank += val;
-        val = fgetwc(input);
-      }
-      blankqueue.push_back(blank);
-      fputws(blankqueue.front().c_str(),output);
-      fflush(output);
-      blankqueue.pop_front();
+      // wstring blank = L"";
+      // while(val != L'^' && !feof(input))
+      // {
+      //   blank += val;
+      //   val = fgetwc(input);
+      // }
+      // blankqueue.push_back(blank);
+      // fputwc(val, output);
+      // fputws(blankqueue.front().c_str(),output);
+      // fflush(output);
+      // blankqueue.pop_front();
       // outOfWord = false;
-      // cout << "val" << (char) val;
       // continue;
+      // fputwc(val,output);
     }
     if(val == L'^' && !isEscaped && outOfWord)
     {
@@ -159,7 +158,6 @@ int main (int argc, char** argv)
       fputws(in.c_str(), output);
       fflush(output);
       in = L"";
-      leading = true;
     }
     else if(alive_states.size() == 0 && finalFound)
     {
@@ -168,12 +166,12 @@ int main (int argc, char** argv)
     }
     if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
     {
+      // wcout <<L"($$$)";
       new_states.clear();
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
         State s = *it;
         s.step(alphabet(L"<$>"));
-        wcout <<L"($$$)";
 
         if(s.size() > 0)
         {
@@ -252,11 +250,8 @@ int main (int argc, char** argv)
             //   out[i+1] = L'^';
             // }
           }
-          // out = out.substr(0, out.length()-3); // remove extra trailing '$ ^' : '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
+          // out = out.substr(1, out.length()-1);
           /* FIXME another hack */
-          // if(leading) {
-          //   fputwc(L' ', output);
-          // }
           fputws(out.c_str(), output);
           fflush(output);
         }
@@ -265,28 +260,14 @@ int main (int argc, char** argv)
     }
     else if(outOfWord) // FIXME need to deal with superblnk stuff
     {
-      // cout << ">>>>>>>>>>>>>";
-      // wcout << (wchar_t) val << endl;
-    //   if(val == L' ')
-    //   {
-    //     wstring blank = L"";
-    //     blank += static_cast<wchar_t>(val);
-    //     blankqueue.push_back(blank);
-    //     // wcout << "b" << blank << "b";
-    //   }
-    //   else if(val == L'[') // tag
-    //   {
-    //     wstring blank = readFullBlock(input, L'[', L']');
-    //     blankqueue.push_back(blank);
-    //     // wcout << "b"<< blank<<"B";
-    //   }
-    // /*  FIXME anything between $ and ^*/
-    //   else
-    //   {
-    //     fputwc(val, output);
-    //     continue;
-    //   }
-    //
+        fputwc(val, output);
+
+         // fputws(blankqueue.front().c_str(),output);
+         // fflush(output);
+         // blankqueue.pop_front();
+         // continue;
+
+
     //   if(blankqueue.size() > 0)
     //   {
     //     fputws(blankqueue.front().c_str(), output);
