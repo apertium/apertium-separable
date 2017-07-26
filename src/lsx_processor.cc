@@ -3,10 +3,12 @@
 #include <lttoolbox/alphabet.h>
 #include <lttoolbox/trans_exe.h>
 #include <lttoolbox/state.h>
-// #include <lttoolbox/fst_processor.cc>
+#include <lttoolbox/fst_processor.h>
 
-/* get the text between delim1 and delim2 */
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
+// wchar_t readEscaped(FILE *input);
+// void streamError();
+void flushBlanks(FILE *output);
 
 wstring
 readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
@@ -14,28 +16,35 @@ readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
   wstring result = L"";
   result += delim1;
   wchar_t c = delim1;
-
   while(!feof(input) && c != delim2)
   {
-    c = static_cast<wchar_t>(fgetwc_unlocked(input));
+    c = static_cast<wchar_t>(fgetwc(input));
     result += c;
     if(c != L'\\')
     {
       continue;
     }
-    else
-    {
-      result += static_cast<wchar_t>(readEscaped(input));
-    }
+    // else
+    // {
+    //   result += static_cast<wchar_t>(readEscaped(input));
+    // }
   }
-
-  if(c != delim2)
-  {
-    streamError();
-  }
-
+  // if(c != delim2)
+  // {
+  //   streamError();
+  // }
   return result;
 }
+
+// void
+// flushBlanks(FILE *output)
+// {
+//   for(unsigned int i = blankqueue.size(); i > 0; i--)
+//   {
+//     fputws_unlocked(blankqueue.front().c_str(), output);
+//     blankqueue.pop();
+//   }
+// }
 
 int main (int argc, char** argv)
 {
@@ -47,6 +56,7 @@ int main (int argc, char** argv)
 
   Alphabet alphabet;
   TransExe transducer;
+  FSTProcessor fstp;
 
   LtLocale::tryToSetLocale();
 
@@ -100,7 +110,7 @@ int main (int argc, char** argv)
 
   vector<State> new_states;
   vector<State> alive_states;
-  list<wstring> blanks;
+  list<wstring> blankqueue;
 
   alive_states.push_back(*initial_state);
 
@@ -120,29 +130,26 @@ int main (int argc, char** argv)
     int val = fgetwc(input);
     // cout << 'v' << (char) val;
 
-    // if(outOfWord)
-    // {
-    //   wstring blank = L"";
-    //   // while(val != L'^' && !feof(input))
-    //   // {
-    //     blank += val;
-    //   //   val = fgetwc(input);
-    //   // }
-    //   // blanks.push_back(blank);
-    //   // fputws(blanks.front().c_str(),output);
-    //   // fflush(output);
-    //   // blanks.pop_front();
-    //   // outOfWord = false;
-    //   // cout << "val" << (char) val;
-    //   // continue;
-    // }
-
-    if(val == L'^' && !isEscaped )//&& outOfWord)
+    if(outOfWord)
     {
-      // cout << "here";
+      wstring blank = L"";
+      while(val != L'^' && !feof(input))
+      {
+        blank += val;
+        val = fgetwc(input);
+      }
+      blankqueue.push_back(blank);
+      fputws(blankqueue.front().c_str(),output);
+      fflush(output);
+      blankqueue.pop_front();
+      // outOfWord = false;
+      // cout << "val" << (char) val;
+      // continue;
+    }
+    if(val == L'^' && !isEscaped && outOfWord)
+    {
       outOfWord = false;
       in += val;
-      // cout << "here" ;
       continue;
     }
 
@@ -159,19 +166,15 @@ int main (int argc, char** argv)
       in = L"";
       finalFound = false;
     }
-    int i = 0;
     if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
     {
       new_states.clear();
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
-        i++;
-        cout << i;
         State s = *it;
         s.step(alphabet(L"<$>"));
-        fputws(L"($$$)", output);
-        fflush(output);
-        // out += L"BLANKHERE";
+        wcout <<L"($$$)";
+
         if(s.size() > 0)
         {
           new_states.push_back(s);
@@ -260,49 +263,40 @@ int main (int argc, char** argv)
       }
       alive_states.swap(new_states);
     }
-    else if(outOfWord) // FIXME need to deal with superblank stuff
+    else if(outOfWord) // FIXME need to deal with superblnk stuff
     {
-
+      // cout << ">>>>>>>>>>>>>";
       // wcout << (wchar_t) val << endl;
-      if(val == L' ')
-      {
-        cout << "SPACE" ;
-        wstring blank = L"";
-        blank += static_cast<wchar_t>(val);
-        blanks.push_back(blank);
-        // wcout << "b" << blank << "b";
-      }
-      else if(val == L'[') // tag
-      {
-        wstring blank = readFullBlock(input, L'[', L']');
-        blanks.push_back(blank);
-        wcout << "b"<< blank<<"B";
-      }
-    /*  FIXME anything between $ and ^*/
-      else
-      {
-        fputwc(val, output);
-        continue;
-      }
-
-      if(blanks.size() > 0)
-      {
-        // wcout << blanks.front();
-        blanks.pop_front();
-      }
+    //   if(val == L' ')
+    //   {
+    //     wstring blank = L"";
+    //     blank += static_cast<wchar_t>(val);
+    //     blankqueue.push_back(blank);
+    //     // wcout << "b" << blank << "b";
+    //   }
+    //   else if(val == L'[') // tag
+    //   {
+    //     wstring blank = readFullBlock(input, L'[', L']');
+    //     blankqueue.push_back(blank);
+    //     // wcout << "b"<< blank<<"B";
+    //   }
+    // /*  FIXME anything between $ and ^*/
+    //   else
+    //   {
+    //     fputwc(val, output);
+    //     continue;
+    //   }
+    //
+    //   if(blankqueue.size() > 0)
+    //   {
+    //     fputws(blankqueue.front().c_str(), output);
+    //     blankqueue.pop_front();
+    //   }
     }
     // else
     // {
     //   wcerr << L"outOfWord error" << endl;
     // }
   }
-
-  /* FIXME removed */
-  // if (!finalFound)
-  // {
-  // fputws(in.c_str(), output);
-  // fflush(output);
-  // wcout << in;
-  // }
   return 0;
 }
