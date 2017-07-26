@@ -3,6 +3,7 @@
 #include <lttoolbox/alphabet.h>
 #include <lttoolbox/trans_exe.h>
 #include <lttoolbox/state.h>
+// #include <lttoolbox/fst_processor.cc>
 
 /* get the text between delim1 and delim2 */
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
@@ -16,8 +17,21 @@ readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
 
   while(!feof(input) && c != delim2)
   {
-    c = static_cast<wchar_t>(fgetwc(input));
+    c = static_cast<wchar_t>(fgetwc_unlocked(input));
     result += c;
+    if(c != L'\\')
+    {
+      continue;
+    }
+    else
+    {
+      result += static_cast<wchar_t>(readEscaped(input));
+    }
+  }
+
+  if(c != delim2)
+  {
+    streamError();
   }
 
   return result;
