@@ -199,9 +199,7 @@ int main (int argc, char** argv)
         if(s.isFinal(anfinals))
         {
           out = s.filterFinals(anfinals, alphabet, escaped_chars);
-
           new_states.push_back(*initial_state);
-
           finalFound = true;
 
           for (int i=0; i < (int) out.size(); i++)
@@ -275,7 +273,7 @@ int main (int argc, char** argv)
   //   wcout << b << endl;
 
   /* flushing rest of the blanks here */
-  for (auto b : blankqueue)
+  for (wstring b : blankqueue)
   {
     fputws(b.c_str(), output);
   }
