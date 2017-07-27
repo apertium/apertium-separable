@@ -103,7 +103,7 @@ int main (int argc, char** argv)
 
   while(!feof(input))
   {
-     int val = fgetwc(input);
+    int val = fgetwc(input);
     if(alive_states.size() == 0 && !finalFound)
     {
       alive_states.push_back(*initial_state);
@@ -117,6 +117,8 @@ int main (int argc, char** argv)
       finalFound = false;
     }
 
+    if(outOfWord)
+    { cout << "OOW"; }
     if((val == L'^' && !isEscaped && outOfWord))
     {
       outOfWord = false;
@@ -178,7 +180,8 @@ int main (int argc, char** argv)
         }
         else if(val > 0)
         {
-          s.step_override(val, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases!
+          int val_lowercase = towlower(val);
+          s.step_override(val_lowercase, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases!
         }
 
         if(s.size() > 0)
@@ -209,10 +212,6 @@ int main (int argc, char** argv)
             // }
           }
           out = out.substr(0, out.length()-3); // remove extra trailing '$ ^' : '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
-          /* FIXME another hack */
-          // if(leading) {
-          //   fputwc(L' ', output);
-          // }
           fputws(out.c_str(), output);
         }
       }
@@ -246,8 +245,8 @@ int main (int argc, char** argv)
       // FIXME anything between $ and ^
       // else
       // {
-        fputwc(val, output);
-        continue;
+      fputwc(val, output);
+      continue;
       // }
 
       if(blanks.size() > 0)
