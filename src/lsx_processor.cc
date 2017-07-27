@@ -98,7 +98,6 @@ int main (int argc, char** argv)
   bool outOfWord = true;
   bool isEscaped = false;
   bool finalFound = false;
-  bool leading = false;
 
   wstring in = L"";
   wstring out;
@@ -111,7 +110,6 @@ int main (int argc, char** argv)
       alive_states.push_back(*initial_state);
       fputws(in.c_str(), output);
       in = L"";
-      leading = true;
     }
     else if(alive_states.size() == 0 && finalFound)
     {
@@ -132,9 +130,9 @@ int main (int argc, char** argv)
     if(outOfWord)
     {
       blank += val;
-      // cout << "OOW";
       continue;
     }
+
     if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
     {
       new_states.clear();
@@ -259,11 +257,11 @@ int main (int argc, char** argv)
       continue;
       // }
 
-      if(blankqueue.size() > 0)
-      {
-        // wcout << blankqueue.front();
-        blankqueue.pop_front();
-      }
+      // if(blankqueue.size() > 0)
+      // {
+      //   // wcout << blankqueue.front();
+      //   blankqueue.pop_front();
+      // }
     }
     else
     {
@@ -272,10 +270,14 @@ int main (int argc, char** argv)
   }
 
 
-  cout << endl << endl << "bq size: " << blankqueue.size() << endl;
-  for (auto b : blankqueue)
-    wcout << b << endl;
+  // wcout << endl << endl << L"bq size: " << blankqueue.size() << endl;
+  // for (auto b : blankqueue)
+  //   wcout << b << endl;
 
-  //flush rest of the blanks here
+  /* flushing rest of the blanks here */
+  for (auto b : blankqueue)
+  {
+    fputws(b.c_str(), output);
+  }
   return 0;
 }
