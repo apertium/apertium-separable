@@ -86,7 +86,9 @@ int main (int argc, char** argv)
 
   vector<State> new_states;
   vector<State> alive_states;
-  list<wstring> blanks;
+  list<wstring> blankqueue;
+  blankqueue.push_back(L"");
+  wstring blank;
 
   alive_states.push_back(*initial_state);
 
@@ -117,15 +119,22 @@ int main (int argc, char** argv)
       finalFound = false;
     }
 
-    if(outOfWord)
-    { cout << "OOW"; }
-    if((val == L'^' && !isEscaped && outOfWord))
+    if((val == L'^' && !isEscaped && outOfWord) || feof(input))
     {
       outOfWord = false;
+      blankqueue.push_back(blank);
+      blank = L"";
+      fputws(blankqueue.front().c_str(), output);
+      blankqueue.pop_front();
       in += val;
       continue;
     }
-
+    if(outOfWord)
+    {
+      blank += val;
+      // cout << "OOW";
+      continue;
+    }
     if((feof(input) || val == L'$') && !isEscaped && !outOfWord)
     {
       new_states.clear();
@@ -192,6 +201,7 @@ int main (int argc, char** argv)
         if(s.isFinal(anfinals))
         {
           out = s.filterFinals(anfinals, alphabet, escaped_chars);
+
           new_states.push_back(*initial_state);
 
           finalFound = true;
@@ -233,13 +243,13 @@ int main (int argc, char** argv)
       // {
       //   wstring blank = L"";
       //   blank += static_cast<wchar_t>(val);
-      //   blanks.push_back(blank);
+      //   blankqueue.push_back(blank);
       //   // wcout << "b" << blank << "b";
       // }
       // else if(val == L'[') // tag
       // {
       //   wstring blank = readFullBlock(input, L'[', L']');
-      //   blanks.push_back(blank);
+      //   blankqueue.push_back(blank);
       //   wcout << "b"<< blank<<"B";
       // }
       // FIXME anything between $ and ^
@@ -249,10 +259,10 @@ int main (int argc, char** argv)
       continue;
       // }
 
-      if(blanks.size() > 0)
+      if(blankqueue.size() > 0)
       {
-        // wcout << blanks.front();
-        blanks.pop_front();
+        // wcout << blankqueue.front();
+        blankqueue.pop_front();
       }
     }
     else
@@ -261,5 +271,11 @@ int main (int argc, char** argv)
     }
   }
 
+
+  cout << endl << endl << "bq size: " << blankqueue.size() << endl;
+  for (auto b : blankqueue)
+    wcout << b << endl;
+
+  //flush rest of the blanks here
   return 0;
 }
