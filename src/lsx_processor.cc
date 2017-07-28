@@ -4,7 +4,6 @@
 #include <lttoolbox/trans_exe.h>
 #include <lttoolbox/state.h>
 
-/* get the text between delim1 and delim2 */
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
 
 wstring
@@ -104,6 +103,7 @@ int main (int argc, char** argv)
 
   while(!feof(input))
   {
+    // cout << outOfWord;
     int val = fgetwc(input);
     if(alive_states.size() == 0 && !finalFound)
     {
@@ -119,6 +119,7 @@ int main (int argc, char** argv)
 
     if((val == L'^' && !isEscaped && outOfWord) || feof(input))
     {
+      // wcout << L"OOW";
       outOfWord = false;
       blankqueue.push_back(blank);
       blank = L"";
@@ -139,6 +140,7 @@ int main (int argc, char** argv)
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
         State s = *it;
+        fflush(output);
         s.step(alphabet(L"<$>"));
         if(s.size() > 0)
         {
@@ -183,10 +185,12 @@ int main (int argc, char** argv)
         State s = *it;
         if(val < 0)
         {
+          fflush(output);
           s.step_override(val, alphabet(L"<ANY_TAG>"), val);
         }
         else if(val > 0)
         {
+          fflush(output);
           int val_lowercase = towlower(val);
           s.step_override(val_lowercase, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases!
         }
@@ -217,7 +221,14 @@ int main (int argc, char** argv)
             //   out[i+1] = L'^';
             // }
           }
-          out = out.substr(0, out.length()-3); // remove extra trailing '$ ^' : '^ ' is excess, '$' will be added in the next loop with fputws(in,output)
+          out = out.substr(0, out.length()-3); // remove extra trailing
+          for(wchar_t& c : out)
+          {
+            if (c == L'$')
+            {
+              c = L'#';
+            }
+          }
           fputws(out.c_str(), output);
         }
       }
@@ -225,52 +236,14 @@ int main (int argc, char** argv)
     }
     else if(outOfWord) // FIXME need to deal with superblank stuff
     {
-      // wcout << (wchar_t) val << endl;
-      // wstring blank = L"";
-
-      // while(val != L'^' || feof(input))
-      // {
-      //   blank += static_cast<wchar_t>(val);
-      //   val = fgetwc(input);
-      // }
-      // skip = true;
-
-      // if(val == L' ')
-      // {
-      //   wstring blank = L"";
-      //   blank += static_cast<wchar_t>(val);
-      //   blankqueue.push_back(blank);
-      //   // wcout << "b" << blank << "b";
-      // }
-      // else if(val == L'[') // tag
-      // {
-      //   wstring blank = readFullBlock(input, L'[', L']');
-      //   blankqueue.push_back(blank);
-      //   wcout << "b"<< blank<<"B";
-      // }
-      // FIXME anything between $ and ^
-      // else
-      // {
       fputwc(val, output);
       continue;
-      // }
-
-      // if(blankqueue.size() > 0)
-      // {
-      //   // wcout << blankqueue.front();
-      //   blankqueue.pop_front();
-      // }
     }
     else
     {
       wcerr << L"outOfWord error" << endl;
     }
   }
-
-
-  // wcout << endl << endl << L"bq size: " << blankqueue.size() << endl;
-  // for (auto b : blankqueue)
-  //   wcout << b << endl;
 
   /* flushing rest of the blanks here */
   for (wstring b : blankqueue)
