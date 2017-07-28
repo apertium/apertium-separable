@@ -86,7 +86,6 @@ int main (int argc, char** argv)
   vector<State> new_states;
   vector<State> alive_states;
   list<wstring> blankqueue;
-  blankqueue.push_back(L"");
   wstring blank;
 
   alive_states.push_back(*initial_state);
@@ -97,16 +96,21 @@ int main (int argc, char** argv)
   bool outOfWord = true;
   bool isEscaped = false;
   bool finalFound = false;
+  bool next = true;
 
   wstring in = L"";
   wstring out;
 
   while(!feof(input))
   {
-    // cout << outOfWord;
     int val = fgetwc(input);
     if(alive_states.size() == 0 && !finalFound)
     {
+      if(blankqueue.size() > 0)
+      {
+        fputws(blankqueue.front().c_str(), output);
+        blankqueue.pop_front();
+      }
       alive_states.push_back(*initial_state);
       fputws(in.c_str(), output);
       in = L"";
@@ -119,12 +123,11 @@ int main (int argc, char** argv)
 
     if((val == L'^' && !isEscaped && outOfWord) || feof(input))
     {
-      // wcout << L"OOW";
       outOfWord = false;
       blankqueue.push_back(blank);
       blank = L"";
-      fputws(blankqueue.front().c_str(), output);
-      blankqueue.pop_front();
+      // fputws(blankqueue.front().c_str(), output);
+      // blankqueue.pop_front();
       in += val;
       continue;
     }
@@ -209,24 +212,27 @@ int main (int argc, char** argv)
           for (int i=0; i < (int) out.size(); i++)
           {
             wchar_t c = out[i];
-            /* FIXME these hacks */
-            // if(c == L'/')
-            // {
-            //   out[i] = L'^';
-            // }
-            // else if(c == L'$')
-            // {
-            //   out[i-1] = L'$';
-            //   out[i] = L' ';
-            //   out[i+1] = L'^';
-            // }
+            /* FIXME these hacks (?) */
+            if(c == L'/')
+            {
+              out[i] = L'^';
+            }
+            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>')
+            {
+              out.erase(i+1, 1);
+              out.erase(i-1, 1);
+              break;
+            }
           }
           out = out.substr(0, out.length()-3); // remove extra trailing
-          for(wchar_t& c : out)
+          // for(wchar_t& c : out)
+          for(int i=0; i < (int) out.size(); i++)
           {
-            if (c == L'$')
+            // cout << blankqueue.size();
+            if(out[i] == L'$' && blankqueue.size()>0)
             {
-              c = L'#';
+              out.insert(i+1, blankqueue.front().c_str());
+              blankqueue.pop_front();
             }
           }
           fputws(out.c_str(), output);
@@ -245,10 +251,12 @@ int main (int argc, char** argv)
     }
   }
 
+  // wcout << endl << endl << L"BQ size: " << blankqueue.size() << endl;
   /* flushing rest of the blanks here */
   for (wstring b : blankqueue)
   {
     fputws(b.c_str(), output);
+    // wcout << L"B" << b.c_str() << L"B" << endl;
   }
   return 0;
 }
