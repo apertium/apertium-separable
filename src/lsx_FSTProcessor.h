@@ -387,7 +387,7 @@ public:
   bool getNullFlush();
   bool getDecompoundingMode();
 
-  void lsx(FILE* input, FILE* output);
+  void lsx(FILE *input, FILE *output);
 
 
 };

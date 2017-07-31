@@ -3,7 +3,8 @@
 #include <lttoolbox/alphabet.h>
 #include <lttoolbox/trans_exe.h>
 #include <lttoolbox/state.h>
-#include <lttoolbox/fst_processor.h>
+
+#include <lsx_FSTProcessor.cc>
 
 wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
 
