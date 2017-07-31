@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-#include <lttoolbox/fst_processor.h>
+#include <lsx_FSTProcessor.h>
 #include <lttoolbox/compression.h>
 #include <lttoolbox/exception.h>
 
 #include <iostream>
 #include <cerrno>
+
 
 #ifdef _WIN32
 #include <utf8_fwrap.hpp>
@@ -1175,10 +1176,8 @@ FSTProcessor::transliteration_wrapper_null_flush(FILE *input, FILE *output)
   }
 }
 
-
-
 void
-FSTProcessor::lsx(FILE* input, FILE* output)
+FSTProcessor::lsx(FILE *input, FILE *output)
 {
   vector<State> new_states;
   vector<State> alive_states;
