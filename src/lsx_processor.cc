@@ -96,7 +96,6 @@ int main (int argc, char** argv)
   bool outOfWord = true;
   bool isEscaped = false;
   bool finalFound = false;
-  bool next = true;
 
   wstring in = L"";
   wstring out;
@@ -104,13 +103,9 @@ int main (int argc, char** argv)
   while(!feof(input))
   {
     int val = fgetwc(input);
+
     if(alive_states.size() == 0 && !finalFound)
     {
-      if(blankqueue.size() > 0)
-      {
-        fputws(blankqueue.front().c_str(), output);
-        blankqueue.pop_front();
-      }
       alive_states.push_back(*initial_state);
       fputws(in.c_str(), output);
       in = L"";
@@ -160,6 +155,17 @@ int main (int argc, char** argv)
       alive_states.swap(new_states);
       outOfWord = true;
       in += val;
+
+      if(alive_states.size() == 0)
+      {
+        // cout << "HERE";
+        if(blankqueue.size() > 0)
+        {
+          fputws(blankqueue.front().c_str(), output);
+          blankqueue.pop_front();
+        }
+      }
+
       continue;
     }
 
