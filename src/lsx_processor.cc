@@ -162,6 +162,7 @@ int main (int argc, char** argv)
         if(blankqueue.size() > 0)
         {
           fputws(blankqueue.front().c_str(), output);
+          fflush(output);
           blankqueue.pop_front();
         }
       }
