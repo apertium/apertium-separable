@@ -1181,10 +1181,8 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 {
   vector<State> new_states;
   vector<State> alive_states;
-  // list<wstring> blankqueue;
   wstring blank;
   bool outOfWord = true;
-  // bool isEscaped = false;
   bool finalFound = false;
   wstring in = L"";
   wstring out;
@@ -1195,28 +1193,38 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   {
     int val = fgetwc(input);
 
-    if(alive_states.size() == 0 && !finalFound)
-    {
-      alive_states.push_back(*initial_state);
-      fputws(in.c_str(), output);
-      in = L"";
-    }
-    else if(alive_states.size() == 0 && finalFound)
-    {
-      in = L"";
-      finalFound = false;
-    }
-    // cout << endl << "isEscaped? " << (char) val << " " << isEscaped(val) << endl;
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
     {
-      // wcout << L"<BLANK>" << blank << L"</BLANK>";
-      // wcout << L"ESCAPED? " << isEscaped(val) << L" " << (char) val;
       outOfWord = false;
       blankqueue.push(blank);
+
+      if(alive_states.size() == 0)
+      {
+        // cout << "??";
+        if(blankqueue.size() > 0)
+        {
+          fputws(blankqueue.front().c_str(), output);
+          fflush(output);
+          blankqueue.pop();
+        }
+        if(!finalFound)
+        {
+          alive_states.push_back(*initial_state);
+          fputws(in.c_str(), output);
+          in = L"";
+        }
+        else if(finalFound)
+        {
+         in = L"";
+         finalFound = false;
+        }
+      }
+
       blank = L"";
       in += val;
       continue;
     }
+
     if(outOfWord)
     {
       blank += val;
@@ -1225,7 +1233,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 
     if((feof(input) || val == L'$') && isEscaped(val) && !outOfWord)
     {
-      // cout << "HERE";
       new_states.clear();
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
@@ -1247,17 +1254,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       alive_states.swap(new_states);
       outOfWord = true;
       in += val;
-
-      if(alive_states.size() == 0)
-      {
-        // cout << "HERE";
-        if(blankqueue.size() > 0)
-        {
-          fputws(blankqueue.front().c_str(), output);
-          fflush(output);
-          blankqueue.pop();
-        }
-      }
 
       continue;
     }
@@ -1311,7 +1307,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           for (int i=0; i < (int) out.size(); i++)
           {
             wchar_t c = out[i];
-            /* FIXME these hacks (?) */
             if(c == L'/')
             {
               out[i] = L'^';
@@ -1326,7 +1321,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           out = out.substr(0, out.length()-3); // remove extra trailing
           for(int i=0; i < (int) out.size(); i++)
           {
-            if(out[i] == L'$' && blankqueue.size()>0)
+            if(out[i] == L'$' && blankqueue.size() > 0)
             {
               out.insert(i+1, blankqueue.front().c_str());
               blankqueue.pop();
