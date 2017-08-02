@@ -1200,17 +1200,18 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 
       if(alive_states.size() == 0)
       {
-        // cout << "??";
-        if(blankqueue.size() > 0)
-        {
-          fputws(blankqueue.front().c_str(), output);
-          fflush(output);
-          blankqueue.pop();
-        }
         if(!finalFound)
         {
+          if(blankqueue.size() > 0)
+          {
+            fputws(blankqueue.front().c_str(), output);
+            fflush(output);
+            blankqueue.pop();
+          }
+
           alive_states.push_back(*initial_state);
           fputws(in.c_str(), output);
+          fflush(output);
           in = L"";
         }
         else if(finalFound)
@@ -1237,7 +1238,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
         State s = *it;
-        fflush(output);
         s.step(alphabet(L"<$>"));
         if(s.size() > 0)
         {
@@ -1315,10 +1315,13 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             {
               out.erase(i+1, 1);
               out.erase(i-1, 1);
-              break;
             }
           }
-          out = out.substr(0, out.length()-3); // remove extra trailing
+          if(blankqueue.size() > 0)
+          {
+            fputws(blankqueue.front().c_str(), output);
+            blankqueue.pop();
+          }
           for(int i=0; i < (int) out.size(); i++)
           {
             if(out[i] == L'$' && blankqueue.size() > 0)
@@ -1328,6 +1331,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             }
           }
           fputws(out.c_str(), output);
+          flushBlanks(output);
         }
       }
       alive_states.swap(new_states);
