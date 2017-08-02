@@ -1313,10 +1313,12 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             }
             else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>')
             {
-              out.erase(i+1, 1);
+              // out.erase(i+1, 1);
+              out[i+1] = L'^';
               out.erase(i-1, 1);
             }
           }
+          out = out.substr(0, out.length()-1);
           if(blankqueue.size() > 0)
           {
             fputws(blankqueue.front().c_str(), output);
