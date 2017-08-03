@@ -1,4 +1,3 @@
-
 CORP=../corpus/
 MODULE=../src/
 LANGS=english
