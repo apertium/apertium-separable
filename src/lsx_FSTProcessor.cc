@@ -1301,6 +1301,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
         if(s.isFinal(all_finals))
         {
           out = s.filterFinals(all_finals, alphabet, escaped_chars);
+          // wcout << endl << L"<OUT>" << out << L"</OUT>" << endl;
           new_states.push_back(*initial_state);
           finalFound = true;
 
@@ -1311,6 +1312,10 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             {
               out[i] = L'^';
             }
+            else if(c == L' ')
+            {
+              out.erase(i, 1);
+            }
             else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>')
             {
               // out.erase(i+1, 1);
@@ -1318,7 +1323,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
               out.erase(i-1, 1);
             }
           }
-          out = out.substr(0, out.length()-1);
+          out = out.substr(0, out.length()-1); // extra ^ at the end
           if(blankqueue.size() > 0)
           {
             fputws(blankqueue.front().c_str(), output);
@@ -1326,7 +1331,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           }
           for(int i=0; i < (int) out.size(); i++)
           {
-            if(out[i] == L'$' && blankqueue.size() > 0)
+            if((out[i] == L'$' || out[i] == L'#') && blankqueue.size() > 0)
             {
               out.insert(i+1, blankqueue.front().c_str());
               blankqueue.pop();
@@ -1338,15 +1343,11 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       }
       alive_states.swap(new_states);
     }
-    else if(outOfWord)
-    {
-      fputwc(val, output);
-      continue;
-    }
-    else
-    {
-      wcerr << L"outOfWord error" << endl;
-    }
+    // else if(outOfWord)
+    // {
+    //   fputwc(val, output);
+    //   continue;
+    // }
   }
 
   flushBlanks(output);
