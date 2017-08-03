@@ -49,6 +49,9 @@
       <e><i><w/><s n="num"/><j/></i></e>
       <e><i><w/><s n="num"/><t/><j/></i></e>
     </pardef>
+    <pardef n="pr">
+      <e><i><w/><s n="pr"/><j/></i></e>
+    </pardef>
     <pardef n="prn">
       <e><i><w/><s n="prn"/><t/><j/></i></e>
     </pardef>
@@ -109,6 +112,8 @@
       <e><par n="n"/></e>
       <e><par n="np"/></e>
       <e><par n="prn"/></e>
+      <e><par n="num"/></e>
+      <!-- <e><par n="n"/><par n="pr"/><par n="n"/></e> -->
       <e><par n="modifier-n"/></e>
       <e><par n="det-modifier-n"/></e>
     </pardef>
@@ -242,6 +247,10 @@
       <p><l>give</l><r>give<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
+    <e lm="give up to" c="rendirse de">
+      <p><l>give</l><r>give<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/><p><l>up<b/>to<t/></l><r>to<s n="pr"/></r></p>
+    </e>
     <e lm="hike up" c="levantar, subir algo">
       <p><l>hike</l><r>hike<g><b/>up</g></r></p><i><s n="vblex"/><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
@@ -308,8 +317,12 @@
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
     <e lm="piss off" c="sacar, tocar las narices">
-      <p><l>piss</l><r>off<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
-      <par n="person"/><p><l>up<t/></l><r></r></p>
+      <p><l>piss</l><r>piss<g><b/>off</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="person"/><p><l>off<t/></l><r></r></p>
+    </e>
+    <e lm="pommel away" c="	golpear">
+      <p><l>pommel</l><r>pommel<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <par n="SN"/><p><l>away<t/></l><r></r></p>
     </e>
     <e lm="pull out" c="sacar">
       <p><l>pull</l><r>pull<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
