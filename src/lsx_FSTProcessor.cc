@@ -1210,15 +1210,20 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           }
 
           alive_states.push_back(*initial_state);
+          // wcout << endl << L"<IN>" << in << L"</IN>" << endl;
+          for(int i=0; i < (int) in.size(); i++)
+          {
+            if(in[i] == L'$' && in[i+1] == L'^' && blankqueue.size() > 0)
+            {
+              in.insert(i+1, blankqueue.front().c_str());
+              blankqueue.pop();
+            }
+          }
           fputws(in.c_str(), output);
           fflush(output);
-          in = L"";
         }
-        else if(finalFound)
-        {
-         in = L"";
-         finalFound = false;
-        }
+        finalFound = false;
+        in = L"";
       }
 
       blank = L"";
