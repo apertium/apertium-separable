@@ -29,7 +29,6 @@ int main (int argc, char** argv)
   }
 
   fstp.load(fst);
-
   fstp.initGeneration();
   fstp.lsx(input, output);
 
