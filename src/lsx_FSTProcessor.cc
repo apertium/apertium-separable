@@ -1328,7 +1328,14 @@ FSTProcessor::lsx(FILE *input, FILE *output)
               out.erase(i-1, 1);
             }
           }
-          out = out.substr(0, out.length()-1); // extra ^ at the end
+          if(out[out.length()-1] == L'^')
+          {
+            out = out.substr(0, out.length()-1); // extra ^ at the end
+          }
+          else
+          {
+            out += L'$';
+          }
           if(blankqueue.size() > 0)
           {
             fputws(blankqueue.front().c_str(), output);
@@ -1336,8 +1343,10 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           }
           for(int i=0; i < (int) out.size(); i++)
           {
+            /* the problem with ^out of<pr>$ is that the space doesn't get processed as a blank, so blankqueue is empty */
             if((out[i] == L'$' || out[i] == L'#') && blankqueue.size() > 0)
             {
+              // out.insert(i+1, L"*");
               out.insert(i+1, blankqueue.front().c_str());
               blankqueue.pop();
             }
