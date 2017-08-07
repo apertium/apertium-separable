@@ -1,0 +1,13 @@
+timing: en-es.txt/News-Commentary.en-es.en
+  without module:
+    real	7m27.331s
+    user	18m18.743s
+    sys	0m4.418s
+  with module:
+    real	7m26.401s
+    user	18m47.365s
+    sys   0m7.052s
+
+wdiff: -s no_module.txt with_module.txt
+  no_module.txt: 4566185 words  4560566 100% common  165 0% deleted  5454 0% changed
+  with_module.txt: 4566002 words  4560566 100% common  29 0% inserted  5407 0% changed
