@@ -1,7 +1,6 @@
 <dictionary type="separable">
   <alphabet>
-    ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäçèéêëìíîïñòóôöùúûüABCDEFGHIJKLMNOPQRSTUVW
-    XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
+    ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäçèéêëìíîïñòóôöùúûüABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
   </alphabet>
   <sdefs>
     <sdef n="adj"/>
@@ -9,6 +8,7 @@
     <sdef n="cnjcoo"/>
     <sdef n="det"/>
     <sdef n="n"/>
+    <sdef n="sep"/>
     <sdef n="np"/>
     <sdef n="num"/>
     <sdef n="pl"/>
@@ -18,9 +18,6 @@
     <sdef n="prn"/>
     <sdef n="sg"/>
     <sdef n="vblex"/>
-    <sdef n="ANY_TAG"/>
-    <sdef n="ANY_CHAR"/>
-    <sdef n="$"/>
   </sdefs>
   <pardefs>
     <pardef n="adj">
@@ -377,7 +374,7 @@
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
     <e lm="take away" c="sacar, quitar">
-      <p><l>take</l><r>take<g><b/>away</g></r></p><i><s n="vblex"/><t/><j/></i>
+      <p><l>take<s n="vblex"/></l><r>take<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SN"/><p><l>away<t/></l><r></r></p>
     </e>
     <e lm="take for granted" c="dar por hecho">
