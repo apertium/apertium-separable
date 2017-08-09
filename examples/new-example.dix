@@ -7,6 +7,7 @@
     <sdef n="adv"/>
     <sdef n="cnjcoo"/>
     <sdef n="det"/>
+    <sdef n="gen"/>
     <sdef n="n"/>
     <sdef n="sep"/>
     <sdef n="np"/>
@@ -35,6 +36,9 @@
     </pardef>
     <pardef n="det-pos">
       <e><i><w/><s n="det"/><s n="pos"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="gen">
+      <e><i><w/><s n="gen"/><j/></i></e>
     </pardef>
     <pardef n="n">
       <e><i><w/><s n="n"/><t/><j/></i></e>
@@ -110,9 +114,17 @@
       <e><par n="np"/></e>
       <e><par n="prn"/></e>
       <e><par n="num"/></e>
-      <!-- <e><par n="n"/><par n="pr"/><par n="n"/></e> -->
       <e><par n="modifier-n"/></e>
       <e><par n="det-modifier-n"/></e>
+      <e><par n="n"/><par n="gen"/><par n="n"/></e>
+      <e><par n="np"/><par n="gen"/><par n="n"/></e>
+      <e><par n="modifier-n"/><par n="gen"/><par n="n"/></e>
+      <e><par n="det-modifier-n"/><par n="gen"/><par n="n"/></e>
+    </pardef>
+    <pardef n="SN-adv">
+      <e><par n="SN"/></e>
+      <e><par n="SN"/><par n="adv"/></e>
+      <e><par n="SN"/><par n="adv"/><par n="adv"/></e>
     </pardef>
   </pardefs>
   <section id="main" type="standard">
@@ -270,15 +282,15 @@
     </e>
     <e lm="make compatible" c="combinar">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>compatible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>compatible<t/></l><r></r></p>
+      <par n="SN-adv"/><p><l>compatible<t/></l><r></r></p>
     </e>
     <e lm="make compatible" c="depender de">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>compatible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><par n="SAdv"/><p><l>on<t/></l><r></r></p>
+      <par n="SN-adv"/><par n="SAdv"/><p><l>on<t/></l><r></r></p>
     </e>
     <e lm="make impossible" c="hacer imposible">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>impossible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>impossible<t/></l><r></r></p>
+      <par n="SN-adv"/><p><l>impossible<t/></l><r></r></p>
     </e>
     <e lm="make possible" c="hacer posible">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>possible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
@@ -373,7 +385,6 @@
       <p><l>stir<s n="vblex"/></l><r>stir<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SN"/><p><l>up<t/></l><r></r></p>
     </e>
-    <!-- sep -->
     <e lm="take away" c="sacar, quitar">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SN"/><p><l>away<t/></l><r></r></p>
