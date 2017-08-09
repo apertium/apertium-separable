@@ -19,6 +19,7 @@
     <sdef n="prn"/>
     <sdef n="sg"/>
     <sdef n="vblex"/>
+    <sdef n="vbser"/>
   </sdefs>
   <pardefs>
     <pardef n="adj">
@@ -129,28 +130,28 @@
   </pardefs>
   <section id="main" type="standard">
     <e lm="be against" c="estar en contrera de">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>against</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>against</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SAdv"/><p><l>against<t/></l><r></r></p>
     </e>
     <e lm="be early" c="llegar temprano">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>early</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>early</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SAdv"/><p><l>early<t/></l><r></r></p>
     </e>
     <e lm="be integrated into" c="asimilado">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>integrated</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>integrated</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SAdv"/><p><l>integrated<b/>into<t/></l><r>into<s n="pr"/></r></p>
     </e>
     <e lm="be late" c="llegar tarde">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>late</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>late</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
       <par n="SAdv"/><p><l>late<t/></l><r></r></p>
     </e>
     <e lm="be on one's way" c="estar en camino">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>on<b/>one's<b/>way</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>on<b/>one's<b/>way</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
       <p><l>on<s n="pr"/></l><r></r></p><par n="det-pos"/><p><l>way<s n="n"/><s n="sg"/></l><r></r></p>
     </e>
     <e lm="be opposed to" c="estar en contrera de">
-      <p><l>be<s n="vblex"/></l><r>be<g><b/>opposed</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>opposed<b/>to<t/></l><r>to<s n="pr"/></r></p>
+      <p><l>be<s n="vbser"/></l><r>be<g><b/>opposed</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>opposed<t/><b/>to<s n="pr"/></l><r>to<s n="pr"/></r></p>
     </e>
     <e lm="blow out" c="apagar">
       <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
