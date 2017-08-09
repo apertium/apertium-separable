@@ -20,9 +20,10 @@ while True: #{
 	if tst_l == ref_l: #{
 		hit += 1.0
 	else: #{
-		print (hit+miss, 'tst', tst_l)
-		print (hit+miss, 'ref', ref_l)
 		miss += 1.0
+		if miss < 15:
+			print (hit+miss, 'tst', tst_l)
+			print (hit+miss, 'ref', ref_l)
 	#}
 
 #}
