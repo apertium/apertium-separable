@@ -23,8 +23,10 @@
     </pardefs>
     <section id="main" type="standard">
         <e lm="хабар ет" c="">
-            <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-               <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i>
+            <!-- <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
+               <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i> -->
+             <p><l>хабар<s n="n"/><s n="nom"/><j/><b/>ет<s n="v"/></l>
+                <r>хабар<g><b/>ет</g><s n="v"/></r></p><i><t/><j/></i>
         </e>
     </section>
 </dictionary>
