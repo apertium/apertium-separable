@@ -98,7 +98,9 @@
     </pardef>
     <pardef n="person">
       <e><par n="np"/></e>
+      <e><par n="np"/><par n="np"/></e>
       <e><par n="prn"/></e>
+      <e><par n="modifier-n"/></e>
       <e><par n="det-modifier-n"/></e>
     </pardef>
     <pardef n="SA">
@@ -112,15 +114,14 @@
     </pardef>
     <pardef n="SN">
       <e><par n="n"/></e>
-      <e><par n="np"/></e>
-      <e><par n="prn"/></e>
       <e><par n="num"/></e>
-      <e><par n="modifier-n"/></e>
-      <e><par n="det-modifier-n"/></e>
+      <e><par n="person"/></e>
       <e><par n="n"/><par n="gen"/><par n="n"/></e>
       <e><par n="np"/><par n="gen"/><par n="n"/></e>
       <e><par n="modifier-n"/><par n="gen"/><par n="n"/></e>
       <e><par n="det-modifier-n"/><par n="gen"/><par n="n"/></e>
+      <!-- <e><par n="det-modifier-n"/><par n="pr"/><par n="modifier-n"/></e>
+      <e><par n="det-modifier-n"/><par n="pr"/><par n="det-modifier-n"/></e> -->
     </pardef>
     <pardef n="SN-adv">
       <e><par n="SN"/></e>
@@ -158,8 +159,10 @@
       <par n="SN"/><p><l>out<t/></l><r></r></p>
     </e>
     <e lm="blow out of the water" c="vencer">
-      <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out<b/>of<b/>the<b/>water</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out<t/><b/>of<t/><b/>the<t/><b/>water<t/></l><r></r></p>
+      <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out <b/>of <b/>the <b/>water <b/></g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
+      <!-- <par n="SN"/><p><l>out<b/>of<b/>the<b/>water<t/></l><r></r></p> -->
+      <par n="SN"/><p><l>out<b/>of<s n="pr"/></l><r>the<b/>water<b/></r></p>
+      <!-- <par n="SN"/><p><l>for<b/>granted<s n="vblex"/><s n="pp"/><t/></l><r></r></p> -->
     </e>
     <e lm="bring down" c="hacer desaparecer, bajar">
       <p><l>bring<s n="vblex"/></l><r>bring<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
