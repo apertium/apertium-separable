@@ -21,7 +21,7 @@ while True: #{
 		hit += 1.0
 	else: #{
 		miss += 1.0
-		if miss < 15:
+		if miss < 5:
 			print (hit+miss, 'tst', tst_l)
 			print (hit+miss, 'ref', ref_l)
 	#}
