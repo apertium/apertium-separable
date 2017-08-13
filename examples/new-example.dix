@@ -10,6 +10,7 @@
     <sdef n="gen"/>
     <sdef n="n"/>
     <sdef n="sep"/>
+    <sdef n="nom"/>
     <sdef n="np"/>
     <sdef n="num"/>
     <sdef n="pl"/>
@@ -18,6 +19,7 @@
     <sdef n="pr"/>
     <sdef n="prn"/>
     <sdef n="sg"/>
+    <sdef n="v"/>
     <sdef n="vblex"/>
     <sdef n="vbser"/>
   </sdefs>
