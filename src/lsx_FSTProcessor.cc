@@ -1193,6 +1193,11 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   {
     int val = fgetwc(input);
 
+    // if(val == L' ' && !outOfWord)
+    // {
+    //   wcout << L"SPACE";
+    // }
+
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
     {
       outOfWord = false;
@@ -1363,11 +1368,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       }
       alive_states.swap(new_states);
     }
-    // else if(outOfWord)
-    // {
-    //   fputwc(val, output);
-    //   continue;
-    // }
   }
 
   flushBlanks(output);
