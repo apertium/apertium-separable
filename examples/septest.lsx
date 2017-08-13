@@ -11,6 +11,7 @@
     <sdef n="sep"/>
     <sdef n="v"/>
     <sdef n="vblex"/>
+    <sdef n="tv"/>
   </sdefs>
   <pardefs>
     <pardef n="adj">
@@ -37,7 +38,7 @@
   </e> -->
 
 <e lm="хабар ет" c="">
-  <p><l>хабар<s n="n"/></l><r>хабар<b/>ет</r></p><i><s n="nom"/><j/></i>
+  <p><l>хабар<s n="n"/></l><r>хабар<b/>ет<s n="v"/><s n="tv"/></r></p><i><s n="nom"/><j/></i>
   <!-- <p><l>хабар<s n="n"/></l><r>хабар ет</r></p><i><s n="nom"/><j/></i> -->
   <p><l>ет<s n="v"/><t/></l><r></r></p>
 </e>
