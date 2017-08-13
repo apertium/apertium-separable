@@ -1,0 +1,50 @@
+<dictionary type="separable">
+  <alphabet>
+    ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+    АӘБВГҒДЕЁЖЗИІЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЬЫЪЭЮЯаәбвгғдеёжзиійкқлмнңоөпрстуұүфхһцчшщьыъэюя
+  </alphabet>
+  <sdefs>
+    <sdef n="adj"/>
+    <sdef n="adv"/>
+    <sdef n="n"/>
+    <sdef n="nom"/>
+    <sdef n="sep"/>
+    <sdef n="v"/>
+    <sdef n="vblex"/>
+  </sdefs>
+  <pardefs>
+    <pardef n="adj">
+      <e><i><w/><s n="adj"/><j/></i></e>
+      <e><i><w/><s n="adj"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="n">
+      <e><i><w/><s n="n"/><t/><j/></i></e>
+    </pardef>
+    <pardef n="SN">
+      <e><par n="n"/></e>
+      <e><par n="adj"/><par n="n"/></e>
+      <e><par n="adj"/><par n="adj"/><par n="n"/></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+    <!-- <e lm="хабар ет" c=""> -->
+    <!-- <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
+    <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i> -->
+    <!-- </e> -->
+    <!-- <e lm="хабар ет" c="">
+    <p><l>хабар<s n="n"/></l><r>хабар<g><b/>ет</g><s n="v"/></r></p><i><s n="nom"/><j/></i>
+    <p><l>ет<s n="v"/></l><r></r></p>
+  </e> -->
+
+<e lm="хабар ет" c="">
+  <p><l>хабар<s n="n"/></l><r>хабар<b/>ет</r></p><i><s n="nom"/><j/></i>
+  <!-- <p><l>хабар<s n="n"/></l><r>хабар ет</r></p><i><s n="nom"/><j/></i> -->
+  <p><l>ет<s n="v"/><t/></l><r></r></p>
+</e>
+  <e lm="абай бол" c="абайла">
+    <p><l>абай<s n="adj"/><j/>бол<s n="v"/><t/></l>
+    <r>абай<b/>бол<s n="v"/><t/></r></p><i><t/></i>
+  </e>
+</section>
+</dictionary>
+
