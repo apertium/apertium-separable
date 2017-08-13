@@ -48,7 +48,7 @@
 -->
   <e lm="абай бол" c="абайла">
     <p><l>абай<s n="adj"/><j/>бол<s n="v"/></l>
-    <r>абай<b/>бол<s n="v"/></r></p><i><t/></i>
+    <r>абай<b/>бол<s n="v"/></r></p><i><t/><j/></i>
   </e>
 
 <!-- FIXME: This doesn't work because the <t/> becomes unaligned.
@@ -60,7 +60,7 @@
 
   <e lm="хабар ет" c="">
     <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-       <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i> <!-- Here the <t/> is aligned -->
+       <r>хабар<b/>ет<s n="v"/></r></p><i><t/><j/></i> <!-- Here the <t/> is aligned -->
   </e>
 </section>
 </dictionary>
