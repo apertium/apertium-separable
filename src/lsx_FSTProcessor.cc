@@ -1200,8 +1200,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
     {
-      // wcout << L"<here>" << (wchar_t) val << L"</here>";
-      // outOfWord = false;
       blankqueue.push(blank);
 
       if(alive_states.size() == 0)
@@ -1270,11 +1268,8 @@ FSTProcessor::lsx(FILE *input, FILE *output)
         {
           new_states.clear();
           out = s.filterFinals(all_finals, alphabet, escaped_chars);
-//          wcerr << endl << L"<OUT>" << out << L"</OUT>" << endl;
-//          wcerr << endl << L"<S>" << s.size() << L"</S>" << endl;
 
           new_states.push_back(*initial_state);
-          // in = L"";
 
           for (int i=0; i < (int) out.size(); i++)
           {
@@ -1306,8 +1301,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             }
             out += L'$';
           }
-          // out += L"</OUT>";
-          // wcout << L"<OOW>" << outOfWord;
+
           if(blankqueue.size() > 0)
           {
             fputws(blankqueue.front().c_str(), output);
@@ -1325,7 +1319,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
               out.insert(i+1, blankqueue.front().c_str());
               out.erase(i,1);
               blankqueue.pop();
-              // out[i] = blankqueue.front().c_str();
             }
           }
           fputws(out.c_str(), output);
@@ -1339,7 +1332,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       alive_states.swap(new_states);
       outOfWord = true;
 
-      // wcout << L"<OOW>" << outOfWord;
       if(!finalFound)
       {
         in += val; //do not remove
@@ -1352,14 +1344,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       if(val == L'<') // tag
       {
         wstring tag = readFullBlock(input, L'<', L'>');
-        // in += L"<tag>";
         in += tag;
-        // if(in.size() != 0)
-        // {
-          // wcout << L"<tag>" << in.size() << tag << L"</tag>";
-        // }
-        // wcout << L"<in>" << in << L"</in>";
-        // wcout << L"<tag>" << tag << L"</tag>";
         if(!alphabet.isSymbolDefined(tag))
         {
           alphabet.includeSymbol(tag);
@@ -1368,24 +1353,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       }
       else
       {
-        // if(in.size() > 1) {
-        //   wcerr << L"size1" << endl;
-        // }
         in += (wchar_t) val;
-        /*
-        wcerr << L"<in>" << in.size() << L"</in>";
-        if(in.size() > 5 && in.at(1) == L'w') {
-          if (in.at(1)==L'w' && in.at(2) == L'o' && in.at(3) == L'r' && in.at(4) == L'd' && in.at(5) == L'w')
-          {
-            wcout << L"WORD2" << in.at(in.size()-1) << in.size();
-          } else if (in.at(1)==L'w' && in.at(2) == L'o' && in.at(3) == L'r' && in.at(4) == L'd') {
-            wcout << L"WORD1" << in.at(in.size()-1) << in.size();
-          } else {
-            wcout << L"FALSE";
-          }
-        }
-        */
-        // in += L"c";
       }
 
       new_states.clear();
