@@ -29,38 +29,13 @@
     </pardef>
   </pardefs>
   <section id="main" type="standard">
-    <!-- <e lm="хабар ет" c=""> -->
-    <!-- <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-    <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i> -->
-    <!-- </e> -->
-    <!-- <e lm="хабар ет" c="">
-    <p><l>хабар<s n="n"/></l><r>хабар<g><b/>ет</g><s n="v"/></r></p><i><s n="nom"/><j/></i>
-    <p><l>ет<s n="v"/></l><r></r></p>
-  </e> -->
-
-
-<!--
-<e lm="хабар ет" c="">
-  <p><l>хабар<s n="n"/></l><r>хабар<b/>ет<s n="v"/><s n="tv"/><s n="imp"/></r></p><i><s n="nom"/><j/></i>
- <p><l>хабар<s n="n"/></l><r>хабар ет</r></p><i><s n="nom"/><j/></i> 
-  <p><l>ет<s n="v"/><t/></l><r></r></p>
-</e>
--->
   <e lm="абай бол" c="абайла">
     <p><l>абай<s n="adj"/><j/>бол<s n="v"/></l>
-    <r>абай<b/>бол<s n="v"/></r></p><i><t/><j/></i>
+       <r>абай<b/>бол<s n="v"/></r></p><i><t/><j/></i>
   </e>
-
-<!-- FIXME: This doesn't work because the <t/> becomes unaligned.
-  <e lm="хабар ет" c=""> 
-    <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/><t/></l>
-       <r>хабар<b/>ет<s n="v"/><t/></r></p>
-  </e>
--->
-
   <e lm="хабар ет" c="">
     <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-       <r>хабар<b/>ет<s n="v"/></r></p><i><t/><j/></i> <!-- Here the <t/> is aligned -->
+       <r>хабар<b/>ет<s n="v"/></r></p><i><t/><j/></i>
   </e>
 </section>
 </dictionary>
