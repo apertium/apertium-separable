@@ -1271,18 +1271,20 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 
           new_states.push_back(*initial_state);
 
-          for (int i=0; i < (int) out.size(); i++)
+          int out_size = out.size();
+          for (int i=0; i < out_size; i++)
           {
             wchar_t c = out[i];
             if(c == L'/')
             {
               out[i] = L'^';
             }
-            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>') //FIXME indexing
+            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>') // indexing
             {
               out[i+1] = L'^';
               out.erase(i-1, 1);
-              // i--;
+              out_size--;
+              i--;
             }
           }
           if(out[out.length()-1] == L'^')
@@ -1291,7 +1293,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           }
           else // take# out ... of
           {
-            for(int i=out.length()-1; i>=0; i--) //FIXME indexing
+            for(int i=out.length()-1; i>=0; i--) // indexing
             {
               if(out[i] == L'$')
               {
@@ -1307,17 +1309,21 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             fputws(blankqueue.front().c_str(), output);
             blankqueue.pop();
           }
-          for(int i=0; i < (int) out.length(); i++) //FIXME indexing
+
+          out_size = out.size();
+          for(int i=0; i < out_size; i++) // indexing
           {
             if((out[i] == L'$' || out[i] == L'#') && blankqueue.size() > 0)
             {
               out.insert(i+1, blankqueue.front().c_str());
+              out_size += blankqueue.front().size();
               blankqueue.pop();
             }
             else if(out[i] == L' ' && blankqueue.size() > 0)
             {
               out.insert(i+1, blankqueue.front().c_str());
               out.erase(i,1);
+              out_size += (blankqueue.front().size() - 1);
               blankqueue.pop();
             }
           }
