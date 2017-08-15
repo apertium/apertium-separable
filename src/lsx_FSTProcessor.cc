@@ -1198,42 +1198,43 @@ FSTProcessor::lsx(FILE *input, FILE *output)
     //   wcout << L"SPACE";
     // }
 
-
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
     {
-      outOfWord = false;
+      // wcout << L"<here>" << (wchar_t) val << L"</here>";
+      // outOfWord = false;
       blankqueue.push(blank);
 
       if(alive_states.size() == 0)
       {
-        if(!finalFound)
+        if(blankqueue.size() > 0)
         {
-          if(blankqueue.size() > 0)
+          fputws(blankqueue.front().c_str(), output);
+          fflush(output);
+          blankqueue.pop();
+        }
+
+        alive_states.push_back(*initial_state);
+        for(int i=0; i < (int) in.size(); i++)
+        {
+          if(in[i] == L'$' && in[i+1] == L'^' && blankqueue.size() > 0)
           {
-            fputws(blankqueue.front().c_str(), output);
-            fflush(output);
+            in.insert(i+1, blankqueue.front().c_str());
             blankqueue.pop();
           }
-
-          alive_states.push_back(*initial_state);
-//           wcerr << endl << L"<IN>" << in << L"</IN>" << endl;
-          for(int i=0; i < (int) in.size(); i++)
-          {
-            if(in[i] == L'$' && in[i+1] == L'^' && blankqueue.size() > 0)
-            {
-              in.insert(i+1, blankqueue.front().c_str());
-              blankqueue.pop();
-            }
-          }
-          fputws(in.c_str(), output);
-          fflush(output);
         }
         finalFound = false;
-        in = L"";
+        fputws(in.c_str(), output);
+        fflush(output);
+        in = L""; //******
+      }
+      else if(finalFound && alive_states.size() == 1)
+      {
+        finalFound = false;
       }
 
       blank = L"";
       in += val;
+      outOfWord = false;
       continue;
     }
 
@@ -1257,7 +1258,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
         if(s.size() > 0)
         {
           new_states.push_back(s);
-        } 
+        }
 
 /*        if(s.isFinal(all_finals))
         {
@@ -1265,15 +1266,15 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           new_states.push_back(*initial_state);
         }*/
 
-        if(s.isFinal(all_finals)) 
+        if(s.isFinal(all_finals))
         {
-      new_states.clear();
+          new_states.clear();
           out = s.filterFinals(all_finals, alphabet, escaped_chars);
 //          wcerr << endl << L"<OUT>" << out << L"</OUT>" << endl;
 //          wcerr << endl << L"<S>" << s.size() << L"</S>" << endl;
 
           new_states.push_back(*initial_state);
-          finalFound = true;
+          // in = L"";
 
           for (int i=0; i < (int) out.size(); i++)
           {
@@ -1282,20 +1283,20 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             {
               out[i] = L'^';
             }
-            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>')
+            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>') //FIXME indexing
             {
-              // out.erase(i+1, 1);
               out[i+1] = L'^';
               out.erase(i-1, 1);
+              // i--;
             }
           }
           if(out[out.length()-1] == L'^')
           {
             out = out.substr(0, out.length()-1); // extra ^ at the end
           }
-          else
+          else // take# out ... of
           {
-            for(int i=out.length()-1; i>=0; i--)
+            for(int i=out.length()-1; i>=0; i--) //FIXME indexing
             {
               if(out[i] == L'$')
               {
@@ -1305,28 +1306,44 @@ FSTProcessor::lsx(FILE *input, FILE *output)
             }
             out += L'$';
           }
+          // out += L"</OUT>";
+          // wcout << L"<OOW>" << outOfWord;
           if(blankqueue.size() > 0)
           {
             fputws(blankqueue.front().c_str(), output);
             blankqueue.pop();
           }
-          for(int i=0; i < (int) out.length(); i++)
+          for(int i=0; i < (int) out.length(); i++) //FIXME indexing
           {
             if((out[i] == L'$' || out[i] == L'#') && blankqueue.size() > 0)
             {
               out.insert(i+1, blankqueue.front().c_str());
               blankqueue.pop();
             }
+            else if(out[i] == L' ' && blankqueue.size() > 0)
+            {
+              out.insert(i+1, blankqueue.front().c_str());
+              out.erase(i,1);
+              blankqueue.pop();
+              // out[i] = blankqueue.front().c_str();
+            }
           }
           fputws(out.c_str(), output);
           flushBlanks(output);
+          finalFound = true;
+          out = L"";
+          in = L"";
         }
       }
 
       alive_states.swap(new_states);
       outOfWord = true;
-      in += val;
 
+      // wcout << L"<OOW>" << outOfWord;
+      if(!finalFound)
+      {
+        in += val; //do not remove
+      }
       continue;
     }
 
@@ -1335,34 +1352,54 @@ FSTProcessor::lsx(FILE *input, FILE *output)
       if(val == L'<') // tag
       {
         wstring tag = readFullBlock(input, L'<', L'>');
+        // in += L"<tag>";
+        in += tag;
+        // if(in.size() != 0)
+        // {
+          // wcout << L"<tag>" << in.size() << tag << L"</tag>";
+        // }
+        // wcout << L"<in>" << in << L"</in>";
+        // wcout << L"<tag>" << tag << L"</tag>";
         if(!alphabet.isSymbolDefined(tag))
         {
           alphabet.includeSymbol(tag);
         }
         val = static_cast<int>(alphabet(tag));
-        in += tag;
       }
       else
       {
+        // if(in.size() > 1) {
+        //   wcerr << L"size1" << endl;
+        // }
         in += (wchar_t) val;
+        /*
+        wcerr << L"<in>" << in.size() << L"</in>";
+        if(in.size() > 5 && in.at(1) == L'w') {
+          if (in.at(1)==L'w' && in.at(2) == L'o' && in.at(3) == L'r' && in.at(4) == L'd' && in.at(5) == L'w')
+          {
+            wcout << L"WORD2" << in.at(in.size()-1) << in.size();
+          } else if (in.at(1)==L'w' && in.at(2) == L'o' && in.at(3) == L'r' && in.at(4) == L'd') {
+            wcout << L"WORD1" << in.at(in.size()-1) << in.size();
+          } else {
+            wcout << L"FALSE";
+          }
+        }
+        */
+        // in += L"c";
       }
 
       new_states.clear();
-      wstring res = L"";
       for(vector<State>::const_iterator it = alive_states.begin(); it != alive_states.end(); it++)
       {
-        res = L"";
         State s = *it;
         if(val < 0)
         {
-          fflush(output);
           s.step_override(val, alphabet(L"<ANY_TAG>"), val);
         }
         else if(val > 0)
         {
-          fflush(output);
           int val_lowercase = towlower(val);
-          s.step_override(val_lowercase, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases!
+          s.step_override(val_lowercase, alphabet(L"<ANY_CHAR>"), val); // FIXME deal with cases! in step_override
         }
 
         if(s.size() > 0)
@@ -1376,7 +1413,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
 
   flushBlanks(output);
 }
-
 
 
 void
