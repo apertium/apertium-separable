@@ -1184,7 +1184,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   wstring blank, out, in, alt_out, alt_in;
   bool outOfWord = true;
   bool finalFound = false;
-  bool min_pair = false;
+  bool plus_thing = false;
 
   alive_states.push_back(*initial_state);
 
@@ -1195,7 +1195,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
     if(val == L'+' && isEscaped(val) && !outOfWord)
     {
       val = L'$';
-      min_pair = true;
+      plus_thing = true;
     }
 
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
@@ -1303,10 +1303,10 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           if(out[out.length()-1] == L'^')
           {
             out = out.substr(0, out.length()-1); // extra ^ at the end
-            if(min_pair)
+            if(plus_thing)
             {
               out[out.size()-1] = L'+';
-              min_pair = false;
+              plus_thing = false;
             }
           }
           else // take# out ... of
