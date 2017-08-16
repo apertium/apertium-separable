@@ -45,6 +45,7 @@ isLastBlankTM(false)
   escaped_chars.insert(L'@');
   escaped_chars.insert(L'<');
   escaped_chars.insert(L'>');
+  escaped_chars.insert(L'+');
 
   caseSensitive = false;
   dictionaryCase = false;
@@ -1183,6 +1184,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   wstring blank, out, in, alt_out, alt_in;
   bool outOfWord = true;
   bool finalFound = false;
+  bool min_pair = false;
 
   alive_states.push_back(*initial_state);
 
@@ -1190,10 +1192,11 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   {
     int val = fgetwc(input);
 
-    // if(val == L' ' && !outOfWord)
-    // {
-    //   wcout << L"SPACE";
-    // }
+    if(val == L'+' && isEscaped(val) && !outOfWord)
+    {
+      val = L'$';
+      min_pair = true;
+    }
 
     if((val == L'^' && isEscaped(val) && outOfWord) || feof(input))
     {
@@ -1296,9 +1299,15 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           }
           out = alt_out;
 
+
           if(out[out.length()-1] == L'^')
           {
             out = out.substr(0, out.length()-1); // extra ^ at the end
+            if(min_pair)
+            {
+              out[out.size()-1] = L'+';
+              min_pair = false;
+            }
           }
           else // take# out ... of
           {
