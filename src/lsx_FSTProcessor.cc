@@ -1279,20 +1279,17 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           alt_out = L"";
           for (int i=0; i < (int) out.size(); i++)
           {
-            wchar_t c = out[i];
+            wchar_t c = out.at(i);
             if(c == L'/')
             {
-              // out[i] = L'^';
               alt_out += L'^';
             }
-            else if(c == L'$' && out[i-1] == L'<' && out[i+1] == L'>') // FIXME indexing
+            else if(out[i-1] == L'<' && c == L'$' && out[i+1] == L'>') // indexing
             {
-              // out[i+1] = L'^';
-              // out.erase(i-1, 1);
               alt_out += c;
               alt_out += L'^';
             }
-            else if(!(c == L'<' && out[i+1] == L'$' && out[i+2] == L'>') && !(c == L'>' && out[i-1] == L'$' && out[i-2] == L'<'))
+            else if(!(c == L'<' && out[i+1] == L'$' && out[i+2] == L'>') && !(out[i-2] == L'<' && out[i-1] == L'$' && c == L'>'))
             {
               alt_out += c;
             }
@@ -1313,7 +1310,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           {
             for(int i=out.length()-1; i>=0; i--) // indexing
             {
-              if(out[i] == L'$')
+              if(out.at(i) == L'$')
               {
                 out.insert(i+1, L" ");
                 break;
@@ -1331,24 +1328,20 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           alt_out = L"";
           for(int i=0; i < (int) out.size(); i++) // indexing
           {
-            if((out[i] == L'$') && blankqueue.size() > 0)
+            if((out.at(i) == L'$') && blankqueue.size() > 0)
             {
-              // out.insert(i+1, blankqueue.front().c_str());
-              alt_out += out[i];
+              alt_out += out.at(i);
               alt_out += blankqueue.front().c_str();
               blankqueue.pop();
             }
-            else if(out[i] == L' ' && blankqueue.size() > 0)
+            else if(out.at(i) == L' ' && blankqueue.size() > 0)
             {
-              // out.insert(i+1, blankqueue.front().c_str());
-              // out.erase(i,1);
-              // alt_out += L"!";
               alt_out += blankqueue.front().c_str();
               blankqueue.pop();
             }
             else
             {
-              alt_out += out[i];
+              alt_out += out.at(i);
             }
           }
           out = alt_out;
