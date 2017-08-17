@@ -134,19 +134,19 @@
   <section id="main" type="standard">
     <e lm="be against" c="estar en contrera de">
       <p><l>be<s n="vbser"/></l><r>be<g><b/>against</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>against</l><r></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>against</l><r></r></p><i><t/></i>
     </e>
     <e lm="be early" c="llegar temprano">
       <p><l>be<s n="vbser"/></l><r>be<g><b/>early</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>early</l><r></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>early</l><r></r></p><i><t/></i>
     </e>
     <e lm="be integrated into" c="asimilado">
       <p><l>be<s n="vbser"/></l><r>be<g><b/>integrated</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>integrated<b/>into</l><r>into<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>integrated<b/>into</l><r>into<s n="pr"/></r></p><i><t/></i>
     </e>
     <e lm="be late" c="llegar tarde">
       <p><l>be<s n="vbser"/></l><r>be<g><b/>late</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>late</l><r></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>late</l><r></r></p><i><t/></i>
     </e>
     <e lm="be on one's way" c="estar en camino">
       <p><l>be<s n="vbser"/></l><r>be<g><b/>on<b/>one's<b/>way</g><s n="vbser"/><s n="sep"/></r></p><i><t/><j/></i>
@@ -158,245 +158,245 @@
     </e>
     <e lm="blow out" c="apagar">
       <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="blow out of the water" c="vencer">
       <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out<b/>of<b/>the<b/>water</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
       <!-- <par n="SN"/><p><l>out<b/>of<t/><j/>the<t/><j/>water<t/><j/></l><r></r></p> -->
-      <par n="SN"/><p><l>out<b/>of</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out<b/>of</l><r></r></p><i><t/></i>
     </e>
     <e lm="bring down" c="hacer desaparecer, bajar">
       <p><l>bring<s n="vblex"/></l><r>bring<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <e lm="bring down" c="abatir">
       <p><l>bring<s n="vblex"/></l><r>bring<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <e lm="bring together" c="juntar">
       <p><l>bring<s n="vblex"/></l><r>bring<g><b/>together</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>together</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>together</l><r></r></p><i><t/></i>
     </e>
     <e lm="buoy up" c="alentar">
       <p><l>buoy<s n="vblex"/></l><r>buoy<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="buoy up" c="alzar">
       <p><l>buoy<s n="vblex"/></l><r>buoy<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="call off" c="suspender, cancelar">
       <p><l>call<s n="vblex"/></l><r>call<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="carry out" c="hacer">
       <p><l>carry<s n="vblex"/></l><r>carry<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="chat up" c="ligarse con">
       <p><l>chat<s n="vblex"/></l><r>chat<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="check in" c="despachar">
       <p><l>check<s n="vblex"/></l><r>check<g><b/>in</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>in</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>in</l><r></r></p><i><t/></i>
     </e>
     <e lm="check out" c="sacar">
       <p><l>check<s n="vblex"/></l><r>check<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="churn up" c="producir">
       <p><l>churn<s n="vblex"/></l><r>churn<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="coil up" c="enrollar">
       <p><l>coil<s n="vblex"/></l><r>coil<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="depend on" c="depender de">
       <p><l>depend<s n="vblex"/></l><r>depend<g><b/>on</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>on</l><r></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>on</l><r></r></p><i><t/></i>
     </e>
     <e lm="depend upon" c="depender de">
       <p><l>depend<s n="vblex"/></l><r>depend<g><b/>on</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SAdv"/><p><l>upon</l><r></r></p><i><t/><j/></i>
+      <par n="SAdv"/><p><l>upon</l><r></r></p><i><t/></i>
     </e>
     <e lm="dig up" c="desenterrar, sacar a la luz">
       <p><l>dig<s n="vblex"/></l><r>dig<g><b/>up</g></r></p><i><s n="vblex"/><s n="sep"/><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="dress up" c="ponerse elegante">
       <p><l>dress<s n="vblex"/></l><r>dress<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="fill in" c="completar">
       <p><l>fill<s n="vblex"/></l><r>fill<g><b/>in</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>possible</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>possible</l><r></r></p><i><t/></i>
     </e>
     <e lm="fill up" c="llenar">
       <p><l>fill<s n="vblex"/></l><r>fill<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="fire off" c="mandar, disparar">
       <p><l>fire<s n="vblex"/></l><r>fire<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="foul up" c="meter la pata">
       <p><l>foul<s n="vblex"/></l><r>foul<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="get across" c="hacer entender">
       <p><l>get<s n="vblex"/></l><r>get<g><b/>across</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>across</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>across</l><r></r></p><i><t/></i>
     </e>
     <e lm="give back" c="devolver">
       <p><l>give<s n="vblex"/></l><r>give<g><b/>back</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>back</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>back</l><r></r></p><i><t/></i>
     </e>
     <e lm="give off" c="emanar">
       <p><l>give<s n="vblex"/></l><r>give<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="give up" c="rendirse">
       <p><l>give<s n="vblex"/></l><r>give<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="give up to" c="rendirse de">
       <p><l>give<s n="vblex"/></l><r>give<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up<b/>to</l><r>to<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up<b/>to</l><r>to<s n="pr"/></r></p><i><t/></i>
     </e>
     <e lm="hike up" c="levantar, subir algo">
       <p><l>hike<s n="vblex"/></l><r>hike<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="hold responsible" c="hacer responsable">
       <p><l>hold<s n="vblex"/></l><r>hold<g><b/>responsible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>responsible</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>responsible</l><r></r></p><i><t/></i>
     </e>
     <e lm="knock down" c="tirar abajo">
       <p><l>knock<s n="vblex"/></l><r>down<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <e lm="line up" c="poner en fila">
       <p><l>line<s n="vblex"/></l><r>line<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="make angry" c="enfadar">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>angry</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>angry</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>angry</l><r></r></p><i><t/></i>
     </e>
     <e lm="make compatible" c="combinar">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>compatible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN-adv"/><p><l>compatible</l><r></r></p><i><t/><j/></i>
+      <par n="SN-adv"/><p><l>compatible</l><r></r></p><i><t/></i>
     </e>
     <e lm="make compatible" c="depender de">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>compatible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN-adv"/><par n="SAdv"/><p><l>on</l><r></r></p><i><t/><j/></i>
+      <par n="SN-adv"/><par n="SAdv"/><p><l>on</l><r></r></p><i><t/></i>
     </e>
     <e lm="make impossible" c="hacer imposible">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>impossible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN-adv"/><p><l>impossible</l><r></r></p><i><t/><j/></i>
+      <par n="SN-adv"/><p><l>impossible</l><r></r></p><i><t/></i>
     </e>
     <e lm="make possible" c="hacer posible">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>possible</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>possible</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>possible</l><r></r></p><i><t/></i>
     </e>
     <e lm="make up" c="inventar">
       <p><l>make<s n="vblex"/></l><r>make<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="move away" c="quitar">
       <p><l>move<s n="vblex"/></l><r>move<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>away</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>away</l><r></r></p><i><t/></i>
     </e>
     <e lm="note down" c="apuntar">
       <p><l>note<s n="vblex"/></l><r>note<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <!--  -->
     <e lm="patch up" c="arreglar">
       <p><l>patch<s n="vblex"/></l><r>patch<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="patch up" c="mejorar">
       <p><l>patch<s n="vblex"/></l><r>patch<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="pay out" c="proporcionar, desembolsar">
       <p><l>pay<s n="vblex"/></l><r>pay<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="pick up" c="recoger">
       <p><l>pick<s n="vblex"/></l><r>pick<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="piss off" c="sacar, tocar las narices">
       <p><l>piss<s n="vblex"/></l><r>piss<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="pommel away" c="	golpear">
       <p><l>pommel<s n="vblex"/></l><r>pommel<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>away</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>away</l><r></r></p><i><t/></i>
     </e>
     <e lm="pull out" c="sacar">
       <p><l>pull<s n="vblex"/></l><r>pull<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="put aside" c="apartar">
       <p><l>put<s n="vblex"/></l><r>put<g><b/>aside</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>aside</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>aside</l><r></r></p><i><t/></i>
     </e>
     <e lm="put off" c="desalentar, postergar">
       <p><l>put<s n="vblex"/></l><r>put<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="roll up" c="enrollar">
       <p><l>roll<s n="vblex"/></l><r>roll<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="send back" c="devolver">
       <p><l>send<s n="vblex"/></l><r>send<g><b/>back</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>back</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>back</l><r></r></p><i><t/></i>
     </e>
     <!-- <e lm="set about" c="emprender">
       <p><l>set<s n="vblex"/></l><r>set<g><b/>about</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>about</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>about</l><r></r></p><i><t/></i>
     </e> -->
     <e lm="serve up" c="servir">
       <p><l>serve<s n="vblex"/></l><r>serve<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="set off" c="activar">
       <p><l>set<s n="vblex"/></l><r>set<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="set up" c="armar, instalar">
       <p><l>set<s n="vblex"/></l><r>set<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="shake up" c="agitar">
       <p><l>shake<s n="vblex"/></l><r>shake<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="shut down" c="apagar">
       <p><l>shut<s n="vblex"/></l><r>shut<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <e lm="slow down" c="desacelerar">
       <p><l>slow<s n="vblex"/></l><r>slow<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>down</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>down</l><r></r></p><i><t/></i>
     </e>
     <e lm="stir up" c="suscitar">
       <p><l>stir<s n="vblex"/></l><r>stir<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="take away" c="sacar, quitar">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>away</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>away</l><r></r></p><i><t/></i>
     </e>
     <e lm="take back" c="">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>back</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>back</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>back</l><r></r></p><i><t/></i>
     </e>
     <e lm="take for granted" c="dar por hecho">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>for<b/>granted</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
@@ -404,83 +404,83 @@
     </e>
     <e lm="take into account" c="tener en cuenta">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>into</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>into<b/>account</l><r>account<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>into<b/>account</l><r>account<s n="pr"/></r></p><i><t/></i>
     </e>
     <e lm="take off" c="quitarse">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="take one's chances" c="jugarse">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>one's<b/>chances</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="det-pos"/><p><l>chance<s n="n"/><s n="pl"/></l><r></r></p><i><j/></i>
+      <par n="det-pos"/><p><l>chance<s n="n"/><s n="pl"/></l><r></r></p><i></i>
     </e>
     <e lm="take out" c="sacar">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="take out of" c="sacar de">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out<b/>of</l><r>of<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out<b/>of</l><r>of<s n="pr"/></r></p><i><t/></i>
     </e>
     <e lm="throw off balance" c="sacudir">
       <p><l>throw<s n="vblex"/></l><r>throw<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off<b/>balance</l><r>balance<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off<b/>balance</l><r>balance<s n="pr"/></r></p><i><t/></i>
     </e>
     <e lm="throw out" c="tirar, desechar, dejar caer">
       <p><l>throw<s n="vblex"/></l><r>throw<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="trace back" c="rastrear">
       <p><l>trace<s n="vblex"/></l><r>trace<g><b/>back</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>back</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>back</l><r></r></p><i><t/></i>
     </e>
     <e lm="turn off" c="apagar">
       <p><l>turn<s n="vblex"/></l><r>turn<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="turn into" c="transformarse en">
       <p><l>turn<s n="vblex"/></l><r>turn<g><b/>into</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>into</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>into</l><r></r></p><i><t/></i>
     </e>
     <e lm="wall in" c="vallar, cerrar">
       <p><l>wall<s n="vblex"/></l><r>wall<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="wall off" c="aislar">
       <p><l>wall<s n="vblex"/></l><r>wall<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="wear away" c="erosionarse">
       <p><l>wear<s n="vblex"/></l><r>wear<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>away</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>away</l><r></r></p><i><t/></i>
     </e>
     <e lm="wear out" c="agotar">
       <p><l>wear<s n="vblex"/></l><r>wear<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="wipe away" c="secar">
       <p><l>wipe<s n="vblex"/></l><r>wipe<g><b/>away</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>away</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>away</l><r></r></p><i><t/></i>
     </e>
     <e lm="wipe off" c="quitar">
       <p><l>wipe<s n="vblex"/></l><r>wipe<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>off</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>off</l><r></r></p><i><t/></i>
     </e>
     <e lm="wipe out" c="barrer">
       <p><l>wipe<s n="vblex"/></l><r>wipe<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out</l><r></r></p><i><t/></i>
     </e>
     <e lm="wipe up" c="limpiar">
       <p><l>wipe<s n="vblex"/></l><r>wipe<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="wire up" c="conectar">
       <p><l>wire<s n="vblex"/></l><r>wire<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
     <e lm="wire up" c="poner un micrófono">
       <p><l>wire<s n="vblex"/></l><r>wire<g><b/>up</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="person"/><p><l>up</l><r></r></p><i><t/><j/></i>
+      <par n="person"/><p><l>up</l><r></r></p><i><t/></i>
     </e>
 </section>
 </dictionary>

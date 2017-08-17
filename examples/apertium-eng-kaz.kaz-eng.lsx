@@ -11,11 +11,11 @@
   </sdefs>
   <pardefs>
     <pardef n="adj">
-      <e><i><w/><s n="adj"/><j/></i></e>
-      <e><i><w/><s n="adj"/><t/><j/></i></e>
+      <e><i><w/><s n="adj"/></i></e>
+      <e><i><w/><s n="adj"/><t/></i></e>
     </pardef>
     <pardef n="n">
-      <e><i><w/><s n="n"/><t/><j/></i></e>
+      <e><i><w/><s n="n"/><t/></i></e>
     </pardef>
     <pardef n="SN">
       <e><par n="n"/></e>
@@ -24,13 +24,9 @@
     </pardef>
   </pardefs>
   <section id="main" type="standard">
-    <!-- <e lm="хабар ет" c=""> -->
-      <!-- <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-      <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i> -->
-    <!-- </e> -->
     <e lm="хабар ет" c="">
-      <p><l>хабар<s n="n"/></l><r>хабар<g><b/>ет</g><s n="v"/></r></p><i><s n="nom"/><j/></i>
-      <p><l>ет<s n="v"/></l><r></r></p>
+      <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
+         <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i>
     </e>
   </section>
 </dictionary>
