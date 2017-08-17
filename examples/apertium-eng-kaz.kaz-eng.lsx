@@ -24,9 +24,10 @@
     </pardef>
   </pardefs>
   <section id="main" type="standard">
+      <!-- хабар<n><nom><$>ет<v><ANY_TAG><$> -->
     <e lm="хабар ет" c="">
       <p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
-         <r>хабар<b/>ет<s n="v"/></r></p><i><t/></i>
+         <r>хабар<b/>ет<s n="v"/></r></p><i><t/><j/></i>
     </e>
   </section>
 </dictionary>
