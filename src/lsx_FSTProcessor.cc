@@ -1334,6 +1334,11 @@ FSTProcessor::lsx(FILE *input, FILE *output)
               alt_out += blankqueue.front().c_str();
               blankqueue.pop();
             }
+            else if((out.at(i) == L'$') && blankqueue.size() == 0 && i != (int) out.size()-1)
+            {
+              alt_out += out.at(i);
+              alt_out += L' ';
+            }
             else if(out.at(i) == L' ' && blankqueue.size() > 0)
             {
               alt_out += blankqueue.front().c_str();
