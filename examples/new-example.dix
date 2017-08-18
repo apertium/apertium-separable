@@ -419,7 +419,7 @@
     </e>
     <e lm="take out of" c="sacar de">
       <p><l>take<s n="vblex"/></l><r>take<g><b/>out</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out<b/>of</l><r>of<s n="pr"/></r></p><i><t/><j/></i>
+      <par n="SN"/><p><l>out<b/>of</l><r>of</r></p><i><t/><j/></i>
     </e>
     <e lm="throw off balance" c="sacudir">
       <p><l>throw<s n="vblex"/></l><r>throw<g><b/>off</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
