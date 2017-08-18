@@ -759,15 +759,14 @@ Compiler::procEntry()
     }
     else if(name == COMPILER_ENTRY_ELEM && tipo == XML_READER_TYPE_END_ELEMENT)
     {
+      /* INSERTING FINAL <$> HERE */
+      // list<int> wb;
+      // wb.push_back(alphabet(L"<$>"));
+      // EntryToken e;
+      // e.setSingleTransduction(wb, wb);
+      // elements.push_back(e);
+
       // insertar elements into letter transducer
-
-      // INSERTING FINAL <$> HERE
-      list<int> wb;
-      wb.push_back(alphabet(L"<$>"));
-      EntryToken e;
-      e.setSingleTransduction(wb, wb);
-      elements.push_back(e);
-
       insertEntryTokens(elements);
       return;
     }
