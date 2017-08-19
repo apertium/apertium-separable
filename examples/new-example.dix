@@ -161,8 +161,8 @@
       <par n="SN"/><p><l>out</l><r></r></p><i><t/><j/></i>
     </e>
     <e lm="blow out of the water" c="vencer">
-      <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out<b/>of<b/>the<b/>water</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>
-      <par n="SN"/><p><l>out<b/>of<b/>the<b/>water</l><r></r></p><i><t/><j/></i>
+      <p><l>blow<s n="vblex"/></l><r>blow<g><b/>out<b/>of<b/>the<b/>water</g><s n="vblex"/></r></p><i><t/><j/></i>
+      <par n="n"/><p><l>out<b/>of<t/><j/>the<t/><j/>water</l><r></r></p><i><t/><j/></i>
     </e>
     <e lm="bring down" c="hacer desaparecer, bajar">
       <p><l>bring<s n="vblex"/></l><r>bring<g><b/>down</g><s n="vblex"/><s n="sep"/></r></p><i><t/><j/></i>

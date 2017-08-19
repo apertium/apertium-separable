@@ -335,13 +335,16 @@ Compiler::readString(list<int> &result, wstring const &name)
     }
     result.push_back(alphabet(symbol));
   }
-  else if(name == COMPILER_ANYTAG_ELEM) {
+  else if(name == COMPILER_ANYTAG_ELEM)
+  {
     result.push_back(alphabet(L"<ANY_TAG>"));
   }
-  else if(name == COMPILER_ANYCHAR_ELEM) {
+  else if(name == COMPILER_ANYCHAR_ELEM)
+  {
     result.push_back(alphabet(L"<ANY_CHAR>"));
   }
-  else if(name == COMPILER_WB_ELEM) {
+  else if(name == COMPILER_WB_ELEM)
+  {
     requireEmptyError(name);
     result.push_back(alphabet(L"<$>"));
   }
@@ -466,6 +469,14 @@ Compiler::procTransduction()
       if(name == COMPILER_LEFT_ELEM)
       {
         break;
+      }
+      else if(name == COMPILER_ANYTAG_ELEM)
+      {
+        // list<int> temp;
+        // readString(temp, name);
+        // cout << temp.size();
+        // e.setSingleTransduction(temp,temp);
+        // readString(rhs, name);
       }
       readString(lhs, name);
     }
