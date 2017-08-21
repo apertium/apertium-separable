@@ -1,0 +1,105 @@
+<dictionary type="separable">
+  <alphabet>
+    ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÂÄÅÆÈÉÊÍÐÒÓÔÖØÚÝàáâäåæèéêíðòóôöøúýČčđŠš
+  </alphabet>
+  <sdefs>
+    <sdef n="vblex"/>
+    <sdef n="pr"/>
+    <sdef n="cmp"/>
+    <sdef n="guio"/>
+    <sdef n="pprs"/>
+    <sdef n="pp"/>
+    <sdef n="top"/>
+    <sdef n="pers"/>
+    <sdef n="ord"/>
+    <sdef n="sint"/>
+    <sdef n="nom"/>
+    <sdef n="acc"/>
+    <sdef n="gen"/>
+    <sdef n="dat"/>
+    <sdef n="un"/>
+    <sdef n="sup"/>
+    <sdef n="comp"/>
+    <sdef n="pst"/>
+    <sdef n="apos"/>
+    <sdef n="pstv"/>
+    <sdef n="ij"/>
+    <sdef n="sp"/>
+    <sdef n="sg"/>
+    <sdef n="cm"/>
+    <sdef n="num"/>
+    <sdef n="itg"/>
+    <sdef n="nt"/>
+    <sdef n="ant"/>
+    <sdef n="p1"/>
+    <sdef n="pl"/>
+    <sdef n="lpar"/>
+    <sdef n="rpar"/>
+    <sdef n="lquot"/>
+    <sdef n="rquot"/>
+    <sdef n="qnt"/>
+    <sdef n="prn"/>
+    <sdef n="f"/>
+    <sdef n="ind"/>
+    <sdef n="m"/>
+    <sdef n="adv"/>
+    <sdef n="acr"/>
+    <sdef n="p3"/>
+    <sdef n="p2"/>
+    <sdef n="a"/>
+    <sdef n="mf"/>
+    <sdef n="ref"/>
+    <sdef n="sent"/>
+    <sdef n="cnjcoo"/>
+    <sdef n="cnjsub"/>
+    <sdef n="clb"/>
+    <sdef n="n"/>
+    <sdef n="v"/>
+    <sdef n="adj"/>
+    <sdef n="det"/>
+    <sdef n="np"/>
+    <sdef n="part"/>
+    <sdef n="dem"/>
+    <sdef n="def"/>
+    <sdef n="punct"/>
+    <sdef n="abbr"/>
+    <sdef n="quot"/>
+    <sdef n="prfprc"/>
+    <sdef n="cog"/>
+    <sdef n="DD"/>
+    <sdef n="GD"/>
+    <sdef n="ND"/>
+    <sdef n="CD"/>
+  </sdefs>
+  <pardefs>
+    <pardef n="n">
+      <e><i><w/><s n="n"/><t/><j/></i></e>
+    </pardef>
+  </pardefs>
+  <section id="main" type="standard">
+    <e lm="snjúgva seg um" c="">
+      <p><l>snjúgva<s n="vblex"/></l><r>snjúgva<g><b/>seg</g><s n="vblex"/></r></p>
+      <i><t/><j/></i>
+      <p><l>seg<s n="prn"/><t/><j/></l><r></r></p>
+    </e>
+    <e lm="halda fram, at" c="">
+       <p><l>halda<s n="vblex"/></l><r>halda<g><b/>fram</g><s n="vblex"/></r></p>
+       <i><t/><j/></i>
+       <p><l>fram<s n="adv"/><j/>,<s n="cm"/><j/>at<s n="cnjsub"/></l><r>,<s n="cm"/><j/>at<s n="cnjsub"/><j/></r></p>
+       <i><j/></i>
+    </e>
+</section>
+</dictionary>
+
+<!--
+<b/> = blank
+<w/> = ANY_CHAR (loop)
+<t/> = ANY_TAG (loop)
+<j/> = <$>
+
+Available:
+<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
+
+Taken:
+<a/> <b/> <e/> <g/> <i/> <j/> <l/> <p/> <r/> <s/>
+ -->
