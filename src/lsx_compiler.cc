@@ -178,9 +178,7 @@ Compiler::procParDef()
 }
 
 int
-Compiler::matchTransduction(list<int> const &pi,
-				 list<int> const &pd,
-				 int estado, Transducer &t)
+Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado, Transducer &t)
 {
   list<int>::const_iterator izqda, dcha, limizqda, limdcha;
 
@@ -242,7 +240,9 @@ Compiler::matchTransduction(list<int> const &pi,
 
       int nuevo_estado = t.insertSingleTransduction(etiqueta, estado);
       if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
-        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>")))
+        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
+        || etiqueta == alphabet(alphabet(L"<ANY_TAG>"), 0)
+        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0))
       {
         t.linkStates(nuevo_estado, estado, 0);
       }
@@ -470,14 +470,6 @@ Compiler::procTransduction()
       {
         break;
       }
-      else if(name == COMPILER_ANYTAG_ELEM)
-      {
-        // list<int> temp;
-        // readString(temp, name);
-        // cout << temp.size();
-        // e.setSingleTransduction(temp,temp);
-        // readString(rhs, name);
-      }
       readString(lhs, name);
     }
   }
@@ -510,6 +502,14 @@ Compiler::procTransduction()
 
   EntryToken e;
   e.setSingleTransduction(lhs, rhs);
+
+  // for(auto v : e.left())
+  // {
+  //   if(v == COMPILER_ANYTAG_ELEM)
+  //   {
+  //   }
+  // }
+
   return e;
 }
 
@@ -560,8 +560,8 @@ Compiler::insertEntryTokens(vector<EntryToken> const &elements)
       }
       else if(elements[i].isSingleTransduction())
       {
-        e = matchTransduction(elements[i].left(),
-                                  elements[i].right(), e, t);
+        e = matchTransduction(elements[i].left(), elements[i].right(), e, t);
+
       }
       else if(elements[i].isRegexp())
       {
@@ -791,6 +791,7 @@ Compiler::procEntry()
       wcerr << L">'." << endl;
       exit(EXIT_FAILURE);
     }
+
   }
 }
 
