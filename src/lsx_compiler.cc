@@ -82,7 +82,7 @@ Compiler::parse(string const &fichero, wstring const &dir)
   reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
   if(reader == NULL)
   {
-    wcerr << "Error: Cannot open '" << fichero << "'." << endl;
+    wcerr << "Error: Cannot open '" << fichero.c_str() << "'." << endl;
     exit(EXIT_FAILURE);
   }
 
