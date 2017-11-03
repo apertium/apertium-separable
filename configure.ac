@@ -7,6 +7,7 @@ m4_define([required_lttoolbox_version], [3.2.0])
 AC_INIT([apertium-separable], [0.1.1], [ftyers@prompsit.com])
 AM_INIT_AUTOMAKE([apertium-separable], [0.1.1], no-define)
 AC_CONFIG_HEADER([lsx_config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_CXX
 AM_SANITY_CHECK
@@ -43,6 +44,18 @@ AC_CHECK_DECLS([fread_unlocked, fwrite_unlocked, fgetc_unlocked, fputc_unlocked,
 
 CPPFLAGS="$CPPFLAGS $CFLAGS $APERTIUM_CFLAGS $LIBXML_CFLAGS"
 LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS -lz"
+
+# Checks for highest supported C++ standard
+AC_LANG(C++)
+AX_CHECK_COMPILE_FLAG([-std=c++17], [CXXFLAGS="$CXXFLAGS -std=c++17"], [
+ AX_CHECK_COMPILE_FLAG([-std=c++1z], [CXXFLAGS="$CXXFLAGS -std=c++1z"], [
+  AX_CHECK_COMPILE_FLAG([-std=c++14], [CXXFLAGS="$CXXFLAGS -std=c++14"], [
+   AX_CHECK_COMPILE_FLAG([-std=c++1y], [CXXFLAGS="$CXXFLAGS -std=c++1y"], [
+    AX_CHECK_COMPILE_FLAG([-std=c++11], [CXXFLAGS="$CXXFLAGS -std=c++11"], [])
+   ])
+  ])
+ ])
+])
 
 AC_CONFIG_FILES([
                  Makefile
