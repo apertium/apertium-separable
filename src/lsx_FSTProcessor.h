@@ -177,18 +177,6 @@ private:
   int compound_max_elements;
 
   /**
-   * Prints an error of input stream and exits
-   */
-  void streamError();
-
-  /**
-   * Reads a character that is defined in the set of escaped_chars
-   * @param input the stream to read from
-   * @return code of the character
-   */
-  wchar_t readEscaped(FILE *input);
-
-  /**
    * Reads a block from the stream input, enclosed by delim1 and delim2
    * @param input the stream being read
    * @param delim1 the delimiter of the beginning of the sequence
@@ -196,12 +184,6 @@ private:
    */
   wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
 
-  /**
-   * Returns true if the character code is identified as alphabetic
-   * @param c the code provided by the user
-   * @return true if it's alphabetic
-   */
-  bool isAlphabetic(wchar_t const c) const;
 
   /**
    * Tests if a character is in the set of escaped_chars
@@ -211,75 +193,10 @@ private:
   bool isEscaped(wchar_t const c) const;
 
   /**
-   * Read text from stream (analysis version, also used in postgeneration)
-   * @param input the stream to read
-   * @return the next symbol in the stream
-   */
-  int readAnalysis(FILE *input);
-
-  /**
-   * Read text from stream (postgeneration version)
-   * @param input the stream to read
-   * @return the next symbol in the stream
-   */
-  int readPostgeneration(FILE *input);
-
-  /**
-   * Read text from stream (generation version)
-   * @param input the stream to read
-   * @return the next symbol in the stream
-   */
-  int readGeneration(FILE *input, FILE *output);
-
-  /**
    * Flush all the blanks remaining in the current process
    * @param output stream to write blanks
    */
   void flushBlanks(FILE *output);
-
-  /**
-   * Calculate the initial state of parsing
-   */
-  
-  void writeEscaped(wstring const &str, FILE *output);
-
-
-  /**
-   * Write a string to an output stream, escaping all escapable characters
-   * but keeping symbols without escaping
-   * @param str the string to write, escaping characters
-   * @param output the stream to write in
-   */
-  void writeEscapedWithTags(wstring const &str, FILE *output);
-
-  /**
-   * Prints a word
-   * @param sf surface form of the word
-   * @param lf lexical form of the word
-   * @param output stream where the word is written
-   */
-  void printWord(wstring const &sf, wstring const &lf, FILE *output);
-
-  /**
-   * Prints a word, SAO version
-   * @param lf lexical form
-   * @param output stream where the word is written
-   */
-  void printSAOWord(wstring const &lf, FILE *output);
-
-  void initDecompositionSymbols();
-
-  unsigned int lastBlank(wstring const &str);
-  void printSpace(wchar_t const val, FILE *output);
-  void skipUntil(FILE *input, FILE *output, wint_t const character);
-  static wstring removeTags(wstring const &str);
-  wstring compoundAnalysis(wstring str, bool uppercase, bool firstupper);
-  size_t firstNotAlpha(wstring const &sf);
-
-  void analysis_wrapper_null_flush(FILE *input, FILE *output);
-  void generation_wrapper_null_flush(FILE *input, FILE *output,
-                                     GenerationMode mode);
-  void postgeneration_wrapper_null_flush(FILE *input, FILE *output);
 
   bool isLastBlankTM;
 public:
@@ -287,24 +204,9 @@ public:
   ~FSTProcessor();
 
   void initGeneration();
-  void initPostgeneration();
-
-
-  void analysis(FILE *input = stdin, FILE *output = stdout);
-  void generation(FILE *input = stdin, FILE *output = stdout, GenerationMode mode = gm_unknown);
-  void postgeneration(FILE *input = stdin, FILE *output = stdout);
-  void bilingual(FILE *input = stdin, FILE *output = stdout);
-
   void load(FILE *input);
 
-  bool valid() const;
-
-  bool getNullFlush();
-  bool getDecompoundingMode();
-
   void lsx(FILE *input, FILE *output);
-
-
 };
 
 #endif
