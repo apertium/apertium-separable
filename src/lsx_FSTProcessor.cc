@@ -47,27 +47,109 @@ isLastBlankTM(false)
   escaped_chars.insert(L'>');
   escaped_chars.insert(L'+');
 
-  caseSensitive = false;
-  dictionaryCase = false;
-  do_decomposition = false;
-  nullFlush = false;
-  nullFlushGeneration = false;
-  showControlSymbols = false;
-  biltransSurfaceForms = false;
-  compoundOnlyLSymbol = 0;
-  compoundRSymbol = 0;
-  compound_max_elements = 4;
-
-  initial_state = new State();
+  initial_state = {};
   current_state = new State();
 }
 
 FSTProcessor::~FSTProcessor()
 {
   delete current_state;
-  delete initial_state;
 }
 
+void
+FSTProcessor::streamError()
+{
+  throw Exception("Error: Malformed input stream.");
+}
+
+wchar_t
+FSTProcessor::readEscaped(FILE *input)
+{
+  if(feof(input))
+  {
+    streamError();
+  }
+
+wchar_t val = static_cast<wchar_t>(fgetwc_unlocked(input));
+
+  if(feof(input) || escaped_chars.find(val) == escaped_chars.end())
+  {
+    streamError();
+  }
+
+  return val;
+}
+
+
+wstring
+FSTProcessor::readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2)
+{
+  wstring result = L"";
+  result += delim1;
+  wchar_t c = delim1;
+
+  while(!feof(input) && c != delim2)
+  {
+    c = static_cast<wchar_t>(fgetwc_unlocked(input));
+    result += c;
+    if(c != L'\\')
+    {
+      continue;
+    }
+    else
+    {
+      result += static_cast<wchar_t>(readEscaped(input));
+    }
+  }
+
+  if(c != delim2)
+  {
+    streamError();
+  }
+
+  return result;
+}
+
+bool
+FSTProcessor::isEscaped(wchar_t const c) const
+{
+  return escaped_chars.find(c) != escaped_chars.end();
+}
+
+void
+FSTProcessor::calcInitial()
+{
+  for(map<wstring, TransExe, Ltstr>::iterator it = transducers.begin(),
+                                             limit = transducers.end();
+      it != limit; it++)
+  {
+    root.addTransition(0, 0, it->second.getInitial());
+  }
+
+  initial_state.init(&root);
+}
+
+void
+FSTProcessor::initGeneration()
+{
+  for(map<wstring, TransExe, Ltstr>::iterator it = transducers.begin(),
+                                             limit = transducers.end();
+      it != limit; it++)
+  {
+    all_finals.insert(it->second.getFinals().begin(),
+                      it->second.getFinals().end());
+  }
+}
+
+void
+FSTProcessor::flushBlanks(FILE *output)
+{
+  for(unsigned int i = blankqueue.size(); i > 0; i--)
+  {
+    fputws_unlocked(blankqueue.front().c_str(), output);
+    blankqueue.pop();
+  }
+}
 
 void
 FSTProcessor::load(FILE *input)
@@ -101,18 +183,6 @@ FSTProcessor::load(FILE *input)
 }
 
 void
-FSTProcessor::initGeneration()
-{
-  for(map<wstring, TransExe, Ltstr>::iterator it = transducers.begin(),
-                                             limit = transducers.end();
-      it != limit; it++)
-  {
-    all_finals.insert(it->second.getFinals().begin(),
-                      it->second.getFinals().end());
-  }
-}
-
-void
 FSTProcessor::lsx(FILE *input, FILE *output)
 {
   vector<State> new_states, alive_states;
@@ -121,7 +191,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
   bool finalFound = false;
   bool plus_thing = false;
 
-  alive_states.push_back(*initial_state);
+  alive_states.push_back(initial_state);
 
   while(!feof(input))
   {
@@ -146,7 +216,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           blankqueue.pop();
         }
 
-        alive_states.push_back(*initial_state);
+        alive_states.push_back(initial_state);
 
         alt_in = L"";
         for(int i=0; i < (int) in.size(); i++) // FIXME indexing
@@ -209,7 +279,7 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           new_states.clear();
           out = s.filterFinals(all_finals, alphabet, escaped_chars);
 
-          new_states.push_back(*initial_state);
+          new_states.push_back(initial_state);
 
           alt_out = L"";
           for (int i=0; i < (int) out.size(); i++)
