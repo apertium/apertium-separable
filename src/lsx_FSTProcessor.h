@@ -93,11 +93,6 @@ private:
   Alphabet alphabet;
 
   /**
-   * Input buffer
-   */
-  //Buffer<int> input_buffer;
-
-  /**
    * Begin of the transducer
    */
   Node root;
@@ -145,7 +140,6 @@ private:
    */
   void calcInitial();
 
-  bool isLastBlankTM;
 public:
   FSTProcessor();
   ~FSTProcessor();

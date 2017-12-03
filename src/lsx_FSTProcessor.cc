@@ -30,8 +30,7 @@ using namespace std;
 
 
 FSTProcessor::FSTProcessor() :
-outOfWord(false),
-isLastBlankTM(false)
+outOfWord(false)
 {
   // escaped_chars chars
   escaped_chars.insert(L'[');
@@ -47,13 +46,6 @@ isLastBlankTM(false)
   escaped_chars.insert(L'>');
   escaped_chars.insert(L'+');
 
-  initial_state = {};
-  current_state = new State();
-}
-
-FSTProcessor::~FSTProcessor()
-{
-  delete current_state;
 }
 
 void
