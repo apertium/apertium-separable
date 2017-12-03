@@ -65,27 +65,7 @@ private:
   /**
    * Initial state of every token
    */
-  State *initial_state;
-
-  /**
-   * Set of final states of inconditional sections in the dictionaries
-   */
-  set<Node *> inconditional;
-
-  /**
-   * Set of final states of standard sections in the dictionaries
-   */
-  set<Node *> standard;
-
-  /**
-   * Set of final states of postblank sections in the dictionaries
-   */
-  set<Node *> postblank;
-
-  /**
-   * Set of final states of preblank sections in the dictionaries
-   */
-  set<Node *> preblank;
+  State initial_state;
 
   /**
    * Merge of 'inconditional', 'standard', 'postblank' and 'preblank' sets
@@ -115,7 +95,12 @@ private:
   /**
    * Input buffer
    */
-  Buffer<int> input_buffer;
+  //Buffer<int> input_buffer;
+
+  /**
+   * Begin of the transducer
+   */
+  Node root;
 
   /**
    * true if the position of input stream is out of a word
@@ -177,13 +162,24 @@ private:
   int compound_max_elements;
 
   /**
+   * Prints an error of input stream and exits
+   */
+  void streamError();
+
+  /**
+   * Reads a character that is defined in the set of escaped_chars
+   * @param input the stream to read from
+   * @return code of the character
+   */
+  wchar_t readEscaped(FILE *input);
+
+  /**
    * Reads a block from the stream input, enclosed by delim1 and delim2
    * @param input the stream being read
    * @param delim1 the delimiter of the beginning of the sequence
    * @param delim1 the delimiter of the end of the sequence
    */
   wstring readFullBlock(FILE *input, wchar_t const delim1, wchar_t const delim2);
-
 
   /**
    * Tests if a character is in the set of escaped_chars
@@ -198,15 +194,23 @@ private:
    */
   void flushBlanks(FILE *output);
 
+  /**
+   * Calculate the initial state of parsing
+   */
+  void calcInitial();
+
   bool isLastBlankTM;
 public:
   FSTProcessor();
   ~FSTProcessor();
 
+
   void initGeneration();
   void load(FILE *input);
 
   void lsx(FILE *input, FILE *output);
+
+
 };
 
 #endif
