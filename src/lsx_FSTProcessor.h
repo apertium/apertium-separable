@@ -110,56 +110,56 @@ private:
   /**
    * true if we're automatically removing surface forms.
    */
-  bool biltransSurfaceForms;
+  //bool biltransSurfaceForms;
 
 
   /**
    * if true, makes always difference between uppercase and lowercase
    * characters
    */
-  bool caseSensitive;
+  //bool caseSensitive;
 
   /**
    * if true, uses the dictionary case, discarding surface case
    * information
    */
-  bool dictionaryCase;
+  //bool dictionaryCase;
 
   /**
    * if true, flush the output when the null character is found
    */
-  bool nullFlush;
+  //bool nullFlush;
 
   /**
    * nullFlush property for the skipUntil function
    */
-  bool nullFlushGeneration;
+  //bool nullFlushGeneration;
 
   /**
    * try analysing unknown words as compounds
    */
-  bool do_decomposition;
+  //bool do_decomposition;
 
   /**
    * Symbol of CompoundOnlyL
    */
-  int compoundOnlyLSymbol;
+  //int compoundOnlyLSymbol;
 
   /**
    * Symbol of CompoundR
    */
-  int compoundRSymbol;
+  //int compoundRSymbol;
 
   /**
    * Show or not the controls symbols (as compoundRSymbol)
    */
-   bool showControlSymbols;
+   //bool showControlSymbols;
 
   /**
    * Max compound elements
    * Hard coded for now, but there might come a switch one day
    */
-  int compound_max_elements;
+  //int compound_max_elements;
 
   /**
    * Prints an error of input stream and exits
