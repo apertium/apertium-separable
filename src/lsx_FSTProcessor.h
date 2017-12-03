@@ -32,20 +32,6 @@
 #include <string>
 
 using namespace std;
-
-/**
- * Kind of output of the generator module
- */
-enum GenerationMode
-{
-  gm_clean,      // clear all
-  gm_unknown,    // display unknown words, clear transfer and generation tags
-  gm_all,        // display all
-  gm_tagged,     // tagged generation
-  gm_tagged_nm,  // clean tagged generation
-  gm_carefulcase // try lowercase iff no uppercase
-};
-
 /**
  * Class that implements the FST-based modules of the system
  */
@@ -56,11 +42,6 @@ private:
    * Transducers in FSTP
    */
   map<wstring, TransExe, Ltstr> transducers;
-
-  /**
-   * Current state of lexical analysis
-   */
-  State *current_state;
 
   /**
    * Initial state of every token
@@ -142,7 +123,6 @@ private:
 
 public:
   FSTProcessor();
-  ~FSTProcessor();
 
 
   void initGeneration();
