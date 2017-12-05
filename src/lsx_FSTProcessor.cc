@@ -402,13 +402,6 @@ FSTProcessor::lsx(FILE *input, FILE *output)
           new_states.push_back(s);
         }
 
-        // if(s.isFinal(all_finals)) /* ADDITION */
-        // {
-        //
-        // .......... same as above
-        //
-        // }
-
       }
       alive_states.swap(new_states);
     }
