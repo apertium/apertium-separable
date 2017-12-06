@@ -10,7 +10,7 @@ int main (int argc, char** argv)
 {
   if(argc != 3)
   {
-    cout << L"./lsx-comp <dix file> <bin file>" << endl;
+    cout << "./lsx-comp <dix file> <bin file>" << endl;
     exit(0);
   }
   LtLocale::tryToSetLocale();
