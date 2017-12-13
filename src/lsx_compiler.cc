@@ -240,14 +240,23 @@ Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado
       }
 
       int nuevo_estado = t.insertSingleTransduction(etiqueta, estado);
-      if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
-        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
-        || etiqueta == alphabet(alphabet(L"<ANY_TAG>"), 0)
-        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0)
-        || etiqueta == alphabet(0, alphabet(L"<ANY_CHAR>"))
-        || etiqueta == alphabet(0, alphabet(L"<ANY_TAG>")) )
-      {
-        t.linkStates(nuevo_estado, estado, 0);
+
+      if (direction == COMPILER_RESTRICTION_LR_VAL) {
+        if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
+          || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
+          || etiqueta == alphabet(alphabet(L"<ANY_TAG>"), 0)
+          || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0) )
+        {
+          t.linkStates(nuevo_estado, estado, 0);
+        }
+      } else {
+        if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
+          || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
+          || etiqueta == alphabet(0, alphabet(L"<ANY_CHAR>"))
+          || etiqueta == alphabet(0, alphabet(L"<ANY_TAG>")) )
+        {
+          t.linkStates(nuevo_estado, estado, 0);
+        }
       }
 
       if(acx_map_ptr != acx_map.end())
