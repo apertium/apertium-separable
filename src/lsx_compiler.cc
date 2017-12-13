@@ -93,7 +93,7 @@ Compiler::parse(string const &fichero, wstring const &dir)
   int ret = xmlTextReaderRead(reader);
   while(ret == 1)
   {
-      
+
     procNode();
     ret = xmlTextReaderRead(reader);
   }
@@ -243,7 +243,9 @@ Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado
       if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
         || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
         || etiqueta == alphabet(alphabet(L"<ANY_TAG>"), 0)
-        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0))
+        || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0)
+        || etiqueta == alphabet(0, alphabet(L"<ANY_CHAR>"))
+        || etiqueta == alphabet(0, alphabet(L"<ANY_TAG>")) )
       {
         t.linkStates(nuevo_estado, estado, 0);
       }
