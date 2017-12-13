@@ -93,6 +93,7 @@ Compiler::parse(string const &fichero, wstring const &dir)
   int ret = xmlTextReaderRead(reader);
   while(ret == 1)
   {
+      
     procNode();
     ret = xmlTextReaderRead(reader);
   }
@@ -304,11 +305,6 @@ Compiler::readString(list<int> &result, wstring const &name)
     requireEmptyError(name);
     result.push_back(static_cast<int>(L' '));
   }
-  // else if(name == COMPILER_JOIN_ELEM)
-  // {
-  //   requireEmptyError(name);
-  //   result.push_back(static_cast<int>(L'+'));
-  // }
   else if(name == COMPILER_POSTGENERATOR_ELEM)
   {
     requireEmptyError(name);
@@ -503,13 +499,6 @@ Compiler::procTransduction()
   EntryToken e;
   e.setSingleTransduction(lhs, rhs);
 
-  // for(auto v : e.left())
-  // {
-  //   if(v == COMPILER_ANYTAG_ELEM)
-  //   {
-  //   }
-  // }
-
   return e;
 }
 
@@ -556,19 +545,18 @@ Compiler::insertEntryTokens(vector<EntryToken> const &elements)
     {
       if(elements[i].isParadigm())
       {
-	e = t.insertTransducer(e, paradigms[elements[i].paradigmName()]);
+        e = t.insertTransducer(e, paradigms[elements[i].paradigmName()]);
       }
       else if(elements[i].isSingleTransduction())
       {
         e = matchTransduction(elements[i].left(), elements[i].right(), e, t);
-
       }
       else if(elements[i].isRegexp())
       {
-	RegexpCompiler analyzer;
-	analyzer.initialize(&alphabet);
-	analyzer.compile(elements[i].regExp());
-	e = t.insertTransducer(e, analyzer.getTransducer(), alphabet(0,0));
+        RegexpCompiler analyzer;
+        analyzer.initialize(&alphabet);
+        analyzer.compile(elements[i].regExp());
+        e = t.insertTransducer(e, analyzer.getTransducer(), alphabet(0,0));
       }
       else
       {
@@ -591,46 +579,46 @@ Compiler::insertEntryTokens(vector<EntryToken> const &elements)
       if(elements[i].isParadigm())
       {
         if(i == elements.size()-1)
-	{
-	  // paradigma sufijo
-	  if(suffix_paradigms[current_section].find(elements[i].paradigmName()) != suffix_paradigms[current_section].end())
-	  {
-	    t.linkStates(e, suffix_paradigms[current_section][elements[i].paradigmName()], 0);
+        {
+          // paradigma sufijo
+          if(suffix_paradigms[current_section].find(elements[i].paradigmName()) != suffix_paradigms[current_section].end())
+          {
+            t.linkStates(e, suffix_paradigms[current_section][elements[i].paradigmName()], 0);
             e = postsuffix_paradigms[current_section][elements[i].paradigmName()];
-	  }
+          }
           else
           {
             e = t.insertNewSingleTransduction(alphabet(0, 0), e);
             suffix_paradigms[current_section][elements[i].paradigmName()] = e;
             e = t.insertTransducer(e, paradigms[elements[i].paradigmName()]);
             postsuffix_paradigms[current_section][elements[i].paradigmName()] = e;
-	  }
-	}
+          }
+        }
         else if(i == 0)
-	{
+        {
           // paradigma prefijo
-	  if(prefix_paradigms[current_section].find(elements[i].paradigmName()) != prefix_paradigms[current_section].end())
-	  {
+          if(prefix_paradigms[current_section].find(elements[i].paradigmName()) != prefix_paradigms[current_section].end())
+          {
             e = prefix_paradigms[current_section][elements[i].paradigmName()];
-	  }
-	  else
-	  {
+          }
+          else
+          {
             e = t.insertTransducer(e, paradigms[elements[i].paradigmName()]);
             prefix_paradigms[current_section][elements[i].paradigmName()] = e;
-	  }
+          }
         }
-	else
-	{
-          // paradigma intermedio
+        else
+        {
+              // paradigma intermedio
           e = t.insertTransducer(e, paradigms[elements[i].paradigmName()]);
-	}
+        }
       }
       else if(elements[i].isRegexp())
       {
-	RegexpCompiler analyzer;
-	analyzer.initialize(&alphabet);
-	analyzer.compile(elements[i].regExp());
-	e = t.insertTransducer(e, analyzer.getTransducer(), alphabet(0,0));
+        RegexpCompiler analyzer;
+        analyzer.initialize(&alphabet);
+        analyzer.compile(elements[i].regExp());
+        e = t.insertTransducer(e, analyzer.getTransducer(), alphabet(0,0));
       }
       else
       {
@@ -781,9 +769,6 @@ Compiler::procEntry()
       insertEntryTokens(elements);
       return;
     }
-    else if(name == L"#text" && allBlanks())
-    {
-    }
     else
     {
       wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);
@@ -796,40 +781,6 @@ Compiler::procEntry()
 }
 
 void
-Compiler::procNodeACX()
-{
-  xmlChar  const *xnombre = xmlTextReaderConstName(reader);
-  wstring nombre = XMLParseUtil::towstring(xnombre);
-
-  if(nombre == L"#text")
-  {
-    /* ignore */
-  }
-  else if(nombre == L"analysis-chars")
-  {
-    /* ignore */
-  }
-  else if(nombre == L"char")
-  {
-    acx_current_char = static_cast<int>(attrib(L"value")[0]);
-  }
-  else if(nombre == L"equiv-char")
-  {
-    acx_map[acx_current_char].insert(static_cast<int>(attrib(L"value")[0]));
-  }
-  else if(nombre == L"#comment")
-  {
-    /* ignore */
-  }
-  else
-  {
-    wcerr << L"Error in ACX file (" << xmlTextReaderGetParserLineNumber(reader);
-    wcerr << L"): Invalid node '<" << nombre << L">'." << endl;
-    exit(EXIT_FAILURE);
-  }
-}
-
-void
 Compiler::procNode()
 {
   xmlChar const *xnombre = xmlTextReaderConstName(reader);
@@ -837,7 +788,6 @@ Compiler::procNode()
 
   // HACER: optimizar el orden de ejecuci�n de esta ristra de "ifs"
 
-  // wcout << L"nombre: " << nombklsre << endl;
   if(nombre == L"#text")
   {
     /* ignorar */
@@ -878,7 +828,6 @@ Compiler::procNode()
   {
     /* ignorar */
   }
-
   else
   {
     wcerr << L"Error (" << xmlTextReaderGetParserLineNumber(reader);
@@ -907,8 +856,6 @@ Compiler::write(FILE *output)
   // symbols
   alphabet.write(output);
 
-//  wcout << L"@" << alphabet.size() << endl ;
-
   // transducers
   Compression::multibyte_write(sections.size(), output);
 
@@ -923,30 +870,6 @@ Compiler::write(FILE *output)
     Compression::wstring_write(it->first, output);
     it->second.write(output);
   }
-}
-
-void
-Compiler::setAltValue(string const &a)
-{
-  alt = XMLParseUtil::stows(a);
-}
-
-void
-Compiler::setVariantValue(string const &v)
-{
-  variant = XMLParseUtil::stows(v);
-}
-
-void
-Compiler::setVariantLeftValue(string const &v)
-{
-  variant_left = XMLParseUtil::stows(v);
-}
-
-void
-Compiler::setVariantRightValue(string const &v)
-{
-  variant_right = XMLParseUtil::stows(v);
 }
 
 void
