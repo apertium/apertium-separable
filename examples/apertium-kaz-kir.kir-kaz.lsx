@@ -1,0 +1,35 @@
+<dictionary type="sequential">
+	<alphabet>АӘБВГҒДЕЁЖЗИІЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЬЫЪЭЮЯаәбвгғдеёжзиійкқлмнңоөпрстуұүфхһцчшщьыъэюя</alphabet>
+	<sdefs>
+		<sdef n="adj"/>
+		<sdef n="adv"/>
+		<sdef n="n"/>
+		<sdef n="nom"/>
+		<sdef n="dat"/>
+		<sdef n="v"/>
+	</sdefs>
+	<pardefs>
+		<pardef n="adj">
+			<e><i><w/><s n="adj"/><j/></i></e>
+			<e><i><w/><s n="adj"/><t/><j/></i></e>
+		</pardef>
+		<pardef n="n">
+			<e><i><w/><s n="n"/><t/><j/></i></e>
+		</pardef>
+		<pardef n="SN">
+			<e><par n="n"/></e>
+			<e><par n="adj"/><par n="n"/></e>
+			<e><par n="adj"/><par n="adj"/><par n="n"/></e>
+		</pardef>
+	</pardefs>
+	<section id="main" type="standard">
+		<e lm="кабарда" c="хабар ет">
+			<p><l>хабар<b/>ет<s n="v"/></l>
+				<r>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></r></p><i><t/><j/></i>
+		</e>
+		<e lm="хабар ет" c="кабарда">
+		<p><l>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></l>
+				<r>хабар<b/>ет<s n="v"/></r></p><i><t/><j/></i>
+		</e>
+	</section>
+</dictionary>
