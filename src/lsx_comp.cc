@@ -10,8 +10,8 @@ void endProgram(char *name)
 {
     if(name != NULL)
     {
-        wcout << "USAGE: " << name << " lr | rl dictionary_file output_bin_file" << endl;
-        wcout << "Modes:" << endl;
+        wcout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
+        wcout << "Direction:" << endl;
         wcout << "  lr:     left-to-right compilation" << endl;
         wcout << "  rl:     right-to-left compilation" << endl;
     }
@@ -24,11 +24,11 @@ int main (int argc, char** argv)
   {
     endProgram(argv[0]);
   }
-    
+
   LtLocale::tryToSetLocale();
 
   Compiler c;
-    
+
   if(strcmp(argv[1], "lr") == 0)
   {
     c.parse(argv[2], Compiler::COMPILER_RESTRICTION_LR_VAL);
