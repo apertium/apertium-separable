@@ -77,7 +77,7 @@ Compiler::~Compiler()
 void
 Compiler::parse(string const &fichero, wstring const &dir)
 {
-    direction = dir;
+    direction = dir; 
     reader = xmlReaderForFile(fichero.c_str(), NULL, 0);
     if(reader == NULL)
     {

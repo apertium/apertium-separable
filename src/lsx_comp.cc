@@ -6,6 +6,18 @@
 #include <lsx_compiler.h>
 #include <lttoolbox/lt_locale.h>
 
+void endProgram(char *name)
+{
+    if(name != NULL)
+    {
+        wcout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
+        wcout << "Direction: " << endl;
+        wcout << "  lr:     left-to-right compilation" << endl;
+        wcout << "  rl:     right-to-left compilation" << endl;
+    }
+    exit(EXIT_FAILURE);
+}
+
 int main (int argc, char** argv)
 {
   if(argc != 3)
