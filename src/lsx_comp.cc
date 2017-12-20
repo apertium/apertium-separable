@@ -11,7 +11,7 @@ void endProgram(char *name)
     if(name != NULL)
     {
         wcout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
-        wcout << "Direction: " << endl;
+        wcout << "Direction:" << endl;
         wcout << "  lr:     left-to-right compilation" << endl;
         wcout << "  rl:     right-to-left compilation" << endl;
     }
@@ -20,19 +20,29 @@ void endProgram(char *name)
 
 int main (int argc, char** argv)
 {
-  if(argc != 3)
+  if(argc != 4)
   {
-    wcout << L"./lsx-comp <dix file> <bin file>" << endl;
-    exit(0);
+    endProgram(argv[0]);
   }
 
   LtLocale::tryToSetLocale();
 
   Compiler c;
-  c.parse(argv[1], L"LR");
-  c.parse(argv[1], L"RL");
 
-  FILE* fst = fopen(argv[2], "w+");
+  if(strcmp(argv[1], "lr") == 0)
+  {
+    c.parse(argv[2], Compiler::COMPILER_RESTRICTION_LR_VAL);
+  }
+  else if(strcmp(argv[1], "rl") == 0)
+  {
+    c.parse(argv[2], Compiler::COMPILER_RESTRICTION_RL_VAL);
+  }
+  else
+  {
+    endProgram(argv[0]);
+  }
+
+  FILE* fst = fopen(argv[3], "w+");
   if(!fst)
   {
     wcerr << "Error: Cannot open file '" << fst << "'." << endl;
