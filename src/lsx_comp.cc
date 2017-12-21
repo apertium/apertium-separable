@@ -11,7 +11,7 @@ void endProgram(char *name)
     if(name != NULL)
     {
         wcout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
-        wcout << "Direction:" << endl;
+        wcout << "Directions:" << endl;
         wcout << "  lr:     left-to-right compilation" << endl;
         wcout << "  rl:     right-to-left compilation" << endl;
     }
