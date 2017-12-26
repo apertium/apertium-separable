@@ -10,10 +10,10 @@ void endProgram(char *name)
 {
     if(name != NULL)
     {
-        wcout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
-        wcout << "Directions:" << endl;
-        wcout << "  lr:     left-to-right compilation" << endl;
-        wcout << "  rl:     right-to-left compilation" << endl;
+        cout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
+        cout << "Directions:" << endl;
+        cout << "  lr:     left-to-right compilation" << endl;
+        cout << "  rl:     right-to-left compilation" << endl;
     }
     exit(EXIT_FAILURE);
 }
