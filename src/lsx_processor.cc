@@ -4,8 +4,7 @@
 #include <lttoolbox/trans_exe.h>
 #include <lttoolbox/state.h>
 
-#include <fst_processor.h>
-#include <fst_processor.cc>
+#include <lsx_FSTProcessor.cc>
 
 int main (int argc, char** argv)
 {
