@@ -1,11 +1,11 @@
 AC_PREREQ(2.61)
 
 m4_define([required_libxml_version], [2.6.17])
-m4_define([required_apertium_version], [3.2.0])
-m4_define([required_lttoolbox_version], [3.2.0])
+m4_define([required_apertium_version], [3.5.0])
+m4_define([required_lttoolbox_version], [3.4.0])
 
-AC_INIT([apertium-separable], [0.1.1], [ftyers@prompsit.com])
-AM_INIT_AUTOMAKE([apertium-separable], [0.1.1], no-define)
+AC_INIT([apertium-separable], [0.2.0], [ftyers@prompsit.com])
+AM_INIT_AUTOMAKE([apertium-separable], [0.2.0], no-define)
 AC_CONFIG_HEADER([lsx_config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -47,11 +47,15 @@ LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS -lz"
 
 # Checks for highest supported C++ standard
 AC_LANG(C++)
-AX_CHECK_COMPILE_FLAG([-std=c++17], [CXXFLAGS="$CXXFLAGS -std=c++17"], [
- AX_CHECK_COMPILE_FLAG([-std=c++1z], [CXXFLAGS="$CXXFLAGS -std=c++1z"], [
-  AX_CHECK_COMPILE_FLAG([-std=c++14], [CXXFLAGS="$CXXFLAGS -std=c++14"], [
-   AX_CHECK_COMPILE_FLAG([-std=c++1y], [CXXFLAGS="$CXXFLAGS -std=c++1y"], [
-    AX_CHECK_COMPILE_FLAG([-std=c++11], [CXXFLAGS="$CXXFLAGS -std=c++11"], [])
+AX_CHECK_COMPILE_FLAG([-std=c++20], [CXXFLAGS="$CXXFLAGS -std=c++20"], [
+ AX_CHECK_COMPILE_FLAG([-std=c++2a], [CXXFLAGS="$CXXFLAGS -std=c++2a"], [
+  AX_CHECK_COMPILE_FLAG([-std=c++17], [CXXFLAGS="$CXXFLAGS -std=c++17"], [
+   AX_CHECK_COMPILE_FLAG([-std=c++1z], [CXXFLAGS="$CXXFLAGS -std=c++1z"], [
+    AX_CHECK_COMPILE_FLAG([-std=c++14], [CXXFLAGS="$CXXFLAGS -std=c++14"], [
+     AX_CHECK_COMPILE_FLAG([-std=c++1y], [CXXFLAGS="$CXXFLAGS -std=c++1y"], [
+      AX_CHECK_COMPILE_FLAG([-std=c++11], [CXXFLAGS="$CXXFLAGS -std=c++11"], [])
+     ])
+    ])
    ])
   ])
  ])
@@ -62,4 +66,3 @@ AC_CONFIG_FILES([
                  src/Makefile
                  ])
 AC_OUTPUT
-
