@@ -8,10 +8,21 @@
 
 int main (int argc, char** argv)
 {
-  if(argc != 2)
+  char *fname = NULL;
+  bool nullFlush = false;
+  if(argc != 2 && argc != 3)
   {
-    wcout << L"usage: ./lsx-comp <bin file>" << endl;
+    wcout << L"usage: ./lsx-proc [-z] <bin file>" << endl;
     exit(0);
+  }
+  if(argc == 2)
+  { 
+    fname = argv[1];
+  } 
+  else if(argc == 3)
+  { 
+    nullFlush = true;
+    fname = argv[2];
   }
 
   FILE *input = stdin;
@@ -21,13 +32,14 @@ int main (int argc, char** argv)
 
   LtLocale::tryToSetLocale();
 
-  FILE *fst = fopen(argv[1], "r");
+  FILE *fst = fopen(fname, "r");
   if(!fst)
   {
-    wcerr << "Error: Cannot open file '" << fst << "'." << endl;
+    wcerr << "Error: Cannot open file '" << fname << "'." << endl;
     exit(EXIT_FAILURE);
   }
 
+  fstp.setNullFlush(nullFlush);
   fstp.load(fst);
   fstp.initGeneration();
   fstp.lsx(input, output);
