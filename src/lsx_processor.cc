@@ -38,8 +38,10 @@ int main (int argc, char** argv)
     wcerr << "Error: Cannot open file '" << fname << "'." << endl;
     exit(EXIT_FAILURE);
   }
-
-  fstp.setNullFlush(nullFlush);
+  if(nullFlush) 
+  {
+    fstp.setNullFlush(true);
+  } 
   fstp.load(fst);
   fstp.initGeneration();
   fstp.lsx(input, output);
