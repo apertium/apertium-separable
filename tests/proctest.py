@@ -67,8 +67,13 @@ class ProcTest():
                               stderr=PIPE)
 
             for inp, exp in zip(self.inputs, self.expectedOutputs):
-                self.assertEqual(self.communicateFlush(inp+"[][\n]"),
-                                 exp+"[][\n]")
+                inp = exp+"""[][
+]"""
+                out = self.communicateFlush(inp)+"""[][
+]"""
+                print(inp)
+                print(out)
+                self.assertEqual(inp,out)
 
             self.proc.communicate() # let it terminate
             self.proc.stdin.close()
