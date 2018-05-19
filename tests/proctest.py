@@ -66,14 +66,16 @@ class ProcTest():
                               stdout=PIPE,
                               stderr=PIPE)
 
+            iter = 0
             for inp, exp in zip(self.inputs, self.expectedOutputs):
-                inp = exp+"""[][
-]"""
-                out = self.communicateFlush(inp)+"""[][
-]"""
-                print(inp)
-                print(out)
-                self.assertEqual(inp,out)
+                out = self.communicateFlush(inp)
+
+                iter += 1
+                print('iter '+ str(iter))
+                print('in:  '+ inp)
+                print('out: '+ out)
+                print('exp: '+ exp)
+                self.assertEqual(out,exp)
 
             self.proc.communicate() # let it terminate
             self.proc.stdin.close()
