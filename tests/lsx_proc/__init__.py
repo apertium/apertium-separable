@@ -8,8 +8,8 @@ from proctest import ProcTest
 class nullFlushTest(unittest.TestCase, ProcTest):
     procdix = "data/short-example.dix"
     procflags = ["-z"]
-    inputs = ["^take<vblex><pres>$ ^it<prn><obj>$ ^out<adv>$"]
-    expectedOutputs = ["^take# out<vblex><pres>$ ^it<prn><obj>$"]
+    inputs = ["^take<vblex><pres>$ ^it<prn><obj>$ ^out<adv>$","^take<vblex><pres>$ ^me<prn><obj>$ ^out<adv>$"]
+    expectedOutputs = ["^take# out<vblex><pres>$ ^it<prn><obj>$","^take# out<vblex><pres>$ ^me<prn><obj>$"]
 
 # These fail on some systems:
 #from null_flush_invalid_stream_format import *
