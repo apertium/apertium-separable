@@ -2,10 +2,10 @@ AC_PREREQ(2.61)
 
 m4_define([required_libxml_version], [2.6.17])
 m4_define([required_apertium_version], [3.5.0])
-m4_define([required_lttoolbox_version], [3.4.1])
+m4_define([required_lttoolbox_version], [3.4.2])
 
-AC_INIT([apertium-separable], [0.3.0], [ftyers@prompsit.com])
-AM_INIT_AUTOMAKE([apertium-separable], [0.3.0], no-define)
+AC_INIT([apertium-separable], [0.3.1], [ftyers@prompsit.com])
+AM_INIT_AUTOMAKE([apertium-separable], [0.3.1], no-define)
 AC_CONFIG_HEADER([lsx_config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
