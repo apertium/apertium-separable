@@ -27,38 +27,8 @@
 
 using namespace std;
 
-wstring const Compiler::COMPILER_DICTIONARY_ELEM    = L"dictionary";
-wstring const Compiler::COMPILER_ALPHABET_ELEM      = L"alphabet";
-wstring const Compiler::COMPILER_SDEFS_ELEM         = L"sdefs";
-wstring const Compiler::COMPILER_SDEF_ELEM          = L"sdef";
-wstring const Compiler::COMPILER_N_ATTR             = L"n";
-wstring const Compiler::COMPILER_PARDEFS_ELEM       = L"pardefs";
-wstring const Compiler::COMPILER_PARDEF_ELEM        = L"pardef";
-wstring const Compiler::COMPILER_PAR_ELEM           = L"par";
-wstring const Compiler::COMPILER_ENTRY_ELEM         = L"e";
-wstring const Compiler::COMPILER_RESTRICTION_ATTR   = L"r";
-wstring const Compiler::COMPILER_RESTRICTION_LR_VAL = L"LR";
-wstring const Compiler::COMPILER_RESTRICTION_RL_VAL = L"RL";
-wstring const Compiler::COMPILER_PAIR_ELEM          = L"p";
-wstring const Compiler::COMPILER_LEFT_ELEM          = L"l";
-wstring const Compiler::COMPILER_RIGHT_ELEM         = L"r";
-wstring const Compiler::COMPILER_S_ELEM             = L"s";
-wstring const Compiler::COMPILER_REGEXP_ELEM        = L"re";
-wstring const Compiler::COMPILER_SECTION_ELEM       = L"section";
-wstring const Compiler::COMPILER_ID_ATTR            = L"id";
-wstring const Compiler::COMPILER_TYPE_ATTR	        = L"type";
-wstring const Compiler::COMPILER_IDENTITY_ELEM      = L"i";
-wstring const Compiler::COMPILER_JOIN_ELEM	        = L"j";
-wstring const Compiler::COMPILER_BLANK_ELEM	        = L"b";
-wstring const Compiler::COMPILER_POSTGENERATOR_ELEM = L"a";
-wstring const Compiler::COMPILER_GROUP_ELEM         = L"g";
-wstring const Compiler::COMPILER_LEMMA_ATTR         = L"lm";
-wstring const Compiler::COMPILER_IGNORE_ATTR        = L"i";
-wstring const Compiler::COMPILER_IGNORE_YES_VAL     = L"yes";
-wstring const Compiler::COMPILER_ALT_ATTR           = L"alt";
-wstring const Compiler::COMPILER_V_ATTR             = L"v";
-wstring const Compiler::COMPILER_VL_ATTR            = L"vl";
-wstring const Compiler::COMPILER_VR_ATTR            = L"vr";
+// Removed static globals copied from lttoolbox's compiler.cc. Same namespace, same mangling, bad result.
+
 wstring const Compiler::COMPILER_ANYTAG_ELEM        = L"t";
 wstring const Compiler::COMPILER_ANYCHAR_ELEM       = L"w";
 wstring const Compiler::COMPILER_WB_ELEM            = L"j";
