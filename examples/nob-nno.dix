@@ -50,7 +50,7 @@
   <section id="main" type="standard">
     <e lm="rå til" c="anbefale">
        <p><l>rå</l><r>rå<g><b/>til</g></r></p><i><s n="vblex"/><t/><j/></i>
-       <par n="SN"/> 
+       <par n="SN"/>
        <p><l>til<t/></l><r></r></p>
     </e>
 
@@ -75,11 +75,11 @@
   <j/> = <$>
 
 Available:
-<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/> 
+<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
 
-Taken: 
-<a/> 
-<b/> 
+Taken:
+<a/>
+<b/>
 <e/>
 <g/>
 <i/>

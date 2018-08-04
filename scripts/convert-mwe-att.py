@@ -5,7 +5,7 @@ for line in sys.stdin.readlines(): #{
 	if line.strip() == '': #{
 		continue
 	#}
-	
+
 	row = line.strip('\n').split('\t');
 
 	# Final state
@@ -13,7 +13,7 @@ for line in sys.stdin.readlines(): #{
 		print(row[0]);
 		continue;
 	#}
-	
+
 	# Replace word boundary symbol with the special one
 	if row[2] == '+': #{
 		row[2] = '<$>';
@@ -21,7 +21,7 @@ for line in sys.stdin.readlines(): #{
 	if row[3] == '+': #{
 		row[3] = '<$>';
 	#}
-	
+
 	# Replace ~ symbol with <ANY_TAG> and add a loop
 	if row[2] == '~': #{
 		row[2] = '<ANY_TAG>';
