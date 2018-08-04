@@ -1,4 +1,4 @@
-#python reap_multiwords.py ../../apertium-en-es/apertium-en-es.en.metadix 
+#python reap_multiwords.py ../../apertium-en-es/apertium-en-es.en.metadix
 
 #!/usr/bin/env python
 import sys, re

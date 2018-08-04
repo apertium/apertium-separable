@@ -12,7 +12,7 @@ class Alarm(Exception):
 class ProcTest():
     """See lt_proc test for how to use this. Override runTest if you don't
     want to use NUL flushing."""
-    
+
     procdix = "data/short-example.dix"
     procdir = "lr"
     procflags = ["-z"]
