@@ -164,10 +164,10 @@ Note:
 
 i.e.
 
-  - <e><i><w/><s n="adj"/><t/><j/></i></e> is equivalent to
+  - `<e><i><w/><s n="adj"/><t/><j/></i></e>` is equivalent to
     `any-one-or-more-chars`<adj><required-anytag>`<...optional-anytag...><$>`
       - ^tall<adj><sint>\<...\>$
-  - <e><i><w/><s n="adj"/><j/></i></e> is equivalent to
+  - `<e><i><w/><s n="adj"/><j/></i></e>` is equivalent to
     `any-one-or-more-chars`<adj>`<$>`
       - ^tall<adj>$
 
@@ -402,5 +402,3 @@ and
 
   - [/GCI\_2017](/GCI_2017 "wikilink")
 
-[Category:Documentation in
-English](Category:Documentation_in_English "wikilink")
