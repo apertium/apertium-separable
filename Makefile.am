@@ -1,3 +1,5 @@
+pkgconfigdir = $(libdir)/pkgconfig
+dist_pkgconfig_DATA = apertium-separable.pc
 
 SUBDIRS = src
 

@@ -4,9 +4,8 @@ m4_define([required_libxml_version], [2.6.17])
 m4_define([required_apertium_version], [3.5.2])
 m4_define([required_lttoolbox_version], [3.5.0])
 
-AC_INIT([apertium-separable], [0.3.2], [ftyers@prompsit.com])
-AM_INIT_AUTOMAKE([apertium-separable], [0.3.2], no-define)
-AC_CONFIG_HEADER([lsx_config.h])
+AC_INIT([apertium-separable], [0.3.3], [ftyers@prompsit.com])
+AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_CXX
@@ -38,9 +37,7 @@ AC_SUBST(LIBXML_LIBS)
 # Checks for libraries.
 AC_CHECK_LIB(xml2, xmlReaderForFile)
 
-AC_CHECK_FUNCS([setlocale strdup getopt_long])
-
-AC_CHECK_DECLS([fread_unlocked, fwrite_unlocked, fgetc_unlocked, fputc_unlocked, fputs_unlocked, getopt_long, fgetwc_unlocked, fputwc_unlocked, fgetws_unlocked, fputws_unlocked])
+AC_CHECK_DECLS([fread_unlocked, fwrite_unlocked, fgetc_unlocked, fputc_unlocked, fputs_unlocked, fgetwc_unlocked, fputwc_unlocked, fgetws_unlocked, fputws_unlocked])
 
 CPPFLAGS="$CPPFLAGS $CFLAGS $APERTIUM_CFLAGS $LIBXML_CFLAGS"
 LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS -lz"
@@ -62,6 +59,7 @@ AX_CHECK_COMPILE_FLAG([-std=c++20], [CXXFLAGS="$CXXFLAGS -std=c++20"], [
 ])
 
 AC_CONFIG_FILES([
+                 apertium-separable.pc
                  Makefile
                  src/Makefile
                  ])

@@ -1,0 +1,5 @@
+prefix=@prefix@
+
+Name: apertium-separable
+Description: Reordering separable/discontiguous multiwords module for Apertium
+Version: @VERSION@

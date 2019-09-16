@@ -1,0 +1,17 @@
+INSTALL
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+config.log
+config.status
+configure
+depcomp
+install-sh
+missing
+.deps
+stamp-h1
+*.pc
+src/*.o
+src/lsx-comp
+src/lsx-proc
