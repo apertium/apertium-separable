@@ -42,7 +42,7 @@ that it should run AFTER pretransfer.)
 The lsx dictionary format is largely similar to those of the [
 morphological](http://wiki.apertium.org/wiki/Morphological_dictionary) and [
 bilingual](http://wiki.apertium.org/wiki/Bilingual_dictionary) dictionaries. (see also:
-[Apertium\_New\_Language\_Pair\_HOWTO](http://wiki.apertium.org/wiki/Apertium_New_Language_Pair_HOWTO)
+[Apertium_New_Language_Pair_HOWTO](http://wiki.apertium.org/wiki/Apertium_New_Language_Pair_HOWTO)
 
 We begin with a declaration of the dictionary. There is currently
 nothing in it, only a declaration that we want to begin a new
@@ -166,7 +166,7 @@ i.e.
 
   - `<e><i><w/><s n="adj"/><t/><j/></i></e>` is equivalent to
     `any-one-or-more-chars`<adj><required-anytag>`<...optional-anytag...><$>`
-      - ^tall<adj><sint>\<...\>$
+      - ^tall<adj><sint><...>$
   - `<e><i><w/><s n="adj"/><j/></i></e>` is equivalent to
     `any-one-or-more-chars`<adj>`<$>`
       - ^tall<adj>$
@@ -201,7 +201,7 @@ The input to `lsx-proc` is the output of `apertium-tagger` and
 
 ### Example usages
 
-Example \#1: A sentence in plain text,
+Example #1: A sentence in plain text,
 
     The Aragonese took Ramiro out of a monastery and made him king.
 
@@ -229,7 +229,7 @@ something is not updated or something in the makefile (?)
 
 make sure that the makefile ...
 
-### Complaints about step\_override()
+### Complaints about step_override()
 
 git pull in lttoolbox (and do make, make install)  
 You'll need an up-to-date version of lttoolbox and associated libraries,
@@ -277,15 +277,7 @@ Beta test with more language pairs
 ### Transfer-like super powers
 
   - Transfer-like capabilities for the lexicon (super powers). E.g.,
-    gustar / like
-
-### Inheritance and clean up code
-
-  - [https://svn.code.sf.net/p/apertium/svn/branches/apertium-separable/src/lsx\_compiler.cc
-    lsx-comp](https://svn.code.sf.net/p/apertium/svn/branches/apertium-separable/src/lsx_compiler.cc_lsx-comp "wikilink")
-    was hitched from the lttoolbox/compiler. In the future we may want
-    to integrate it back and have lsx-comp and lsx-proc inherit directly
-    from lttoolbox (?)
+    gustar / 
 
 ### The one-to-many bug
 
@@ -397,5 +389,5 @@ and
   - GSOC project [ proposal](http://wiki.apertium.org/wiki/User:Irene/proposal), [
     workplan](http://wiki.apertium.org/wiki/User:Irene/workplan), [
     report](http://wiki.apertium.org/wiki/Lsx_module/report)
-  - [/GCI\_2017](http://wiki.apertium.org/wiki/Apertium_separable/GCI_2017)
+  - [/GCI_2017](http://wiki.apertium.org/wiki/Apertium_separable/GCI_2017)
 
