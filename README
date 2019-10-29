@@ -252,8 +252,8 @@ leaves open some questions:
     to invert the transducer, but an attempt to try this results in a
     transducer that looks right but silently fails to apply to input.
     Also, it will need to be able to handle the output of transfer.
-    —[Firespeaker](User:Firespeaker "wikilink")
-    ([talk](User_talk:Firespeaker "wikilink")) 00:02, 1 September 2017
+    —[Firespeaker](http://wiki.apertium.org/wiki/User:Firespeaker)
+    ([talk](Uhttp://wiki.apertium.org/wiki/User_talk:Firespeaker)) 00:02, 1 September 2017
     (CEST)
 
 ### Recycling dictionaries and/or paradigms
