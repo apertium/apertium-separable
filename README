@@ -1,2 +1,401 @@
+[Lttoolbox](http://wiki.apertium.org/wiki/Lttoolbox) provides a module for reordering
+separable/discontiguous multiwords and processing them in the pipeline.
+Multiwords are manually written in an additional xml-format dictionary.
 
-http://wiki.apertium.org/wiki/apertium-separable
+## Installing
+
+The module is part of the [nightly
+repositories](http://wiki.apertium.org/wiki/Nightly_repositories) as `apt-get install
+apertium-separable`.
+
+If you'd like to compile it manually—e.g., for development purposes—you
+can follow these instructions:
+
+Prerequisites and compilation are the same as lttoolbox and apertium.
+See [Installation](http://wiki.apertium.org/wiki/Installation).
+
+The code can be found at
+<https://github.com/apertium/apertium-separable>, and instructions for
+compiling the module are:
+
+    ./autogen.sh
+    ./configure
+    make
+    make install
+
+You'll need `lttoolbox` from git (or, greater than the current release
+3.3.3) and associated libraries, and `zlib` (debian: `zlib1g-dev`).
+
+## Lexical transfer in the pipeline
+
+lsx-proc runs directly AFTER apertium-tagger and apertium-pretransfer:  
+(note: previously this page had said that lsx-proc runs between BETWEEN
+apertium-tagger and apertium-pretransfer. it has now been determined
+that it should run AFTER pretransfer.)
+
+    … | apertium-tagger -g en-es.prob |  apertium-pretransfer | lsx-proc en-es.autoseq.bin | …
+
+## Usage
+
+### Creating the lsx-dictionary
+
+The lsx dictionary format is largely similar to those of the [
+morphological](http://wiki.apertium.org/wiki/Morphological_dictionary) and [
+bilingual](http://wiki.apertium.org/wiki/Bilingual_dictionary) dictionaries. (see also:
+[Apertium\_New\_Language\_Pair\_HOWTO](http://wiki.apertium.org/wiki/Apertium_New_Language_Pair_HOWTO)
+
+We begin with a declaration of the dictionary. There is currently
+nothing in it, only a declaration that we want to begin a new
+dictionary.
+
+    <dictionary type="separable">
+    </dictionary>
+
+Then add the alphabet entry, this can be empty as the alphabet is only
+used for tokenisation and the lsx module comes after the text is
+tokenised. Now we have:
+
+    <dictionary type="separable">
+        <alphabet></alphabet> 
+    </dictionary>
+
+Next we need to add the symbol definitions, abbreviated to sdefs. These
+are the symbols that your words are tagged with, e.g. noun or verb or
+adj. Again, you should be able to just copy the sdef section from your
+language's monodix, and it should contain many more than in this basic
+example.
+
+    <dictionary type="separable">
+        <alphabet></alphabet>
+        <sdefs>
+            <sdef n="adj"/>
+            <sdef n="adv"/>
+            <sdef n="n"/>
+            <sdef n="sep"/>
+            <sdef n="vblex"/>
+        </sdefs>
+    </dictionary>
+
+Now we need to add the paradigm definitions, abbreviated to pardefs.
+These represent patterns of word orders. The following example
+represents words tagged as adjective, noun, noun phrase, and frequency
+adjectives. See the note below about the tags , , . The lemma can be
+represented as anychars (, such as in adj and n below; or by typing out
+the word itself, such as in freq-adv below. Pardefs can be used to
+create other pardefs, such as in SN below. Adding paradigms into the
+dictionary, we get:
+
+    <dictionary type="separable">
+        <alphabet></alphabet>
+        <sdefs>
+            ...
+        </sdefs>
+        <pardefs>
+            <pardef n="adj"> <!-- to represent all adjectives -->
+                <e><i><w/><s n="adj"/><j/></i></e> <!-- word only has the adj tag -->
+                <e><i><w/><s n="adj"/><t/><j/></i></e> <!-- word has the adj tag followed by one or more other tags -->
+            </pardef>
+            <pardef n="n"> #to represent all nouns
+                <e><i><w/><s n="n"/><t/><j/></i></e> <!-- word has the n tag followed by one or more other tags -->
+            </pardef>
+            <pardef n="SN"> #to represent all noun phrases
+                <e><par n="n"/></e>
+                <e><par n="adj"/><par n="n"/></e> <!-- word phrase is comprised of an adjective word followed by a noun word -->
+                <e><par n="adj"/><par n="adj"/><par n="n"/></e> <!-- word phrase is comprised of two adjectives followed by a noun -->
+            </pardef>
+            <pardef n="freq-adv">
+                <e><i>always<s n="adv"/><j/></i></e> <!-- i.e. ^always<adv>$ -->
+                <e><i>anually<s n="adv"/><j/></i></e>
+                <e><i>bianually<s n="adv"/><j/></i></e>
+            </pardef>
+        </pardefs>
+    </dictionary>
+
+Finally, we add the main entries. Here is the final result of our small
+example dictionary:
+
+    <dictionary type="separable">
+        <alphabet></alphabet>
+        <sdefs>
+            <sdef n="adj"/>
+            <sdef n="adv"/>
+            <sdef n="n"/>
+            <sdef n="sep"/>
+            <sdef n="vblex"/>
+        </sdefs>
+        <pardefs>
+            <pardef n="adj">
+                <e><i><w/><s n="adj"/><j/></i></e>
+                <e><i><w/><s n="adj"/><t/><j/></i></e>
+            </pardef>
+            <pardef n="n">
+                <e><i><w/><s n="n"/><t/><j/></i></e>
+            </pardef>
+            <pardef n="SN">
+                <e><par n="n"/></e>
+                <e><par n="adj"/><par n="n"/></e>
+                <e><par n="adj"/><par n="adj"/><par n="n"/></e>
+            </pardef>
+            <pardef n="freq-adv">
+                <e><i>always<s n="adv"/><j/></i></e>
+                <e><i>anually<s n="adv"/><j/></i></e>
+                <e><i>bianually<s n="adv"/><j/></i></e>
+            </pardef>
+        </pardefs>
+        <section id="main" type="standard">
+            <e lm="be late" c="llegar tarde">
+                <p><l>be<s n="vbser"/></l><r>be<g><b/>late</g><s n="vbser"/></r></p><i><t/><j/></i>
+                <par n="SAdv"/><p><l>late<t/><j/></l><r></r></p>
+            </e>
+            <e lm="take away" c="sacar, quitar">
+                <p><l>take<s n="vblex"/></l><r>take<g><b/>away</g><s n="vblex"/></r></p><i><t/><j/></i>
+                <par n="SN"/><p><l>away<t/><j/></l><r></r></p>
+            </e>
+        </section>
+    </dictionary>
+
+Note:
+
+  - stands for one or more alphabetic symbols
+
+  - stands for one or more tags (multicharacter symbols).
+
+  - stands for the word boundary symbol $
+
+i.e.
+
+  - `<e><i><w/><s n="adj"/><t/><j/></i></e>` is equivalent to
+    `any-one-or-more-chars`<adj><required-anytag>`<...optional-anytag...><$>`
+      - ^tall<adj><sint>\<...\>$
+  - `<e><i><w/><s n="adj"/><j/></i></e>` is equivalent to
+    `any-one-or-more-chars`<adj>`<$>`
+      - ^tall<adj>$
+
+A larger example dictionary can be found at
+<https://github.com/apertium/apertium-separable/blob/master/examples/apertium-eng-spa.eng-spa.lsx>.
+
+The lsx dictionary file names are of the form `apertium-A-B.A-B.lsx`,
+where apertium-A-B is the name of the language pair. For example, file
+`apertium-eng-cat.eng-cat.lsx` is the lsx dictionary for the `eng-cat`
+pair. The names of the compiled binaries are of the form
+`apertium-A-B.autoseq.bin`. For example, `eng-cat.autoseq.bin`.
+
+### Compilation
+
+Compilation into the binary format is achieved by means of the lsx-comp
+program. Specifying lr as the mode will produce an analyser, and rl will
+produce a generator.
+
+    $ lsx-comp lr apertium-eng-spa.eng-spa.lsx eng-spa.autoseq.bin
+    main@standard 61 73
+
+### Processing
+
+Processing can be done using the lsx-proc program.
+
+The input to `lsx-proc` is the output of `apertium-tagger` and
+`apertium-pretransfer`,
+
+    $ echo '^take<vblex><imp>$ ^prpers<prn><obj><p3><nt><sg>$ ^out of<pr>$ ^there<adv>$^.<sent>$' | lsx-proc eng-spa.autoseq.bin
+    ^take# out<vblex><sep><imp>$ ^prpers<prn><obj><p3><nt><sg>$ ^of<pr>$ ^there<adv>$^.<sent>$
+
+### Example usages
+
+Example \#1: A sentence in plain text,
+
+    The Aragonese took Ramiro out of a monastery and made him king.
+
+This is the output of feeding the sentence through `apertium-tagger` and
+then `apertium-pretransfer`:
+
+    ^the<det><def><sp>$ ^Aragonese<n><sg>$ ^take<vblex><past>$ ^Ramiro<np><ant><m><sg>$ ^out of<pr>$ ^a<det><ind><sg>$
+    ^monastery<n><sg>$ ^and<cnjcoo>$ ^make<vblex><pp>$ ^prpers<prn><obj><p3><m><sg>$ ^king<n><sg>$^.<sent>$
+
+This is the output of feeding the output above through `lsx-proc` with
+apertium-eng-spa.eng-spa.lsx:
+
+    ^the<det><def><sp>$ ^Aragonese<n><sg>$ ^take# out<vblex><sep><past>$ ^Ramiro<np><ant><m><sg>$ ^of<pr>$ ^a<det><ind><sg>$
+    ^monastery<n><sg>$ ^and<cnjcoo>$ ^make<vblex><pp>$ ^prpers<prn><obj><p3><m><sg>$ ^king<n><sg>$^.<sent>$
+
+## Troubleshooting
+
+### Segmentation fault
+
+Segmentation fault upon compilation or usage  
+The lsx-dictionary compiles fine with zero entries but gives a seg fault
+once entries are added  
+...no solution found yet  
+something is not updated or something in the makefile (?)
+
+make sure that the makefile ...
+
+### Complaints about step\_override()
+
+git pull in lttoolbox (and do make, make install)  
+You'll need an up-to-date version of lttoolbox and associated libraries,
+and zlib (debian: zlib1g-dev).  
+
+### Undefined symbol
+
+In your dictionary you are probably using a symbol that you didn't
+define in the sdefs. Add the symbol to the sdefs.
+
+## Future work
+
+### Offloading multiwords from transducers to lsx
+
+In theory we're offloading multiwords from the transducers to lsx. This
+leaves open some questions:
+
+  - how do we do N N compounds with lsx?
+  - how does translation *to* a multiword work? In theory it's possible
+    to invert the transducer, but an attempt to try this results in a
+    transducer that looks right but silently fails to apply to input.
+    Also, it will need to be able to handle the output of transfer.
+    —[Firespeaker](User:Firespeaker "wikilink")
+    ([talk](User_talk:Firespeaker "wikilink")) 00:02, 1 September 2017
+    (CEST)
+
+### Recycling dictionaries and/or paradigms
+
+lsx-dictionaries are packaged in language pairs. the eng-spa
+lsx-dictionary can mostly be reaped by eng-cat. could we make use of the
+similarity?
+
+### Beta testing
+
+Support for language pairs: we haven't gotten much extensive beta
+testing. The following are language pairs that have packaged the
+lsx-module:
+
+  -   - eng-cat
+      - eng-deu (?)
+      - kaz-kir
+
+Beta test with more language pairs
+
+### Transfer-like super powers
+
+  - Transfer-like capabilities for the lexicon (super powers). E.g.,
+    gustar / like
+
+### Inheritance and clean up code
+
+  - [https://svn.code.sf.net/p/apertium/svn/branches/apertium-separable/src/lsx\_compiler.cc
+    lsx-comp](https://svn.code.sf.net/p/apertium/svn/branches/apertium-separable/src/lsx_compiler.cc_lsx-comp "wikilink")
+    was hitched from the lttoolbox/compiler. In the future we may want
+    to integrate it back and have lsx-comp and lsx-proc inherit directly
+    from lttoolbox (?)
+
+### The one-to-many bug
+
+Given the following lsx file:
+
+    <dictionary type="sequential">
+        <alphabet>АӘБВГҒДЕЁЖЗИІЙКҚЛМНҢОӨПРСТУҰҮФХҺЦЧШЩЬЫЪЭЮЯаәбвгғдеёжзиійкқлмнңоөпрстуұүфхһцчшщьыъэюя</alphabet>
+        <sdefs>
+            <sdef n="adj"/>
+            <sdef n="adv"/>
+            <sdef n="n"/>
+            <sdef n="nom"/>
+            <sdef n="dat"/>
+            <sdef n="v"/>
+        </sdefs>
+        <pardefs>
+            <pardef n="adj">
+                <e><i><w/><s n="adj"/><j/></i></e>
+                <e><i><w/><s n="adj"/><t/><j/></i></e>
+            </pardef>
+            <pardef n="n">
+                <e><i><w/><s n="n"/><t/><j/></i></e>
+            </pardef>
+            <pardef n="SN">
+                <e><par n="n"/></e>
+                <e><par n="adj"/><par n="n"/></e>
+                <e><par n="adj"/><par n="adj"/><par n="n"/></e>
+            </pardef>
+        </pardefs>
+        <section id="main" type="standard">
+            <e lm="кабарда" c="хабар ет">
+                <p><l>хабар<b/>ет<s n="v"/></l>
+                    <r>хабар<s n="n"/><s n="nom"/><j/>ет<s n="v"/></r></p><i><t/><j/></i>
+            </e>
+            <e lm="абайла" c="абай бол">
+                <p><l>абай<b/>бол<s n="v"/></l>
+                    <r>абай<s n="adj"/><j/>бол<s n="v"/></r></p><i><t/><j/></i>
+            </e>
+            <e lm="абайла" c="абай бол">
+                <p><l>абай<b/>бол<s n="v"/></l>
+                    <r>абай<s n="adj"/><j/>бол<s n="v"/></r></p><i><t/>+ма<t/><j/></i>
+                <!-- p><l>абай<s n="adj"/><j/>бол<s n="v"/><t/></l>
+                    <r>абай<b/>бол<s n="v"/><t/></r></p -->
+            </e>
+            <e lm="сууга түш" c="шомылда">
+                <p><l>сууга<b/>түш<s n="v"/></l>
+                    <r>суу<s n="n"/><s n="dat"/><j/>түш<s n="v"/></r></p><i><t/><j/></i>
+            </e>
+    
+        </section>
+    </dictionary>
+
+and the following code to compile it (where `$(PREFIX1)` is kaz-kir and
+`$(PREFIX2)` is kir-kaz and `$(BASENAME)` is apertium-kaz-kir; the above
+file is apertium-kaz-kir.kir-kaz.lsx):
+
+    $(PREFIX1).autoseq.bin: $(BASENAME).$(PREFIX1).lsx
+        lsx-comp $< $@
+    
+    $(PREFIX2).autoseq.bin: $(BASENAME).$(PREFIX2).lsx
+        lsx-comp $< $@
+    
+    $(PREFIX1).revautoseq.bin: $(BASENAME).$(PREFIX1).lsx
+        lt-print $(PREFIX1).autoseq.bin |  sed 's/ /@_SPACE_@/g' > $(PREFIX1).autoseq.att
+        hfst-txt2fst -e ε < $(PREFIX1).autoseq.att > $(PREFIX1).autoseq.hfst
+        hfst-invert $(PREFIX1).autoseq.hfst | hfst-minimise > $(PREFIX1).revautoseq.hfst
+        hfst-fst2txt $(PREFIX1).revautoseq.hfst | gzip -9 -c -n > $(PREFIX1).revautoseq.att.gz
+        zcat < $(PREFIX1).revautoseq.att.gz > $(PREFIX1).revautoseq.att
+        sed 's/@0@/ε/g' $(PREFIX1).revautoseq.att > $(PREFIX1).revautoseq.1.att
+        lt-comp lr $(PREFIX1).revautoseq.1.att $@
+    
+    
+    $(PREFIX2).revautoseq.bin: $(BASENAME).$(PREFIX2).lsx
+        lt-print $(PREFIX2).autoseq.bin |  sed 's/ /@_SPACE_@/g' > $(PREFIX2).autoseq.att
+        hfst-txt2fst -e ε < $(PREFIX2).autoseq.att > $(PREFIX2).autoseq.hfst
+        hfst-invert $(PREFIX2).autoseq.hfst | hfst-minimise > $(PREFIX2).revautoseq.hfst
+        hfst-fst2txt $(PREFIX2).revautoseq.hfst | gzip -9 -c -n > $(PREFIX2).revautoseq.att.gz
+        zcat < $(PREFIX2).revautoseq.att.gz > $(PREFIX2).revautoseq.att
+        sed 's/@0@/ε/g' $(PREFIX2).revautoseq.att > $(PREFIX2).revautoseq.1.att
+        lt-comp lr $(PREFIX2).revautoseq.1.att $@
+
+EXPECTED OUTPUT:
+
+we expect lr compilation to give the following behaviour:
+
+    $ echo "^хабар ет<v><iv><ifi><p1><sg>$" | lsx-proc kaz-kir.autoseq.bin
+    ^хабар<n><nom>$ ^ет<v><iv><ifi><p1><sg>$
+
+and
+
+    $ echo "^хабар<n><nom>$ ^ет<v><iv><ifi><p1><sg>$" | lsx-proc kaz-kir.autoseq.bin
+    ^хабар<n><nom>$ ^ет<v><iv><ifi><p1><sg>$
+
+WHEREAS with rl compilation (outputting with name revautoseq), we expect
+the following behaviour:
+
+    $ echo "^хабар<n><nom>$ ^ет<v><iv><ifi><p1><sg>$" | lsx-proc kaz-kir.revautoseq.bin
+    ^хабар ет<v><iv><ifi><p1><sg>$
+
+and
+
+    $ echo "^хабар ет<v><iv><ifi><p1><sg>$" | lsx-proc kaz-kir.revautoseq.bin
+    ^хабар ет<v><iv><ifi><p1><sg>$
+
+## See also
+
+  - [Apertium system
+    architecture](http://wiki.apertium.org/wiki/Apertium_system_architecture)
+  - GSOC project [ proposal](http://wiki.apertium.org/wiki/User:Irene/proposal), [
+    workplan](http://wiki.apertium.org/wiki/User:Irene/workplan), [
+    report](http://wiki.apertium.org/wiki/Lsx_module/report)
+  - [/GCI\_2017](http://wiki.apertium.org/wiki/Apertium_separable/GCI_2017)
+
