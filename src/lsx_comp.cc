@@ -10,7 +10,7 @@ void endProgram(char *name)
 {
     if(name != NULL)
     {
-        cout << "USAGE: " << name << " [direction] dictionary_file output_bin_file" << endl;
+        cout << "USAGE: " << name << " [direction] dictionary_file(s) output_bin_file" << endl;
         cout << "Directions:" << endl;
         cout << "  lr:     left-to-right compilation" << endl;
         cout << "  rl:     right-to-left compilation" << endl;
@@ -20,7 +20,7 @@ void endProgram(char *name)
 
 int main (int argc, char** argv)
 {
-  if(argc != 4)
+  if(argc < 4)
   {
     endProgram(argv[0]);
   }
@@ -29,12 +29,16 @@ int main (int argc, char** argv)
 
   Compiler c;
 
+  wstring dir;
+
   if(strcmp(argv[1], "lr") == 0)
   {
+    dir = Compiler::COMPILER_RESTRICTION_LR_VAL;
     c.parse(argv[2], Compiler::COMPILER_RESTRICTION_LR_VAL);
   }
   else if(strcmp(argv[1], "rl") == 0)
   {
+    dir = Compiler::COMPILER_RESTRICTION_RL_VAL;
     c.parse(argv[2], Compiler::COMPILER_RESTRICTION_RL_VAL);
   }
   else
@@ -42,7 +46,12 @@ int main (int argc, char** argv)
     endProgram(argv[0]);
   }
 
-  FILE* fst = fopen(argv[3], "w+");
+  for(int i = 2; i < argc-1; i++)
+  {
+    c.parse(argv[i], dir);
+  }
+
+  FILE* fst = fopen(argv[argc-1], "w+");
   if(!fst)
   {
     wcerr << "Error: Cannot open file '" << fst << "'." << endl;
