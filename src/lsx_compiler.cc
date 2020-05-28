@@ -76,12 +76,21 @@ Compiler::parse(string const &fichero, wstring const &dir)
     xmlCleanupParser();
 
 
-    // Minimize transducers
+    // Minimize transducers and ensure that all paths end with <$>
+    int end_trans = alphabet(alphabet(L"<$>"), alphabet(L"<$>"));
     for(map<wstring, Transducer, Ltstr>::iterator it = sections.begin(),
         limit = sections.end();
         it != limit; it++)
     {
         (it->second).minimize();
+        // any paths which did not already end with <$> now will
+        // having 2 finals isn't a problem because -separable only checks
+        // for finals when it reads $, and you can't have 2 of those in a row
+        for(auto fin : (it->second).getFinals())
+        {
+          int end_state = (it->second).insertSingleTransduction(end_trans, fin.first);
+          (it->second).setFinal(end_state);
+        }
     }
 }
 
