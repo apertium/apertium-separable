@@ -1,5 +1,4 @@
 AM_LDFLAGS=$(LIBS)
-AM_CXXFLAGS=-Wall -g -ggdb -DDEBUG
 
 bin_PROGRAMS = lsx-comp lsx-proc
 

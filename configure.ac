@@ -17,7 +17,11 @@ CXXFLAGS="-Wall -Wextra $CXXFLAGS"
 
 AC_ARG_ENABLE(debug,
               [  --enable-debug  Enable "-g -Wall" compiler options],
-              [CXXFLAGS="-g -Wall";CFLAGS="-g -Wall"])
+              [case "${enableval}" in
+                yes ) CXXFLAGS="-g -ggdb -Og";CFLAGS="-g -ggdb -Og" ;;
+                no ) ;;
+                * ) AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
+		esac])
 
 PKG_CHECK_MODULES([LTTOOLBOX], [lttoolbox >= required_lttoolbox_version])
 
