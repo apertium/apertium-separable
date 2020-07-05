@@ -4,7 +4,7 @@ m4_define([required_libxml_version], [2.6.17])
 m4_define([required_apertium_version], [3.5.2])
 m4_define([required_lttoolbox_version], [3.5.0])
 
-AC_INIT([apertium-separable], [0.3.3], [ftyers@prompsit.com])
+AC_INIT([apertium-separable], [0.3.4], [ftyers@prompsit.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR([m4])
 
