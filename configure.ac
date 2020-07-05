@@ -40,7 +40,7 @@ AC_CHECK_LIB(xml2, xmlReaderForFile)
 AC_CHECK_DECLS([fread_unlocked, fwrite_unlocked, fgetc_unlocked, fputc_unlocked, fputs_unlocked, fgetwc_unlocked, fputwc_unlocked, fgetws_unlocked, fputws_unlocked])
 
 CPPFLAGS="$CPPFLAGS $CFLAGS $APERTIUM_CFLAGS $LIBXML_CFLAGS"
-LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS -lz"
+LIBS="$LIBS $APERTIUM_LIBS $LIBXML_LIBS"
 
 # Checks for highest supported C++ standard
 AC_LANG(C++)

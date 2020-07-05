@@ -24,7 +24,7 @@ compiling the module are:
     make install
 
 You'll need `lttoolbox` from git (or, greater than the current release
-3.3.3) and associated libraries, and `zlib` (debian: `zlib1g-dev`).
+3.5.1) and associated libraries.
 
 ## Lexical transfer in the pipeline
 
