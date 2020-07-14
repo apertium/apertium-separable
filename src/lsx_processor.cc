@@ -289,12 +289,28 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     if(i < last_final)
     {
       fputws_unlocked(blank_queue[i].c_str(), output);
-      if(bound_blank_queue[i].size() > 0)
+      
+      for(size_t j = 0; j < out_lus.size(); j++)
       {
-        fputws_unlocked(L"[[", output);
-        fputws_unlocked(bound_blank_queue[i].c_str(), output);
-        fputws_unlocked(L"]]", output);
+        if(bound_blank_queue[j].size() > 0)
+        {
+          if(j == 0)
+          {
+            fputws_unlocked(L"[[", output);
+          }
+          else if(j > 0)
+          {
+            fputws_unlocked(L"; ", output);
+          }
+          fputws_unlocked(bound_blank_queue[j].c_str(), output);
+          
+          if(j == out_lus.size() - 1)
+          {
+            fputws_unlocked(L"]]", output);
+          }
+        }
       }
+      
     }
     else
     {
