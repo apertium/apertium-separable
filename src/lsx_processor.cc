@@ -282,7 +282,8 @@ LSXProcessor::processWord(FILE* input, FILE* output)
       pos += 3;
     }
   }
-  // TODO: figure out where bound blanks actually go
+  
+  wstring wblank;
   size_t i = 0;
   for(; i < out_lus.size(); i++)
   {
@@ -290,25 +291,35 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     {
       fputws_unlocked(blank_queue[i].c_str(), output);
       
-      for(size_t j = 0; j < out_lus.size(); j++)
+      if(wblank.empty())
       {
-        if(bound_blank_queue[j].size() > 0)
+        for(size_t j = 0; j < out_lus.size(); j++)
         {
-          if(j == 0)
+          if(bound_blank_queue[j].size() > 0)
           {
-            fputws_unlocked(L"[[", output);
-          }
-          else if(j > 0)
-          {
-            fputws_unlocked(L"; ", output);
-          }
-          fputws_unlocked(bound_blank_queue[j].c_str(), output);
-          
-          if(j == out_lus.size() - 1)
-          {
-            fputws_unlocked(L"]]", output);
+            if(j == 0)
+            {
+              wblank += L"[[";
+            }
+            else if(j > 0)
+            {
+              wblank += L"; ";
+            }
+            
+            wblank += bound_blank_queue[j].c_str();
+            
+            if(j == out_lus.size() - 1)
+            {
+              wblank += L"]]";
+            }
           }
         }
+        
+        fputws_unlocked(wblank.c_str(), output);
+      }
+      else
+      {
+        fputws_unlocked(wblank.c_str(), output);
       }
       
     }
