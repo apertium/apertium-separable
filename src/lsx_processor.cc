@@ -293,26 +293,27 @@ LSXProcessor::processWord(FILE* input, FILE* output)
       
       if(wblank.empty())
       {
-        for(size_t j = 0; j < out_lus.size(); j++)
+        bool first_bound_blank = true;
+        for(size_t j = 0; j < bound_blank_queue.size()-1; j++) //ignore last bound_blank as it belongs to word after matched pattern
         {
           if(bound_blank_queue[j].size() > 0)
           {
-            if(j == 0)
+            if(first_bound_blank)
             {
               wblank += L"[[";
+              first_bound_blank = false;
             }
-            else if(j > 0)
+            else
             {
               wblank += L"; ";
             }
             
             wblank += bound_blank_queue[j].c_str();
-            
-            if(j == out_lus.size() - 1)
-            {
-              wblank += L"]]";
-            }
           }
+        }
+        if(!first_bound_blank) //if there were any wordbound blanks
+        {
+          wblank += L"]]";
         }
         
         fputws_unlocked(wblank.c_str(), output);
