@@ -25,7 +25,7 @@
     <e lm="take out" c="sacar">
       <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
       <i><w/><t/><j/></i>
-      <p><l>out<t/><j/></l><r></r></p>
+      <p><l>out<s n="adv"/><j/></l><r></r></p>
     </e>
 
     <!--

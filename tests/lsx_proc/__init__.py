@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+#!/usr/bin/env python3
 import sys
 import unittest
 from proctest import ProcTest
@@ -27,8 +25,6 @@ class nullFlushTest(unittest.TestCase, ProcTest):
      "^the<det>$ [[t:b:123456]]^Aragonese<n><sg>$ [[t:b:xyz567]]^take# out<vblex><pres>$ [[t:b:xyz567]]^it<prn><obj>$ [[t:b:uvw674]]^a<det><sg>$",
      "^the<det>$ [[t:b:123456]]^Aragonese<n><sg>$ [[t:p:yui124]]^take# out<vblex><pres>$ [[t:p:yui124]]^it<prn><obj>$ [[t:b:uvw674]]^a<det><sg>$",
      "^the<det>$ [[t:b:123456]]^Aragonese<n><sg>$ [[t:s:abc123; t:p:hgb650; t:p:yui124; t:x:puhbj23]]^take# out<vblex><pres>$ [[t:s:abc123; t:p:hgb650; t:p:yui124; t:x:puhbj23]]^it<prn><obj>$ [[t:b:uvw674]]^a<det><sg>$"]
-# These fail on some systems:
-#from null_flush_invalid_stream_format import *
 
 class capitalizationTest(unittest.TestCase, ProcTest):
     procdix = "data/capitalization.dix"
@@ -43,3 +39,16 @@ class capitalizationTest(unittest.TestCase, ProcTest):
                        "^Jun Ajpu<np><ant><m>$",
                        "^hargle bargle<np>$",
                        "^hargle bargle<np>$"]
+
+class splittingTest(unittest.TestCase, ProcTest):
+    procdir = "rl"
+    procdix = "data/short-example.dix"
+
+    inputs = ["^take# out<vblex><pres>$ ^it<prn><obj>$",
+    "^take# out<vblex><pres>$ ^me<prn><obj>$",
+     "^the<det>$ !!^Aragonese<n><sg>$ ;^take# out<vblex><pres>$ ;.^it<prn><obj>$   !; ^a<det><sg>$"]
+
+    expectedOutputs = ["^take<vblex><pres>$ ^it<prn><obj>$ ^out<adv>$",
+    "^take<vblex><pres>$ ^me<prn><obj>$ ^out<adv>$",
+     "^the<det>$ !!^Aragonese<n><sg>$ ;^take<vblex><pres>$ ;.^it<prn><obj>$ ^out<adv>$   !; ^a<det><sg>$"]
+
