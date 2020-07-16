@@ -220,6 +220,7 @@ Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado
               // rl compilation of a badly written rule
               // having an epsilon with wildcard output will produce
               // garbage output -- see https://github.com/apertium/apertium-separable/issues/8
+              wcerr << L"Warning: Cannot insert <t/> from empty input. Ignoring. (You probably want to specify exact tags when deleting a word.)" << endl;
               continue;
             }
 
