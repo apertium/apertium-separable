@@ -29,3 +29,17 @@ class nullFlushTest(unittest.TestCase, ProcTest):
      "^the<det>$ [[t:b:123456]]^Aragonese<n><sg>$ [[t:s:abc123; t:p:hgb650; t:p:yui124; t:x:puhbj23]]^take# out<vblex><pres>$ [[t:s:abc123; t:p:hgb650; t:p:yui124; t:x:puhbj23]]^it<prn><obj>$ [[t:b:uvw674]]^a<det><sg>$"]
 # These fail on some systems:
 #from null_flush_invalid_stream_format import *
+
+class capitalizationTest(unittest.TestCase, ProcTest):
+    procdix = "data/capitalization.dix"
+    procFlags = ["-z"]
+
+    inputs = ["^Jun<num>$ ^Ajpu<np><ant><m>$",
+              "^JUN<num>$ ^AJPU<np><ant><m>$",
+              "^hargle<np>$ ^bargle<np>$",
+              "^HaRgLe<np>$ ^BaRgLe<np>$"]
+
+    expectedOutputs = ["^Jun Ajpu<np><ant><m>$",
+                       "^Jun Ajpu<np><ant><m>$",
+                       "^hargle bargle<np>$",
+                       "^hargle bargle<np>$"]

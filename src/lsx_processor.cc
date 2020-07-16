@@ -229,16 +229,11 @@ LSXProcessor::processWord(FILE* input, FILE* output)
       }
       else
       {
-        // TODO: need a version of step_override that can take both
-        // upper and lower so we can fix
-        // https://github.com/apertium/apertium-separable/issues/21
-        int val = towlower(lu[i]);
         if(lu[i] == L'\\')
         {
           i++;
-          val = lu[i];
         }
-        s.step_override(val, any_char, lu[i]);
+        s.step_override(lu[i], towlower(lu[i]), any_char, lu[i]);
       }
     }
     s.step(word_boundary);
