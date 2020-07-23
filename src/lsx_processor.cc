@@ -306,12 +306,12 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     if(i < last_final)
     {
       fputws_unlocked(blank_queue[i].c_str(), output);
-      fputws_unlocked(wblank.c_str(), output);
     }
     else
     {
       fputwc_unlocked(L' ', output);
     }
+    fputws_unlocked(wblank.c_str(), output);
     fputwc_unlocked(L'^', output);
     fputws_unlocked(out_lus[i].c_str(), output);
     fputwc_unlocked(L'$', output);
