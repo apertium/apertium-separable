@@ -213,13 +213,22 @@ Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado
                 dcha++;
             }
 
+            if(etiqueta == alphabet(0, alphabet(L"<ANY_TAG>")) ||
+               etiqueta == alphabet(0, alphabet(L"<ANY_CHAR>"))
+              )
+            {
+              // rl compilation of a badly written rule
+              // having an epsilon with wildcard output will produce
+              // garbage output -- see https://github.com/apertium/apertium-separable/issues/8
+              wcerr << L"Warning: Cannot insert <t/> from empty input. Ignoring. (You probably want to specify exact tags when deleting a word.)" << endl;
+              continue;
+            }
+
             int nuevo_estado = t.insertSingleTransduction(etiqueta, estado);
             if(etiqueta == alphabet(alphabet(L"<ANY_TAG>"),alphabet(L"<ANY_TAG>"))
                || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"),alphabet(L"<ANY_CHAR>"))
                || etiqueta == alphabet(alphabet(L"<ANY_TAG>"), 0)
                || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0)
-               || etiqueta == alphabet(0, alphabet(L"<ANY_TAG>"))
-               || etiqueta == alphabet(0, alphabet(L"<ANY_CHAR>"))
               )
             {
                 t.linkStates(nuevo_estado, estado, 0);
