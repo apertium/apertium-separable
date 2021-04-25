@@ -6,8 +6,11 @@ from tempfile import mkdtemp
 from shutil import rmtree
 
 import signal
+
+
 class Alarm(Exception):
     pass
+
 
 class ProcTest():
     """See lt_proc test for how to use this. Override runTest if you don't
@@ -78,6 +81,44 @@ class ProcTest():
                 self.assertEqual(out,exp)
 
             self.proc.communicate() # let it terminate
+            self.proc.stdin.close()
+            self.proc.stdout.close()
+            self.proc.stderr.close()
+            retCode = self.proc.poll()
+            if self.expectedRetCodeFail:
+                self.assertNotEqual(retCode, 0)
+            else:
+                self.assertEqual(retCode, 0)
+
+        finally:
+            rmtree(tmpd)
+
+
+class ProcTestNoFlush(ProcTest):
+    def runTest(self):
+        tmpd = mkdtemp()
+        try:
+            self.compileTest(tmpd)
+            self.proc = Popen(["../src/lsx-proc"]
+                              + self.procflags
+                              + [tmpd+"/compiled.bin"],
+                              stdin=PIPE,
+                              stdout=PIPE,
+                              stderr=PIPE)
+
+            iter = 0
+            for inp, exp in zip(self.inputs, self.expectedOutputs):
+                (outb, err) = self.proc.communicate(inp.encode('utf-8'))
+                out = outb.decode('utf-8')
+
+                iter += 1
+                print('iter ' + str(iter))
+                print('in:  ' + inp)
+                print('out: ' + out)
+                print('exp: ' + exp)
+                self.assertEqual(out, exp)
+
+            self.proc.communicate()  # let it terminate
             self.proc.stdin.close()
             self.proc.stdout.close()
             self.proc.stderr.close()

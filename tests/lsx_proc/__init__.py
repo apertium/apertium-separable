@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-import sys
 import unittest
-from proctest import ProcTest
+from proctest import ProcTest, ProcTestNoFlush
+from subprocess import Popen, PIPE
+from tempfile import mkdtemp
+from shutil import rmtree
+
 
 class nullFlushTest(unittest.TestCase, ProcTest):
     procdix = "data/short-example.dix"
@@ -52,3 +55,10 @@ class splittingTest(unittest.TestCase, ProcTest):
     "^take<vblex><pres>$ ^me<prn><obj>$ ^out<adv>$",
      "^the<det>$ !!^Aragonese<n><sg>$ ;^take<vblex><pres>$ ;.^it<prn><obj>$ ^out<adv>$   !; ^a<det><sg>$"]
 
+
+class issue26NoFlushTest(unittest.TestCase, ProcTestNoFlush):
+    procdir = "lr"
+    procdix = "data/short-example.dix"
+
+    inputs = ["^.<sent>$"]
+    expectedOutputs = ["^.<sent>$"]
