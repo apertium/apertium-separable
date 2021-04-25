@@ -74,6 +74,9 @@ LSXProcessor::readNextLU(FILE* input)
   while(!feof(input))
   {
     wchar_t c = fgetwc_unlocked(input);
+    if ((unsigned int)c == WEOF) {
+        break;
+    }
     if(null_flush && c == L'\0')
     {
       at_end = true;
