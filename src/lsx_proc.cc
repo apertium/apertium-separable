@@ -52,6 +52,7 @@ int main (int argc, char** argv)
 
     switch (c) {
     case 'w':
+      fstp.setDictionaryCaseMode(true);
       break;
 
     case 'z':

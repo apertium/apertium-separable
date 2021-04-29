@@ -18,6 +18,7 @@ private:
   map<Node *, double> all_finals;
   Alphabet alphabet;
   bool null_flush;
+  bool dictionary_case;
   bool at_end;
   bool at_null;
 
@@ -38,6 +39,10 @@ public:
   void setNullFlush(bool val)
   {
     null_flush = val;
+  }
+  void setDictionaryCaseMode(bool val)
+  {
+    dictionary_case = val;
   }
 };
 

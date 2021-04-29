@@ -17,6 +17,7 @@ LSXProcessor::LSXProcessor()
   escaped_chars.insert(L'>');
 
   null_flush = false;
+  dictionary_case = false;
   at_end = false;
   at_null = false;
 }
@@ -190,6 +191,8 @@ LSXProcessor::processWord(FILE* input, FILE* output)
   State s;
   s.init(trans.getInitial());
   size_t idx = 0;
+  bool firstupper = false;
+  bool uppercase = false;
   while(s.size() > 0)
   {
     if(idx == lu_queue.size())
@@ -204,6 +207,10 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     if(lu.size() == 0)
     {
       break;
+    }
+    if (idx == 0 && !dictionary_case) {
+      firstupper = iswupper(lu[0]);
+      uppercase = lu.size() > 1 && iswupper(lu[1]);
     }
     for(size_t i = 0; i < lu.size(); i++)
     {
@@ -243,7 +250,9 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     if(s.isFinal(all_finals))
     {
       last_final = idx+1;
-      last_final_out = s.filterFinals(all_finals, alphabet, escaped_chars, false, 1, INT_MAX).substr(1);
+      last_final_out = s.filterFinals(all_finals, alphabet, escaped_chars,
+                                      false, 1, INT_MAX,
+                                      uppercase, firstupper).substr(1);
     }
     idx++;
   }

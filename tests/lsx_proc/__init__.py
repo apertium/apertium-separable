@@ -31,7 +31,21 @@ class nullFlushTest(unittest.TestCase, ProcTest):
 
 class capitalizationTest(unittest.TestCase, ProcTest):
     procdix = "data/capitalization.dix"
-    procFlags = ["-z"]
+    procflags = ["-z"]
+
+    inputs = ["^Jun<num>$ ^Ajpu<np><ant><m>$",
+              "^JUN<num>$ ^AJPU<np><ant><m>$",
+              "^hargle<np>$ ^bargle<np>$",
+              "^HaRgLe<np>$ ^BaRgLe<np>$"]
+
+    expectedOutputs = ["^Jun Ajpu<np><ant><m>$",
+                       "^JUN AJPU<np><ant><m>$",
+                       "^hargle bargle<np>$",
+                       "^Hargle bargle<np>$"]
+
+class dictionaryCaseTest(unittest.TestCase, ProcTest):
+    procdix = "data/capitalization.dix"
+    procflags = ["-z", "-w"]
 
     inputs = ["^Jun<num>$ ^Ajpu<np><ant><m>$",
               "^JUN<num>$ ^AJPU<np><ant><m>$",
