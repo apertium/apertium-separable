@@ -1,6 +1,7 @@
 #include <lttoolbox/lt_locale.h>
 #include <iostream>
 #include <getopt.h>
+#include <libgen.h>
 
 #include "lsx_processor.h"
 
