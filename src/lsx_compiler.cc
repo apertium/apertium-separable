@@ -231,7 +231,7 @@ Compiler::matchTransduction(list<int> const &pi, list<int> const &pd, int estado
                || etiqueta == alphabet(alphabet(L"<ANY_CHAR>"), 0)
               )
             {
-                t.linkStates(nuevo_estado, estado, 0);
+                t.linkStates(nuevo_estado, nuevo_estado, etiqueta);
             }
             estado = nuevo_estado;
         }
