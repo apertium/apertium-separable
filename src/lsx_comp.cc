@@ -46,7 +46,7 @@ int main (int argc, char** argv)
     endProgram(argv[0]);
   }
 
-  for(int i = 2; i < argc-1; i++)
+  for(int i = 3; i < argc-1; i++)
   {
     c.parse(argv[i], dir);
   }
