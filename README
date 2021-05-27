@@ -1,18 +1,18 @@
-[Lttoolbox](http://wiki.apertium.org/wiki/Lttoolbox) provides a module for reordering
+[Lttoolbox](https://wiki.apertium.org/wiki/Lttoolbox) provides a module for reordering
 separable/discontiguous multiwords and processing them in the pipeline.
 Multiwords are manually written in an additional xml-format dictionary.
 
 ## Installing
 
 The module is part of the [nightly
-repositories](http://wiki.apertium.org/wiki/Nightly_repositories) as `apt-get install
+repositories](https://wiki.apertium.org/wiki/Nightly_repositories) as `apt-get install
 apertium-separable`.
 
 If you'd like to compile it manually—e.g., for development purposes—you
 can follow these instructions:
 
 Prerequisites and compilation are the same as lttoolbox and apertium.
-See [Installation](http://wiki.apertium.org/wiki/Installation).
+See [Installation](https://wiki.apertium.org/wiki/Installation).
 
 The code can be found at
 <https://github.com/apertium/apertium-separable>, and instructions for
@@ -40,9 +40,9 @@ that it should run AFTER pretransfer.)
 ### Creating the lsx-dictionary
 
 The lsx dictionary format is largely similar to those of the [
-morphological](http://wiki.apertium.org/wiki/Morphological_dictionary) and [
-bilingual](http://wiki.apertium.org/wiki/Bilingual_dictionary) dictionaries. (see also:
-[Apertium_New_Language_Pair_HOWTO](http://wiki.apertium.org/wiki/Apertium_New_Language_Pair_HOWTO)
+morphological](https://wiki.apertium.org/wiki/Morphological_dictionary) and [
+bilingual](https://wiki.apertium.org/wiki/Bilingual_dictionary) dictionaries. (see also:
+[Apertium_New_Language_Pair_HOWTO](https://wiki.apertium.org/wiki/Apertium_New_Language_Pair_HOWTO)
 
 We begin with a declaration of the dictionary. There is currently
 nothing in it, only a declaration that we want to begin a new
@@ -252,8 +252,8 @@ leaves open some questions:
     to invert the transducer, but an attempt to try this results in a
     transducer that looks right but silently fails to apply to input.
     Also, it will need to be able to handle the output of transfer.
-    —[Firespeaker](http://wiki.apertium.org/wiki/User:Firespeaker)
-    ([talk](Uhttp://wiki.apertium.org/wiki/User_talk:Firespeaker)) 00:02, 1 September 2017
+    —[Firespeaker](https://wiki.apertium.org/wiki/User:Firespeaker)
+    ([talk](Uhttps://wiki.apertium.org/wiki/User_talk:Firespeaker)) 00:02, 1 September 2017
     (CEST)
 
 ### Recycling dictionaries and/or paradigms
@@ -385,9 +385,9 @@ and
 ## See also
 
   - [Apertium system
-    architecture](http://wiki.apertium.org/wiki/Apertium_system_architecture)
-  - GSOC project [ proposal](http://wiki.apertium.org/wiki/User:Irene/proposal), [
-    workplan](http://wiki.apertium.org/wiki/User:Irene/workplan), [
-    report](http://wiki.apertium.org/wiki/Lsx_module/report)
-  - [/GCI_2017](http://wiki.apertium.org/wiki/Apertium_separable/GCI_2017)
+    architecture](https://wiki.apertium.org/wiki/Apertium_system_architecture)
+  - GSOC project [ proposal](https://wiki.apertium.org/wiki/User:Irene/proposal), [
+    workplan](https://wiki.apertium.org/wiki/User:Irene/workplan), [
+    report](https://wiki.apertium.org/wiki/Lsx_module/report)
+  - [/GCI_2017](https://wiki.apertium.org/wiki/Apertium_separable/GCI_2017)
 
