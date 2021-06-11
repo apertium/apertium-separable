@@ -1,20 +1,21 @@
 #include "lsx_processor.h"
 
 #include <lttoolbox/compression.h>
+#include <cstring>
 
 LSXProcessor::LSXProcessor()
 {
-  escaped_chars.insert(L'[');
-  escaped_chars.insert(L']');
-  escaped_chars.insert(L'{');
-  escaped_chars.insert(L'}');
-  escaped_chars.insert(L'^');
-  escaped_chars.insert(L'$');
-  escaped_chars.insert(L'/');
-  escaped_chars.insert(L'\\');
-  escaped_chars.insert(L'@');
-  escaped_chars.insert(L'<');
-  escaped_chars.insert(L'>');
+  escaped_chars.insert('[');
+  escaped_chars.insert(']');
+  escaped_chars.insert('{');
+  escaped_chars.insert('}');
+  escaped_chars.insert('^');
+  escaped_chars.insert('$');
+  escaped_chars.insert('/');
+  escaped_chars.insert('\\');
+  escaped_chars.insert('@');
+  escaped_chars.insert('<');
+  escaped_chars.insert('>');
 
   null_flush = false;
   dictionary_case = false;
@@ -52,12 +53,12 @@ LSXProcessor::load(FILE *input)
 
   // symbols
   alphabet.read(input);
-  word_boundary = alphabet(L"<$>");
-  any_char = alphabet(L"<ANY_CHAR>");
-  any_tag = alphabet(L"<ANY_TAG>");
+  word_boundary = alphabet("<$>"_u);
+  any_char = alphabet("<ANY_CHAR>"_u);
+  any_tag = alphabet("<ANY_TAG>"_u);
 
   len = Compression::multibyte_read(input);
-  Compression::wstring_read(input); // name
+  Compression::string_read(input); // name
   // there should only be 1 transducer in the file
   // so ignore any subsequent ones
   trans.read(input, alphabet);
@@ -67,65 +68,65 @@ LSXProcessor::load(FILE *input)
 }
 
 void
-LSXProcessor::readNextLU(FILE* input)
+LSXProcessor::readNextLU(InputFile& input)
 {
-  vector<wstring> parts = vector<wstring>(3);
+  vector<UString> parts = vector<UString>(3);
   int loc = 0; // 0 = blank, 1 = bound blank, 2 = LU
   bool box = false; // are we in a [ ] blank
-  while(!feof(input))
+  while(!input.eof())
   {
-    wchar_t c = fgetwc_unlocked(input);
-    if ((unsigned int)c == WEOF) {
+    UChar32 c = input.get();
+    if ((unsigned int)c == U_EOF) {
         break;
     }
-    if(null_flush && c == L'\0')
+    if(null_flush && c == '\0')
     {
       at_end = true;
       at_null = true;
       break;
     }
-    else if(c == L'\\')
+    else if(c == '\\')
     {
       parts[loc] += c;
-      c = fgetwc_unlocked(input);
+      c = input.get();
       parts[loc] += c;
     }
     else if(loc == 0 && box)
     {
-      if(c == L']')
+      if(c == ']')
       {
         box = false;
       }
       parts[loc] += c;
     }
-    else if(loc == 0 && c == L'[')
+    else if(loc == 0 && c == '[')
     {
-      c = fgetwc_unlocked(input);
-      if(c == L'[')
+      c = input.get();
+      if(c == '[')
       {
         loc = 1;
       }
       else
       {
-        parts[loc] += L'[';
+        parts[loc] += '[';
         parts[loc] += c;
-        if(c != L']')
+        if(c != ']')
         {
           box = true;
         }
-        if(c == L'\\')
+        if(c == '\\')
         {
-          parts[loc] += fgetwc_unlocked(input);
+          parts[loc] += input.get();
         }
       }
     }
-    else if(loc == 1 && c == L']')
+    else if(loc == 1 && c == ']')
     {
-      c = fgetwc_unlocked(input);
-      if(c == L']')
+      c = input.get();
+      if(c == ']')
       {
-        c = fgetwc_unlocked(input);
-        if(c == L'^')
+        c = input.get();
+        if(c == '^')
         {
           loc = 2;
         }
@@ -134,25 +135,25 @@ LSXProcessor::readNextLU(FILE* input)
           // this situation is invalid
           // but I like making parsers harder to break than required
           // by the standard
-          parts[loc] += L"]]";
+          parts[loc] += "]]"_u;
           parts[loc] += c;
         }
       }
       else
       {
-        parts[loc] += L']';
+        parts[loc] += ']';
         parts[loc] += c;
-        if(c == L'\\')
+        if(c == '\\')
         {
-          parts[loc] += fgetwc_unlocked(input);
+          parts[loc] += input.get();
         }
       }
     }
-    else if(loc == 0 && c == L'^')
+    else if(loc == 0 && c == '^')
     {
       loc = 2;
     }
-    else if(loc == 2 && c == L'$')
+    else if(loc == 2 && c == '$')
     {
       break;
     }
@@ -161,7 +162,7 @@ LSXProcessor::readNextLU(FILE* input)
       parts[loc] += c;
     }
   }
-  if(feof(input))
+  if(input.eof())
   {
     at_end = true;
   }
@@ -171,7 +172,7 @@ LSXProcessor::readNextLU(FILE* input)
 }
 
 void
-LSXProcessor::processWord(FILE* input, FILE* output)
+LSXProcessor::processWord(InputFile& input, UFILE* output)
 {
   if(lu_queue.size() == 0)
   {
@@ -180,14 +181,14 @@ LSXProcessor::processWord(FILE* input, FILE* output)
   if(at_end && lu_queue.size() == 1 && lu_queue.back().size() == 0)
   {
     // we're at the final blank, no more work to do
-    fputws_unlocked(blank_queue.back().c_str(), output);
+    write(blank_queue.back(), output);
     blank_queue.pop_front();
     bound_blank_queue.pop_front();
     lu_queue.pop_front();
     return;
   }
   size_t last_final = 0;
-  wstring last_final_out;
+  UString last_final_out;
   State s;
   s.init(trans.getInitial());
   size_t idx = 0;
@@ -203,7 +204,7 @@ LSXProcessor::processWord(FILE* input, FILE* output)
       }
       readNextLU(input);
     }
-    wstring lu = lu_queue[idx];
+    UString lu = lu_queue[idx];
     if(lu.size() == 0)
     {
       break;
@@ -214,22 +215,22 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     }
     for(size_t i = 0; i < lu.size(); i++)
     {
-      if(lu[i] == L'<')
+      if(lu[i] == '<')
       {
         size_t j = i+1;
         for(; j < lu.size(); j++)
         {
-          if(lu[j] == L'\\')
+          if(lu[j] == '\\')
           {
             j++;
           }
-          else if(lu[j] == L'>')
+          else if(lu[j] == '>')
           {
             j++;
             break;
           }
         }
-        wstring tag = lu.substr(i, j-i);
+        UString tag = lu.substr(i, j-i);
         i = j-1;
         if(!alphabet.isSymbolDefined(tag))
         {
@@ -239,7 +240,7 @@ LSXProcessor::processWord(FILE* input, FILE* output)
       }
       else
       {
-        if(lu[i] == L'\\')
+        if(lu[i] == '\\')
         {
           i++;
         }
@@ -258,28 +259,24 @@ LSXProcessor::processWord(FILE* input, FILE* output)
   }
   if(last_final == 0)
   {
-    fputws_unlocked(blank_queue.front().c_str(), output);
+    write(blank_queue.front(), output);
     blank_queue.pop_front();
-    if(bound_blank_queue.front().size() > 0)
+    if(!bound_blank_queue.front().empty())
     {
-      fputws_unlocked(L"[[", output);
-      fputws_unlocked(bound_blank_queue.front().c_str(), output);
-      fputws_unlocked(L"]]", output);
+      u_fprintf(output, "[[%S]]", bound_blank_queue.front().c_str());
     }
     bound_blank_queue.pop_front();
-    fputwc_unlocked(L'^', output);
-    fputws_unlocked(lu_queue.front().c_str(), output);
-    fputwc_unlocked(L'$', output);
+    u_fprintf(output, "^%S$", lu_queue.front().c_str());
     lu_queue.pop_front();
     return;
   }
-  vector<wstring> out_lus;
+  vector<UString> out_lus;
   size_t pos = 0;
-  while(pos != wstring::npos && pos != last_final_out.size())
+  while(pos != UString::npos && pos != last_final_out.size())
   {
     size_t start = pos;
-    pos = last_final_out.find(L"<$>", start);
-    if(pos == wstring::npos)
+    pos = last_final_out.find("<$>"_u, start);
+    if(pos == UString::npos)
     {
       out_lus.push_back(last_final_out.substr(start));
     }
@@ -290,26 +287,26 @@ LSXProcessor::processWord(FILE* input, FILE* output)
     }
   }
   
-  wstring wblank;
+  UString wblank;
   for(size_t i = 0; i < last_final; i++)
   {
     if(!bound_blank_queue[i].empty())
     {
       if(wblank.empty())
       {
-        wblank += L"[[";
+        wblank += "[["_u;
       }
       else
       {
-        wblank += L"; ";
+        wblank += "; "_u;
       }
       
-      wblank += bound_blank_queue[i].c_str();
+      wblank += bound_blank_queue[i];
     }
   }
   if(!wblank.empty())
   {
-    wblank += L"]]";
+    wblank += "]]"_u;
   }
   
   size_t i = 0;
@@ -317,22 +314,22 @@ LSXProcessor::processWord(FILE* input, FILE* output)
   {
     if(i < last_final)
     {
-      fputws_unlocked(blank_queue[i].c_str(), output);
+      write(blank_queue[i], output);
     }
     else
     {
-      fputwc_unlocked(L' ', output);
+      u_fputc(' ', output);
     }
-    fputws_unlocked(wblank.c_str(), output);
-    fputwc_unlocked(L'^', output);
-    fputws_unlocked(out_lus[i].c_str(), output);
-    fputwc_unlocked(L'$', output);
+    write(wblank, output);
+    u_fputc('^', output);
+    write(out_lus[i], output);
+    u_fputc('$', output);
   }
   for(; i < last_final; i++)
   {
-    if(blank_queue[i] != L" ")
+    if(blank_queue[i] != " "_u)
     {
-      fputws_unlocked(blank_queue[i].c_str(), output);
+      write(blank_queue[i], output);
     }
   }
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);
@@ -341,7 +338,7 @@ LSXProcessor::processWord(FILE* input, FILE* output)
 }
 
 void
-LSXProcessor::process(FILE* input, FILE* output)
+LSXProcessor::process(InputFile& input, UFILE* output)
 {
   while(true)
   {
@@ -351,12 +348,8 @@ LSXProcessor::process(FILE* input, FILE* output)
     }
     if(at_null)
     {
-      fputwc_unlocked(L'\0', output);
-      int code = fflush(output);
-      if(code != 0)
-      {
-        wcerr << L"Could not flush output " << errno << endl;
-      }
+      u_fputc('\0', output);
+      u_fflush(output);
       at_end = false;
       at_null = false;
     }

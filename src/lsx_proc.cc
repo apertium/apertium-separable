@@ -1,6 +1,7 @@
 #include <lttoolbox/lt_locale.h>
 #include <iostream>
 #include <getopt.h>
+#include <libgen.h>
 
 #include "lsx_processor.h"
 
@@ -27,8 +28,8 @@ int main (int argc, char** argv)
   LtLocale::tryToSetLocale();
   
   LSXProcessor fstp;
-  FILE* input = stdin;
-  FILE* output = stdout;
+  InputFile input;
+  UFILE* output = u_finit(stdout, NULL, NULL);
 
 #if HAVE_GETOPT_LONG
   static struct option long_options[]=
@@ -71,22 +72,18 @@ int main (int argc, char** argv)
   }
   FILE* fst = fopen(argv[optind], "rb");
   if(!fst) {
-    wcerr << "Error: Cannot open file '" << argv[optind] << "' for reading." << endl;
+    cerr << "Error: Cannot open file '" << argv[optind] << "' for reading." << endl;
     exit(EXIT_FAILURE);
   }
   fstp.load(fst);
 
   if (optind <= (argc - 2)) {
-    input = fopen(argv[optind+1], "rb");
-    if (input == NULL || ferror(input)) {
-      wcerr << "Error: Cannot open file '" << argv[optind+1] << "' for reading." << endl;
-      exit(EXIT_FAILURE);
-    }
+    input.open_or_exit(argv[optind+1]);
   }
   if (optind <= (argc - 3)) {
-    output = fopen(argv[optind+2], "wb");
-    if (output == NULL || ferror(output)) {
-      wcerr << "Error: Cannot open file '" << argv[optind+2] << "' for writing." << endl;
+    output = u_fopen(argv[optind+2], "w", NULL, NULL);
+    if (output == NULL) {
+      cerr << "Error: Cannot open file '" << argv[optind+2] << "' for writing." << endl;
     }
   }
   

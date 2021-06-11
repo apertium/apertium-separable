@@ -2,6 +2,7 @@
 #include <cerrno>
 #include <iostream>
 #include <stdlib.h>
+#include <cstring>
 
 #include <lsx_compiler.h>
 #include <lttoolbox/lt_locale.h>
@@ -29,7 +30,7 @@ int main (int argc, char** argv)
 
   Compiler c;
 
-  wstring dir;
+  UString dir;
 
   if(strcmp(argv[1], "lr") == 0)
   {

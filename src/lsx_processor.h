@@ -2,10 +2,11 @@
 #define _LSX_PROCESSOR_H_
 
 #include <lttoolbox/alphabet.h>
-#include <lttoolbox/ltstr.h>
+#include <lttoolbox/input_file.h>
 #include <lttoolbox/my_stdio.h>
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
+#include <unicode/ustdio.h>
 #include <deque>
 
 class LSXProcessor
@@ -13,8 +14,8 @@ class LSXProcessor
 private:
   TransExe trans;
   State initial_state;
-  set<wchar_t> escaped_chars;
-  set<wchar_t> alphabetic_chars;
+  set<UChar32> escaped_chars;
+  set<UChar32> alphabetic_chars;
   map<Node *, double> all_finals;
   Alphabet alphabet;
   bool null_flush;
@@ -22,12 +23,12 @@ private:
   bool at_end;
   bool at_null;
 
-  deque<wstring> blank_queue;
-  deque<wstring> bound_blank_queue;
-  deque<wstring> lu_queue;
+  deque<UString> blank_queue;
+  deque<UString> bound_blank_queue;
+  deque<UString> lu_queue;
 
-  void readNextLU(FILE* input);
-  void processWord(FILE* input, FILE* output);
+  void readNextLU(InputFile& input);
+  void processWord(InputFile& input, UFILE* output);
 
   int word_boundary;
   int any_char;
@@ -35,7 +36,7 @@ private:
 public:
   LSXProcessor();
   void load(FILE* input);
-  void process(FILE* input, FILE* output);
+  void process(InputFile& input, UFILE* output);
   void setNullFlush(bool val)
   {
     null_flush = val;
