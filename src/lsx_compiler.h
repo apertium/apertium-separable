@@ -39,7 +39,7 @@ private:
     /**
      * The libxml2's XML reader
      */
-    xmlTextReaderPtr reader;
+    xmlTextReaderPtr reader = nullptr;
 
     /**
      * The alt value
@@ -85,12 +85,12 @@ private:
     /**
      * Set verbose mode: warnings which may or may not be correct
      */
-    bool verbose;
+    bool verbose = false;
 
     /**
      * First element (of an entry)
      */
-    bool first_element;
+    bool first_element = false;
 
     /**
      * Identifier of all the symbols during the compilation
@@ -100,9 +100,9 @@ private:
     /**
      * Special symbols
      */
-    int32_t any_tag;
-    int32_t any_char;
-    int32_t word_boundary;
+    int32_t any_tag = 0;
+    int32_t any_char = 0;
+    int32_t word_boundary = 0;
 
     /**
      * List of named transducers-paradigms
@@ -307,16 +307,6 @@ public:
     static UString const COMPILER_ANYCHAR_ELEM;
     static UString const COMPILER_WB_ELEM;
 
-
-    /**
-     * Constructor
-     */
-    Compiler();
-
-    /**
-     * Destructor
-     */
-    ~Compiler();
 
     /**
      * Compile dictionary to letter transducers

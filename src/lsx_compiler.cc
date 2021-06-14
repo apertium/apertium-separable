@@ -33,18 +33,6 @@ UString const Compiler::COMPILER_ANYTAG_ELEM        = "t"_u;
 UString const Compiler::COMPILER_ANYCHAR_ELEM       = "w"_u;
 UString const Compiler::COMPILER_WB_ELEM            = "j"_u;
 
-Compiler::Compiler() :
-reader(0),
-verbose(false),
-first_element(false),
-any_tag(0), any_char(0), word_boundary(0)
-{
-}
-
-Compiler::~Compiler()
-{
-}
-
 void
 Compiler::parse(string const &fichero, UString const &dir)
 {
