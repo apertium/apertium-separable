@@ -47,7 +47,7 @@ LSXProcessor::load(FILE *input)
   int len = Compression::multibyte_read(input);
   while(len > 0)
   {
-    alphabetic_chars.insert(static_cast<wchar_t>(Compression::multibyte_read(input)));
+    alphabetic_chars.insert(static_cast<UChar32>(Compression::multibyte_read(input)));
     len--;
   }
 

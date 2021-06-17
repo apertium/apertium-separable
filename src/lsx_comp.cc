@@ -55,7 +55,7 @@ int main (int argc, char** argv)
   FILE* fst = fopen(argv[argc-1], "w+");
   if(!fst)
   {
-    wcerr << "Error: Cannot open file '" << fst << "'." << endl;
+    cerr << "Error: Cannot open file '" << fst << "'." << endl;
     exit(EXIT_FAILURE);
   }
   c.write(fst);
