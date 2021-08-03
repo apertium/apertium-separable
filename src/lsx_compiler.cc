@@ -810,21 +810,7 @@ Compiler::procRegexp()
 void
 Compiler::write(FILE *output)
 {
-    // letters
-    Compression::string_write(letters, output);
-
-    // symbols
-    alphabet.write(output);
-
-    // transducers
-    Compression::multibyte_write(sections.size(), output);
-
-    for (auto& it : sections) {
-        cout << it.first << " " << it.second.size();
-        cout << " " << it.second.numberOfTransitions() << endl;
-        Compression::string_write(it.first, output);
-        it.second.write(output);
-    }
+  write_transducer_set(output, letters, alphabet, sections);
 }
 
 void
