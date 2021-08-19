@@ -119,7 +119,7 @@ LSXProcessor::readNextLU(InputFile& input)
 {
   blank_queue.push_back(input.readBlank(false));
   UChar32 c = input.get();
-  if (c == U_EOF || (null_flush & c == '\0')) {
+  if (c == U_EOF || (null_flush && c == '\0')) {
     bound_blank_queue.push_back(""_u);
     lu_queue.push_back(""_u);
     at_end = true;
