@@ -31,7 +31,14 @@ using namespace std;
 
 UString const Compiler::COMPILER_ANYTAG_ELEM        = "t"_u;
 UString const Compiler::COMPILER_ANYCHAR_ELEM       = "w"_u;
-UString const Compiler::COMPILER_WB_ELEM            = "j"_u;
+UString const Compiler::COMPILER_WB_ELEM            = "d"_u;
+UString const Compiler::COMPILER_SPACE_ATTR         = "space"_u;
+UString const Compiler::COMPILER_SPACE_YES_VAL      = "yes"_u;
+UString const Compiler::COMPILER_SPACE_NO_VAL       = "no"_u;
+
+// TODO: these should be in lttoolbox so lt-trim can use them
+UString const Compiler::SYMBOL_WB_SPACE             = "<$_>"_u;
+UString const Compiler::SYMBOL_WB_NO_SPACE          = "<$->"_u;
 
 void
 Compiler::parse(string const &fichero, UString const &dir)
@@ -47,9 +54,13 @@ Compiler::parse(string const &fichero, UString const &dir)
     alphabet.includeSymbol(Transducer::ANY_TAG_SYMBOL);
     alphabet.includeSymbol(Transducer::ANY_CHAR_SYMBOL);
     alphabet.includeSymbol(Transducer::LSX_BOUNDARY_SYMBOL);
-    any_tag       = alphabet(Transducer::ANY_TAG_SYMBOL);
-    any_char      = alphabet(Transducer::ANY_CHAR_SYMBOL);
-    word_boundary = alphabet(Transducer::LSX_BOUNDARY_SYMBOL);
+    alphabet.includeSymbol(Compiler::SYMBOL_WB_SPACE);
+    alphabet.includeSymbol(Compiler::SYMBOL_WB_NO_SPACE);
+    any_tag          = alphabet(Transducer::ANY_TAG_SYMBOL);
+    any_char         = alphabet(Transducer::ANY_CHAR_SYMBOL);
+    word_boundary    = alphabet(Transducer::LSX_BOUNDARY_SYMBOL);
+    word_boundary_s  = alphabet(Compiler::SYMBOL_WB_SPACE);
+    word_boundary_ns = alphabet(Compiler::SYMBOL_WB_NO_SPACE);
 
     int ret = xmlTextReaderRead(reader);
     while(ret == 1)
@@ -288,6 +299,11 @@ Compiler::readString(vector<int> &result, UString const &name)
         }
         result.push_back(alphabet(symbol));
     }
+    else if(name == COMPILER_JOIN_ELEM)
+    {
+      requireEmptyError(name);
+      result.push_back(static_cast<int>('+'));
+    }
     else if(name == COMPILER_ANYTAG_ELEM)
     {
         result.push_back(any_tag);
@@ -299,7 +315,14 @@ Compiler::readString(vector<int> &result, UString const &name)
     else if(name == COMPILER_WB_ELEM)
     {
         requireEmptyError(name);
-        result.push_back(word_boundary);
+        UString mode = attrib(COMPILER_SPACE_ATTR);
+        if (mode == COMPILER_SPACE_YES_VAL) {
+          result.push_back(word_boundary_s);
+        } else if (mode == COMPILER_SPACE_NO_VAL) {
+          result.push_back(word_boundary_ns);
+        } else {
+          result.push_back(word_boundary);
+        }
     }
 
     else

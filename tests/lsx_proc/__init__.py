@@ -76,3 +76,29 @@ class issue26NoFlushTest(unittest.TestCase, ProcTestNoFlush):
 
     inputs = ["^.<sent>$"]
     expectedOutputs = ["^.<sent>$"]
+
+class SpaceManipulation1(unittest.TestCase, ProcTest):
+    procdir = "lr"
+    procdix = "data/spaces.lsx"
+
+    inputs = ["^a<ex>$^,<cm>$^b<ir>$",
+              "^a<ex>$ ^,<cm>$ ^b<ir>$",
+              "^a<ex>$ ^,<cm>$ _ ^b<ir>$",
+              "^a<ex>$_^,<cm>$^b<ir>$"]
+    expectedOutputs = ["^c<ex>$ ^d<ir>$",
+                       "^c<ex>$ ^d<ir>$",
+                       "^c<ex>$ ^d<ir>$ _ ",
+                       "^c<ex>$_^d<ir>$"]
+
+class SpaceManipulation2(unittest.TestCase, ProcTest):
+    procdir = "rl"
+    procdix = "data/spaces.lsx"
+
+    inputs = ["^c<ex>$ ^d<ir>$",
+              "^c<ex>$^d<ir>$",
+              "^c<ex>$ _ ^d<ir>$",
+              "^c<ex>$_^d<ir>$"]
+    expectedOutputs = ["^a<ex>$^,<cm>$ ^b<ir>$",
+                       "^a<ex>$^,<cm>$ ^b<ir>$",
+                       "^a<ex>$^,<cm>$ _ ^b<ir>$",
+                       "^a<ex>$^,<cm>$_^b<ir>$"]

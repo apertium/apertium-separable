@@ -31,6 +31,8 @@ private:
   void processWord(InputFile& input, UFILE* output);
 
   int word_boundary;
+  int word_boundary_s;
+  int word_boundary_ns;
   int any_char;
   int any_tag;
 public:

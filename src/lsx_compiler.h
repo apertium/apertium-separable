@@ -103,6 +103,8 @@ private:
     int32_t any_tag = 0;
     int32_t any_char = 0;
     int32_t word_boundary = 0;
+    int32_t word_boundary_s = 0;
+    int32_t word_boundary_ns = 0;
 
     /**
      * List of named transducers-paradigms
@@ -315,6 +317,11 @@ public:
     static UString const COMPILER_ANYTAG_ELEM;
     static UString const COMPILER_ANYCHAR_ELEM;
     static UString const COMPILER_WB_ELEM;
+    static UString const COMPILER_SPACE_ATTR;
+    static UString const COMPILER_SPACE_YES_VAL;
+    static UString const COMPILER_SPACE_NO_VAL;
+    static UString const SYMBOL_WB_SPACE;
+    static UString const SYMBOL_WB_NO_SPACE;
 
 
     /**
