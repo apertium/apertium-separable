@@ -129,6 +129,15 @@ private:
      */
     map<UString, map<UString, int>> postsuffix_paradigms;
 
+  template<typename... T>
+  void error(const char* fmt, T... args) {
+    UFILE* out = u_finit(stderr, NULL, NULL);
+    u_fprintf(out, "Error on line %d: ",
+              xmlTextReaderGetParserLineNumber(reader));
+    u_fprintf(out, fmt, args...);
+    u_fprintf(out, "\n");
+    exit(EXIT_FAILURE);
+  }
 
     /*
      static string range(char const a, char const b);
