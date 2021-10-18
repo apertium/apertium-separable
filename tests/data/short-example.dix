@@ -23,9 +23,9 @@
   <section id="main" type="standard">
 
     <e lm="take out" c="sacar">
-      <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><j/></i>
-      <i><w/><t/><j/></i>
-      <p><l>out<s n="adv"/><j/></l><r></r></p>
+      <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><d/></i>
+      <i><w/><t/><d/></i>
+      <p><l>out<s n="adv"/><d/></l><r></r></p>
     </e>
 
     <!--
@@ -51,19 +51,21 @@
 <b/> = blank
 <w/> = ANY_CHAR (loop)
 <t/> = ANY_TAG (loop)
-<j/> = <$>
+<d/> = <$>
 
 Available:
-<c/> <d/> <f/> <h/> <k/> <m/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
+<c/> <f/> <h/> <k/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
 
 Taken:
 <a/>
 <b/>
+<d/>
 <e/>
 <g/>
 <i/>
 <j/>
 <l/>
+<m/>
 <p/>
 <r/>
 <s/>

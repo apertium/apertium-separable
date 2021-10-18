@@ -103,6 +103,8 @@ private:
     int32_t any_tag = 0;
     int32_t any_char = 0;
     int32_t word_boundary = 0;
+    int32_t word_boundary_s = 0;
+    int32_t word_boundary_ns = 0;
 
     /**
      * List of named transducers-paradigms
@@ -129,6 +131,15 @@ private:
      */
     map<UString, map<UString, int>> postsuffix_paradigms;
 
+  template<typename... T>
+  void error(const char* fmt, T... args) {
+    UFILE* out = u_finit(stderr, NULL, NULL);
+    u_fprintf(out, "Error on line %d: ",
+              xmlTextReaderGetParserLineNumber(reader));
+    u_fprintf(out, fmt, args...);
+    u_fprintf(out, "\n");
+    exit(EXIT_FAILURE);
+  }
 
     /*
      static string range(char const a, char const b);
@@ -306,6 +317,11 @@ public:
     static UString const COMPILER_ANYTAG_ELEM;
     static UString const COMPILER_ANYCHAR_ELEM;
     static UString const COMPILER_WB_ELEM;
+    static UString const COMPILER_SPACE_ATTR;
+    static UString const COMPILER_SPACE_YES_VAL;
+    static UString const COMPILER_SPACE_NO_VAL;
+    static UString const SYMBOL_WB_SPACE;
+    static UString const SYMBOL_WB_NO_SPACE;
 
 
     /**

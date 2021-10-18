@@ -54,6 +54,8 @@ LSXProcessor::load(FILE *input)
   // symbols
   alphabet.read(input);
   word_boundary = alphabet("<$>"_u);
+  word_boundary_s = alphabet("<$_>"_u);
+  word_boundary_ns = alphabet("<$->"_u);
   any_char = alphabet("<ANY_CHAR>"_u);
   any_tag = alphabet("<ANY_TAG>"_u);
 
@@ -247,7 +249,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
         s.step_override(lu[i], towlower(lu[i]), any_char, lu[i]);
       }
     }
-    s.step(word_boundary);
+    s.step(word_boundary, word_boundary_s, word_boundary_ns);
     if(s.isFinal(all_finals))
     {
       last_final = idx+1;
@@ -270,23 +272,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     lu_queue.pop_front();
     return;
   }
-  vector<UString> out_lus;
-  size_t pos = 0;
-  while(pos != UString::npos && pos != last_final_out.size())
-  {
-    size_t start = pos;
-    pos = last_final_out.find("<$>"_u, start);
-    if(pos == UString::npos)
-    {
-      out_lus.push_back(last_final_out.substr(start));
-    }
-    else
-    {
-      out_lus.push_back(last_final_out.substr(start, pos-start));
-      pos += 3;
-    }
-  }
-  
+
   UString wblank;
   for(size_t i = 0; i < last_final; i++)
   {
@@ -308,30 +294,61 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   {
     wblank += "]]"_u;
   }
-  
-  size_t i = 0;
-  for(; i < out_lus.size(); i++)
+
+  size_t output_count = 0;
+  size_t pos = 0;
+  bool pop_queue = true;
+  bool replace_empty = false;
+  while(pos != UString::npos && pos != last_final_out.size())
   {
-    if(i < last_final)
-    {
-      write(blank_queue[i], output);
-    }
-    else
-    {
-      u_fputc(' ', output);
+    if (pop_queue) {
+      if (output_count < last_final) {
+        write(blank_queue[output_count], output);
+        if (replace_empty && blank_queue[output_count].empty()) {
+          u_fputc(' ', output);
+        }
+        output_count++;
+      } else {
+        u_fputc(' ', output);
+      }
     }
     write(wblank, output);
     u_fputc('^', output);
-    write(out_lus[i], output);
-    u_fputc('$', output);
-  }
-  for(; i < last_final; i++)
-  {
-    if(blank_queue[i] != " "_u)
+    size_t start = pos;
+    pos = last_final_out.find("<$"_u, start);
+    if(pos == UString::npos)
     {
-      write(blank_queue[i], output);
+      write(last_final_out.substr(start), output);
+      u_fputc('$', output);
+      break;
+    }
+    else
+    {
+      write(last_final_out.substr(start, pos-start), output);
+      u_fputc('$', output);
+      pos += 2;
+      if (last_final_out[pos] == '-') {
+        pop_queue = false;
+        pos++;
+      } else if (last_final_out[pos] == '_') {
+        pop_queue = true;
+        replace_empty = true;
+        pos++;
+      } else {
+        pop_queue = true;
+        replace_empty = false;
+      }
+      pos++;
     }
   }
+  for(; output_count < last_final; output_count++)
+  {
+    if(blank_queue[output_count] != " "_u)
+    {
+      write(blank_queue[output_count], output);
+    }
+  }
+
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);
   bound_blank_queue.erase(bound_blank_queue.begin(), bound_blank_queue.begin()+last_final);
   lu_queue.erase(lu_queue.begin(), lu_queue.begin()+last_final);

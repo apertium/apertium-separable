@@ -9,14 +9,14 @@
   <section id="main" type="standard">
     <e lm="Jun Ajpu" c="">
       <p>
-        <l>Jun<s n="num"/><j/>Ajpu<s n="np"/><s n="ant"/><s n="m"/><j/></l>
+        <l>Jun<s n="num"/><d/>Ajpu<s n="np"/><s n="ant"/><s n="m"/><d/></l>
         <r>Jun<b/>Ajpu<s n="np"/><s n="ant"/><s n="m"/></r>
       </p>
     </e>
     <e lm="hargle bargle">
       <p>
-        <l>hargle<s n="np"/><j/>bargle<s n="np"/><j/></l>
-        <r>hargle<b/>bargle<s n="np"/><j/></r>
+        <l>hargle<s n="np"/><d/>bargle<s n="np"/><d/></l>
+        <r>hargle<b/>bargle<s n="np"/><d/></r>
       </p>
     </e>
   </section>

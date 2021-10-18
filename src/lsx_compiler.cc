@@ -31,7 +31,14 @@ using namespace std;
 
 UString const Compiler::COMPILER_ANYTAG_ELEM        = "t"_u;
 UString const Compiler::COMPILER_ANYCHAR_ELEM       = "w"_u;
-UString const Compiler::COMPILER_WB_ELEM            = "j"_u;
+UString const Compiler::COMPILER_WB_ELEM            = "d"_u;
+UString const Compiler::COMPILER_SPACE_ATTR         = "space"_u;
+UString const Compiler::COMPILER_SPACE_YES_VAL      = "yes"_u;
+UString const Compiler::COMPILER_SPACE_NO_VAL       = "no"_u;
+
+// TODO: these should be in lttoolbox so lt-trim can use them
+UString const Compiler::SYMBOL_WB_SPACE             = "<$_>"_u;
+UString const Compiler::SYMBOL_WB_NO_SPACE          = "<$->"_u;
 
 void
 Compiler::parse(string const &fichero, UString const &dir)
@@ -47,9 +54,13 @@ Compiler::parse(string const &fichero, UString const &dir)
     alphabet.includeSymbol(Transducer::ANY_TAG_SYMBOL);
     alphabet.includeSymbol(Transducer::ANY_CHAR_SYMBOL);
     alphabet.includeSymbol(Transducer::LSX_BOUNDARY_SYMBOL);
-    any_tag       = alphabet(Transducer::ANY_TAG_SYMBOL);
-    any_char      = alphabet(Transducer::ANY_CHAR_SYMBOL);
-    word_boundary = alphabet(Transducer::LSX_BOUNDARY_SYMBOL);
+    alphabet.includeSymbol(Compiler::SYMBOL_WB_SPACE);
+    alphabet.includeSymbol(Compiler::SYMBOL_WB_NO_SPACE);
+    any_tag          = alphabet(Transducer::ANY_TAG_SYMBOL);
+    any_char         = alphabet(Transducer::ANY_CHAR_SYMBOL);
+    word_boundary    = alphabet(Transducer::LSX_BOUNDARY_SYMBOL);
+    word_boundary_s  = alphabet(Compiler::SYMBOL_WB_SPACE);
+    word_boundary_ns = alphabet(Compiler::SYMBOL_WB_NO_SPACE);
 
     int ret = xmlTextReaderRead(reader);
     while(ret == 1)
@@ -111,9 +122,7 @@ Compiler::procAlphabet()
         }
         else
         {
-            cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-            cerr << "): Missing alphabet symbols." << endl;
-            exit(EXIT_FAILURE);
+          error("Missing alphabet symbols.");
         }
     }
 }
@@ -234,9 +243,7 @@ Compiler::requireEmptyError(UString const &name)
 {
     if(!xmlTextReaderIsEmptyElement(reader))
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Non-empty element '<" << name << ">' should be empty." << endl;
-        exit(EXIT_FAILURE);
+      error("Non-empty element '<%S>' should be empty.", name.c_str());
     }
 }
 
@@ -288,11 +295,14 @@ Compiler::readString(vector<int> &result, UString const &name)
 
         if(!alphabet.isSymbolDefined(symbol))
         {
-            cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-            cerr << "): Undefined symbol '" << symbol << "'." << endl;
-            exit(EXIT_FAILURE);
+          error("Undefined symbol '%S'.", symbol.c_str());
         }
         result.push_back(alphabet(symbol));
+    }
+    else if(name == COMPILER_JOIN_ELEM)
+    {
+      requireEmptyError(name);
+      result.push_back(static_cast<int>('+'));
     }
     else if(name == COMPILER_ANYTAG_ELEM)
     {
@@ -305,15 +315,19 @@ Compiler::readString(vector<int> &result, UString const &name)
     else if(name == COMPILER_WB_ELEM)
     {
         requireEmptyError(name);
-        result.push_back(word_boundary);
+        UString mode = attrib(COMPILER_SPACE_ATTR);
+        if (mode == COMPILER_SPACE_YES_VAL) {
+          result.push_back(word_boundary_s);
+        } else if (mode == COMPILER_SPACE_NO_VAL) {
+          result.push_back(word_boundary_ns);
+        } else {
+          result.push_back(word_boundary);
+        }
     }
 
     else
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Invalid specification of element '<" << name;
-        cerr << ">' in this context." << endl;
-        exit(EXIT_FAILURE);
+      error("Invalid specification of element '<%S>' in this context.", name.c_str());
     }
 }
 
@@ -326,9 +340,7 @@ Compiler::skipBlanks(UString &name)
         {
             if(!allBlanks())
             {
-                cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-                cerr << "): Invalid construction." << endl;
-                exit(EXIT_FAILURE);
+              error("Invalid construction.");
             }
         }
 
@@ -361,9 +373,7 @@ Compiler::skip(UString &name, UString const &elem, bool open)
         {
             if(!allBlanks())
             {
-                cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-                cerr << "): Invalid construction." << endl;
-                exit(EXIT_FAILURE);
+              error("Invalid construction.");
             }
         }
         xmlTextReaderRead(reader);
@@ -372,9 +382,7 @@ Compiler::skip(UString &name, UString const &elem, bool open)
 
     if(name != elem)
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Expected '<" << slash << elem << ">'." << endl;
-        exit(EXIT_FAILURE);
+      error("Expected '<%S%S>'.", slash.c_str(), elem.c_str());
     }
 }
 
@@ -480,16 +488,12 @@ Compiler::procPar()
 
     if(!current_paradigm.empty() && nomparadigma == current_paradigm)
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Paradigm refers to itself '" << nomparadigma << "'." <<endl;
-        exit(EXIT_FAILURE);
+      error("Paradigm '%S' refers to itself.", nomparadigma.c_str());
     }
 
     if(paradigms.find(nomparadigma) == paradigms.end())
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Undefined paradigm '" << nomparadigma << "'." << endl;
-        exit(EXIT_FAILURE);
+      error("Reference to undefined paradigm '%S'.", nomparadigma.c_str());
     }
     e.setParadigm(nomparadigma);
     return e;
@@ -522,9 +526,7 @@ Compiler::insertEntryTokens(vector<EntryToken> const &elements)
             }
             else
             {
-                cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-                cerr << "): Invalid entry token." << endl;
-                exit(EXIT_FAILURE);
+              error("Invalid entry token.");
             }
         }
         t.setFinal(e);
@@ -597,12 +599,9 @@ Compiler::requireAttribute(UString const &value, UString const &attrname,
                            UString const &elemname)
 {
   if(value.empty()) {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): '<" << elemname;
-        cerr << "' element must specify non-void '";
-        cerr << attrname << "' attribute." << endl;
-        exit(EXIT_FAILURE);
-    }
+    error("Element '<%S>' must specify a non-void value for attribute '%S'.",
+          elemname.c_str(), attrname.c_str());
+  }
 }
 
 
@@ -665,9 +664,7 @@ Compiler::procEntry()
         int ret = xmlTextReaderRead(reader);
         if(ret != 1)
         {
-            cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-            cerr << "): Parse error." << endl;
-            exit(EXIT_FAILURE);
+          error("Parse error.");
         }
         UString name = XMLParseUtil::readName(reader);
         skipBlanks(name);
@@ -700,9 +697,7 @@ Compiler::procEntry()
 
             if(paradigms.find(p) == paradigms.end())
             {
-                cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-                cerr << "): Undefined paradigm '" << p << "'." <<endl;
-                exit(EXIT_FAILURE);
+              error("Undefined paradigm '%S'.", p.c_str());
             }
             // descartar entradas con paradigms vac���os (por las direciones,
             // normalmente
@@ -732,10 +727,8 @@ Compiler::procEntry()
         }
         else
         {
-            cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-            cerr << "): Invalid inclusion of '<" << name << ">' into '<" << COMPILER_ENTRY_ELEM;
-            cerr << ">'." << endl;
-            exit(EXIT_FAILURE);
+          error("Invalid inclusion of '<%S>' in '<%S>'.", name.c_str(),
+                COMPILER_ENTRY_ELEM.c_str());
         }
 
     }
@@ -790,9 +783,7 @@ Compiler::procNode()
     }
     else
     {
-        cerr << "Error (" << xmlTextReaderGetParserLineNumber(reader);
-        cerr << "): Invalid node '<" << nombre << ">'." << endl;
-        exit(EXIT_FAILURE);
+      error("Invalid node '<%S>'.", nombre.c_str());
     }
 }
 
