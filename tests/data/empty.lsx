@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary type="separable">
+  <alphabet></alphabet>
+  <sdefs>
+    <sdef n="cm" c="Comma"/>
+    <sdef n="ex" c="Exasperative"/>
+    <sdef n="ir" c="Irritative"/>
+ </sdefs>
+
+  <pardefs>
+  </pardefs>
+
+  <section id="main" type="standard">
+  </section>
+
+</dictionary>

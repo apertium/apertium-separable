@@ -60,13 +60,15 @@ LSXProcessor::load(FILE *input)
   any_tag = alphabet("<ANY_TAG>"_u);
 
   len = Compression::multibyte_read(input);
-  Compression::string_read(input); // name
-  // there should only be 1 transducer in the file
-  // so ignore any subsequent ones
-  trans.read(input, alphabet);
-
-  initial_state.init(trans.getInitial());
-  all_finals = trans.getFinals();
+  if (len > 0) {
+    Compression::string_read(input); // name
+    // there should only be 1 transducer in the file
+    // so ignore any subsequent ones
+    trans.read(input, alphabet);
+    // but if there are 0, leave trans empty
+    initial_state.init(trans.getInitial());
+    all_finals = trans.getFinals();
+  }
 }
 
 void
@@ -191,8 +193,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   }
   size_t last_final = 0;
   UString last_final_out;
-  State s;
-  s.init(trans.getInitial());
+  State s = initial_state;
   size_t idx = 0;
   bool firstupper = false;
   bool uppercase = false;

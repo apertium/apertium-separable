@@ -102,3 +102,10 @@ class SpaceManipulation2(unittest.TestCase, ProcTest):
                        "^a<ex>$^,<cm>$ ^b<ir>$",
                        "^a<ex>$^,<cm>$ _ ^b<ir>$",
                        "^a<ex>$^,<cm>$_^b<ir>$"]
+
+
+class Empty(unittest.TestCase, ProcTest):
+    procdir = "lr"
+    procdix = "data/empty.lsx"
+    inputs = ["^c<ex>$ ^d<ir>$"]
+    expectedOutputs = ["^c<ex>$ ^d<ir>$"]
