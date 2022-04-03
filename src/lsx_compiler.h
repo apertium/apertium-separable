@@ -346,6 +346,8 @@ public:
      */
     void setVerbose(bool verbosity = false);
 
+  void setVariantValue(UString val);
+
 };
 
 

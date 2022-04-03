@@ -20,6 +20,7 @@
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/xml_parse_util.h>
 #include <lttoolbox/string_utils.h>
+#include <lttoolbox/file_utils.h>
 
 #include <cstdlib>
 #include <iostream>
@@ -641,7 +642,7 @@ Compiler::procEntry()
     if((!atributo.empty() && atributo != direction)
        || ignore == COMPILER_IGNORE_YES_VAL
        || (!altval.empty() && altval != alt)
-       || (direction == COMPILER_RESTRICTION_RL_VAL && !varval.empty() && varval != variant)
+       || (!variant.empty() && !varval.empty() && varval != variant)
        || (direction == COMPILER_RESTRICTION_RL_VAL && !varl.empty() && varl != variant_left)
        || (direction == COMPILER_RESTRICTION_LR_VAL && !varr.empty() && varr != variant_right))
     {
@@ -801,25 +802,17 @@ Compiler::procRegexp()
 void
 Compiler::write(FILE *output)
 {
-    // letters
-    Compression::string_write(letters, output);
-
-    // symbols
-    alphabet.write(output);
-
-    // transducers
-    Compression::multibyte_write(sections.size(), output);
-
-    for (auto& it : sections) {
-        cout << it.first << " " << it.second.size();
-        cout << " " << it.second.numberOfTransitions() << endl;
-        Compression::string_write(it.first, output);
-        it.second.write(output);
-    }
+  writeTransducerSet(output, letters, alphabet, sections);
 }
 
 void
 Compiler::setVerbose(bool verbosity)
 {
     verbose = verbosity;
+}
+
+void
+Compiler::setVariantValue(UString val)
+{
+  variant = val;
 }

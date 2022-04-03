@@ -109,3 +109,23 @@ class Empty(unittest.TestCase, ProcTest):
     procdix = "data/empty.lsx"
     inputs = ["^c<ex>$ ^d<ir>$"]
     expectedOutputs = ["^c<ex>$ ^d<ir>$"]
+
+class Variant1(unittest.TestCase, ProcTest):
+    procdix = "data/variants.dix"
+    compflags = ['-v', 'abc']
+    inputs = ['^take<vblex><pres>$ ^up<adv>$',
+              '^take<vblex><pres>$ ^out<adv>$',
+              '^take<vblex><pres>$ ^over<adv>$']
+    expectedOutputs = ['^take# up<vblex><pres>$',
+                       '^take# out<vblex><pres>$',
+                       '^take<vblex><pres>$ ^over<adv>$']
+
+class Variant2(unittest.TestCase, ProcTest):
+    procdix = "data/variants.dix"
+    compflags = ['-v', 'xyz']
+    inputs = ['^take<vblex><pres>$ ^up<adv>$',
+              '^take<vblex><pres>$ ^out<adv>$',
+              '^take<vblex><pres>$ ^over<adv>$']
+    expectedOutputs = ['^take# up<vblex><pres>$',
+                       '^take<vblex><pres>$ ^out<adv>$',
+                       '^take# over<vblex><pres>$']
