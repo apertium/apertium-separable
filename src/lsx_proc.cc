@@ -1,4 +1,5 @@
 #include <lttoolbox/lt_locale.h>
+#include <lttoolbox/file_utils.h>
 #include <iostream>
 #include <getopt.h>
 #include <libgen.h>
@@ -70,21 +71,14 @@ int main (int argc, char** argv)
   if (optind > (argc - 1) || optind < (argc - 3)) {
     endProgram(argv[0]);
   }
-  FILE* fst = fopen(argv[optind], "rb");
-  if(!fst) {
-    cerr << "Error: Cannot open file '" << argv[optind] << "' for reading." << endl;
-    exit(EXIT_FAILURE);
-  }
+  FILE* fst = openInBinFile(argv[optind]);
   fstp.load(fst);
 
   if (optind <= (argc - 2)) {
     input.open_or_exit(argv[optind+1]);
   }
   if (optind <= (argc - 3)) {
-    output = u_fopen(argv[optind+2], "w", NULL, NULL);
-    if (output == NULL) {
-      cerr << "Error: Cannot open file '" << argv[optind+2] << "' for writing." << endl;
-    }
+    output = openOutTextFile(argv[optind+2]);
   }
   
   fstp.process(input, output);

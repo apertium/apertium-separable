@@ -12,16 +12,17 @@
 class LSXProcessor
 {
 private:
-  TransExe trans;
+  Node root;
+  std::map<UString, TransExe> trans;
   State initial_state;
   std::set<UChar32> escaped_chars;
   std::set<UChar32> alphabetic_chars;
   std::map<Node *, double> all_finals;
   Alphabet alphabet;
-  bool null_flush;
-  bool dictionary_case;
-  bool at_end;
-  bool at_null;
+  bool null_flush = true;
+  bool dictionary_case = false;
+  bool at_end = false;
+  bool at_null = false;
 
   std::deque<UString> blank_queue;
   std::deque<UString> bound_blank_queue;

@@ -1,6 +1,6 @@
 #include "lsx_processor.h"
 
-#include <lttoolbox/compression.h>
+#include <lttoolbox/file_utils.h>
 #include <cstring>
 
 LSXProcessor::LSXProcessor()
@@ -16,163 +16,56 @@ LSXProcessor::LSXProcessor()
   escaped_chars.insert('@');
   escaped_chars.insert('<');
   escaped_chars.insert('>');
-
-  null_flush = false;
-  dictionary_case = false;
-  at_end = false;
-  at_null = false;
 }
 
 void
 LSXProcessor::load(FILE *input)
 {
-  fpos_t pos;
-  if (fgetpos(input, &pos) == 0) {
-    char header[4]{};
-    if (fread(header, 1, 4, input) == 4 &&
-        strncmp(header, HEADER_LTTOOLBOX, 4) == 0) {
-      auto features = read_le<uint64_t>(input);
-      if (features >= LTF_UNKNOWN) {
-        throw std::runtime_error("FST has features that are unknown to this version of lttoolbox - upgrade!");
-      }
-    }
-    else {
-      // Old binary format
-      fsetpos(input, &pos);
-      // of course, lsx-comp would never generate this...
-    }
-  }
-
-  // letters
-  int len = Compression::multibyte_read(input);
-  while(len > 0)
-  {
-    alphabetic_chars.insert(static_cast<UChar32>(Compression::multibyte_read(input)));
-    len--;
-  }
+  readTransducerSet(input, alphabetic_chars, alphabet, trans);
 
   // symbols
-  alphabet.read(input);
   word_boundary = alphabet("<$>"_u);
   word_boundary_s = alphabet("<$_>"_u);
   word_boundary_ns = alphabet("<$->"_u);
   any_char = alphabet("<ANY_CHAR>"_u);
   any_tag = alphabet("<ANY_TAG>"_u);
 
-  len = Compression::multibyte_read(input);
-  if (len > 0) {
-    Compression::string_read(input); // name
-    // there should only be 1 transducer in the file
-    // so ignore any subsequent ones
-    trans.read(input, alphabet);
-    // but if there are 0, leave trans empty
-    initial_state.init(trans.getInitial());
-    all_finals = trans.getFinals();
+  for (auto& it : trans) {
+    root.addTransition(0, 0, it.second.getInitial(), 0.0);
+    all_finals.insert(it.second.getFinals().begin(),
+                      it.second.getFinals().end());
   }
+  initial_state.init(&root);
 }
 
 void
 LSXProcessor::readNextLU(InputFile& input)
 {
-  std::vector<UString> parts(3);
-  int loc = 0; // 0 = blank, 1 = bound blank, 2 = LU
-  bool box = false; // are we in a [ ] blank
-  while(!input.eof())
-  {
-    UChar32 c = input.get();
-    if ((unsigned int)c == U_EOF) {
-        break;
-    }
-    if(null_flush && c == '\0')
-    {
-      at_end = true;
-      at_null = true;
-      break;
-    }
-    else if(c == '\\')
-    {
-      parts[loc] += c;
-      c = input.get();
-      parts[loc] += c;
-    }
-    else if(loc == 0 && box)
-    {
-      if(c == ']')
-      {
-        box = false;
-      }
-      parts[loc] += c;
-    }
-    else if(loc == 0 && c == '[')
-    {
-      c = input.get();
-      if(c == '[')
-      {
-        loc = 1;
-      }
-      else
-      {
-        parts[loc] += '[';
-        parts[loc] += c;
-        if(c != ']')
-        {
-          box = true;
-        }
-        if(c == '\\')
-        {
-          parts[loc] += input.get();
-        }
-      }
-    }
-    else if(loc == 1 && c == ']')
-    {
-      c = input.get();
-      if(c == ']')
-      {
-        c = input.get();
-        if(c == '^')
-        {
-          loc = 2;
-        }
-        else
-        {
-          // this situation is invalid
-          // but I like making parsers harder to break than required
-          // by the standard
-          parts[loc] += "]]"_u;
-          parts[loc] += c;
-        }
-      }
-      else
-      {
-        parts[loc] += ']';
-        parts[loc] += c;
-        if(c == '\\')
-        {
-          parts[loc] += input.get();
-        }
-      }
-    }
-    else if(loc == 0 && c == '^')
-    {
-      loc = 2;
-    }
-    else if(loc == 2 && c == '$')
-    {
-      break;
-    }
-    else
-    {
-      parts[loc] += c;
-    }
+  UString blank, wblank, lu;
+  blank = input.readBlank();
+  if (input.peek() == '[') {
+    input.get();
+    input.get();
+    wblank = input.finishWBlank();
+    wblank = wblank.substr(2, wblank.size()-4);
   }
-  if(input.eof())
-  {
+  if (input.peek() == '^') {
+    input.get();
+    lu = input.readBlock('^', '$');
+    lu = lu.substr(1, lu.size()-2);
+  }
+
+  blank_queue.push_back(blank);
+  bound_blank_queue.push_back(wblank);
+  lu_queue.push_back(lu);
+
+  if (input.peek() == '\0') {
+    input.get();
+    at_end = true;
+    at_null = true;
+  } else if (input.eof()) {
     at_end = true;
   }
-  blank_queue.push_back(parts[0]);
-  bound_blank_queue.push_back(parts[1]);
-  lu_queue.push_back(parts[2]);
 }
 
 void
@@ -213,8 +106,8 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       break;
     }
     if (idx == 0 && !dictionary_case) {
-      firstupper = iswupper(lu[0]);
-      uppercase = lu.size() > 1 && iswupper(lu[1]);
+      firstupper = u_isupper(lu[0]);
+      uppercase = lu.size() > 1 && u_isupper(lu[1]);
     }
     for(size_t i = 0; i < lu.size(); i++)
     {
