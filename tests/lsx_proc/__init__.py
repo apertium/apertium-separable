@@ -129,3 +129,8 @@ class Variant2(unittest.TestCase, ProcTest):
     expectedOutputs = ['^take# up<vblex><pres>$',
                        '^take<vblex><pres>$ ^out<adv>$',
                        '^take# over<vblex><pres>$']
+
+class Weights(unittest.TestCase, ProcTest):
+    procdix = "data/weights.lsx"
+    inputs = ['^take<vblex><pres>$ ^out<adv>$']
+    expectedOutputs = ['^take# out1<vblex><pres>$']

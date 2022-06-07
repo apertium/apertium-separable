@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary type="separable">
+  <alphabet>
+    ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜàáâäçèéêëìíîïñòóôöùúûüABCDEFGHIJKLMNOPQRSTUVW
+    XYZabcdefghijklmnopqrstuvwxyziǎšěřčžǔůýệướễăạảðÐđ
+  </alphabet>
+  <sdefs>
+    <sdef n="adj"/>
+    <sdef n="adv"/>
+    <sdef n="cnjcoo"/>
+    <sdef n="det"/>
+    <sdef n="n"/>
+    <sdef n="np"/>
+    <sdef n="num"/>
+    <sdef n="pl"/>
+    <sdef n="pos"/>
+    <sdef n="pp"/>
+    <sdef n="pr"/>
+    <sdef n="prn"/>
+    <sdef n="sg"/>
+    <sdef n="vblex"/>
+  </sdefs>
+  <section id="main" type="standard">
+
+    <e lm="take out" w="2.0">
+      <p><l>take</l><r>take<g><b/>out2</g></r></p><i><s n="vblex"/><t/><d/></i>
+      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    </e>
+
+    <e lm="take out" w="1.0">
+      <p><l>take</l><r>take<g><b/>out1</g></r></p><i><s n="vblex"/><t/><d/></i>
+      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    </e>
+
+</section>
+</dictionary>
