@@ -74,7 +74,7 @@ LSXProcessor::load(FILE *input)
 void
 LSXProcessor::readNextLU(InputFile& input)
 {
-  vector<UString> parts = vector<UString>(3);
+  std::vector<UString> parts(3);
   int loc = 0; // 0 = blank, 1 = bound blank, 2 = LU
   bool box = false; // are we in a [ ] blank
   while(!input.eof())
@@ -287,7 +287,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       {
         wblank += "; "_u;
       }
-      
+
       wblank += bound_blank_queue[i];
     }
   }

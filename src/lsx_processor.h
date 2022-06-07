@@ -14,18 +14,18 @@ class LSXProcessor
 private:
   TransExe trans;
   State initial_state;
-  set<UChar32> escaped_chars;
-  set<UChar32> alphabetic_chars;
-  map<Node *, double> all_finals;
+  std::set<UChar32> escaped_chars;
+  std::set<UChar32> alphabetic_chars;
+  std::map<Node *, double> all_finals;
   Alphabet alphabet;
   bool null_flush;
   bool dictionary_case;
   bool at_end;
   bool at_null;
 
-  deque<UString> blank_queue;
-  deque<UString> bound_blank_queue;
-  deque<UString> lu_queue;
+  std::deque<UString> blank_queue;
+  std::deque<UString> bound_blank_queue;
+  std::deque<UString> lu_queue;
 
   void readNextLU(InputFile& input);
   void processWord(InputFile& input, UFILE* output);
