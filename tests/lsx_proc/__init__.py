@@ -130,7 +130,16 @@ class Variant2(unittest.TestCase, ProcTest):
                        '^take<vblex><pres>$ ^out<adv>$',
                        '^take# over<vblex><pres>$']
 
+
 class Weights(unittest.TestCase, ProcTest):
     procdix = "data/weights.lsx"
-    inputs = ['^take<vblex><pres>$ ^out<adv>$']
-    expectedOutputs = ['^take# out1<vblex><pres>$']
+    inputs = ['^turn<vblex><pres>$ ^off<adv>$',
+              '^turn<vblex><pres>$ ^things<n>$ ^off<adv>$',
+              '^turn<vblex><pres>$ ^the<det>$ ^thing<n>$ ^off<adv>$',
+              '^turn<vblex><pres>$ ^me<prn><pers>$ ^off<adv>$',
+              ]
+    expectedOutputs = ['^deactivate<vblex><pres>$',
+                       '^deactivate<vblex><pres>$ ^things<n>$',
+                       '^deactivate<vblex><pres>$ ^the<det>$ ^thing<n>$',
+                       '^alienate<vblex><pres>$ ^me<prn><pers>$',
+                       ]

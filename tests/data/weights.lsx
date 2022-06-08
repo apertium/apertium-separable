@@ -20,16 +20,34 @@
     <sdef n="sg"/>
     <sdef n="vblex"/>
   </sdefs>
+  <pardefs>
+    <pardef n="any">
+      <e><i><w/><t/><d/></i></e>
+    </pardef>
+    <pardef n="anyUpto3">
+      <e></e>
+      <e><par n="any"/></e>
+      <e><par n="any"/><par n="any"/></e>
+      <e><par n="any"/><par n="any"/><par n="any"/></e>
+    </pardef>
+  </pardefs>
+
   <section id="main" type="standard">
 
-    <e lm="take out" w="2.0">
-      <p><l>take</l><r>take<g><b/>out2</g></r></p><i><s n="vblex"/><t/><d/></i>
-      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    <!-- Lower weights are better (opposite of LRX) -->
+
+    <!-- Typically want deactivate, even with intervening words: -->
+    <e lm="turn (X) off → deactivate (X)" w="2.0">
+      <p><l>turn</l>       <r>deactivate</r></p><i><s n="vblex"/><t/><d/></i>
+      <par n="anyUpto3"/>
+      <p><l>off<s n="adv"/><d/></l><r></r></p>
     </e>
 
-    <e lm="take out" w="1.0">
-      <p><l>take</l><r>take<g><b/>out1</g></r></p><i><s n="vblex"/><t/><d/></i>
-      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    <!-- But if the intervening word is a pronoun, we want "alienate": -->
+    <e lm="turn PRN off → alienate PRN" w="1.0">
+      <p><l>turn</l>       <r>alienate</r></p>  <i><s n="vblex"/><t/><d/></i>
+      <i><w/><s n="prn"/><t/><d/></i>
+      <p><l>off<s n="adv"/><d/></l><r></r></p>
     </e>
 
 </section>
