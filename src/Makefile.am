@@ -1,8 +1,6 @@
 AM_LDFLAGS=$(LIBS)
 
-bin_PROGRAMS = lsx-comp lsx-proc
-
-lsx_comp_SOURCES = lsx_comp.cc lsx_compiler.cc
+bin_PROGRAMS = lsx-proc
 
 lsx_proc_SOURCES = lsx_processor.cc lsx_proc.cc
 

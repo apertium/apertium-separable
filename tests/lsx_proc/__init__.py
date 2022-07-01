@@ -76,3 +76,61 @@ class issue26NoFlushTest(unittest.TestCase, ProcTestNoFlush):
 
     inputs = ["^.<sent>$"]
     expectedOutputs = ["^.<sent>$"]
+
+class SpaceManipulation1(unittest.TestCase, ProcTest):
+    procdir = "lr"
+    procdix = "data/spaces.lsx"
+
+    inputs = ["^a<ex>$^,<cm>$^b<ir>$",
+              "^a<ex>$ ^,<cm>$ ^b<ir>$",
+              "^a<ex>$ ^,<cm>$ _ ^b<ir>$",
+              "^a<ex>$_^,<cm>$^b<ir>$"]
+    expectedOutputs = ["^c<ex>$ ^d<ir>$",
+                       "^c<ex>$ ^d<ir>$",
+                       "^c<ex>$ ^d<ir>$ _ ",
+                       "^c<ex>$_^d<ir>$"]
+
+class SpaceManipulation2(unittest.TestCase, ProcTest):
+    procdir = "rl"
+    procdix = "data/spaces.lsx"
+
+    inputs = ["^c<ex>$ ^d<ir>$",
+              "^c<ex>$^d<ir>$",
+              "^c<ex>$ _ ^d<ir>$",
+              "^c<ex>$_^d<ir>$"]
+    expectedOutputs = ["^a<ex>$^,<cm>$ ^b<ir>$",
+                       "^a<ex>$^,<cm>$ ^b<ir>$",
+                       "^a<ex>$^,<cm>$ _ ^b<ir>$",
+                       "^a<ex>$^,<cm>$_^b<ir>$"]
+
+
+class Empty(unittest.TestCase, ProcTest):
+    procdir = "lr"
+    procdix = "data/empty.lsx"
+    inputs = ["^c<ex>$ ^d<ir>$"]
+    expectedOutputs = ["^c<ex>$ ^d<ir>$"]
+
+class Variant1(unittest.TestCase, ProcTest):
+    procdix = "data/variants.dix"
+    compflags = ['-v', 'abc']
+    inputs = ['^take<vblex><pres>$ ^up<adv>$',
+              '^take<vblex><pres>$ ^out<adv>$',
+              '^take<vblex><pres>$ ^over<adv>$']
+    expectedOutputs = ['^take# up<vblex><pres>$',
+                       '^take# out<vblex><pres>$',
+                       '^take<vblex><pres>$ ^over<adv>$']
+
+class Variant2(unittest.TestCase, ProcTest):
+    procdix = "data/variants.dix"
+    compflags = ['-v', 'xyz']
+    inputs = ['^take<vblex><pres>$ ^up<adv>$',
+              '^take<vblex><pres>$ ^out<adv>$',
+              '^take<vblex><pres>$ ^over<adv>$']
+    expectedOutputs = ['^take# up<vblex><pres>$',
+                       '^take<vblex><pres>$ ^out<adv>$',
+                       '^take# over<vblex><pres>$']
+
+class Weights(unittest.TestCase, ProcTest):
+    procdix = "data/weights.lsx"
+    inputs = ['^take<vblex><pres>$ ^out<adv>$']
+    expectedOutputs = ['^take# out1<vblex><pres>$']

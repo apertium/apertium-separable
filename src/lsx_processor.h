@@ -16,27 +16,30 @@ private:
   StringWriter str_write;
   TransducerExe trans;
   State initial_state;
-  set<UChar32> escaped_chars;
-  set<UChar32> alphabetic_chars;
-  set<TransducerExe*> all_finals;
+  std::set<TransducerExe*> all_finals;
   AlphabetExe alphabet;
-  bool null_flush;
-  bool dictionary_case;
-  bool at_end;
-  bool at_null;
 
   bool mmapping = false;
   void* mmap_pointer;
   int mmap_len;
 
-  deque<UString> blank_queue;
-  deque<UString> bound_blank_queue;
-  deque<UString> lu_queue;
+  std::set<UChar32> escaped_chars;
+  std::set<UChar32> alphabetic_chars;
+  bool null_flush = true;
+  bool dictionary_case = false;
+  bool at_end = false;
+  bool at_null = false;
+
+  std::deque<UString> blank_queue;
+  std::deque<UString> bound_blank_queue;
+  std::deque<UString> lu_queue;
 
   void readNextLU(InputFile& input);
   void processWord(InputFile& input, UFILE* output);
 
   int word_boundary;
+  int word_boundary_s;
+  int word_boundary_ns;
   int any_char;
   int any_tag;
 public:

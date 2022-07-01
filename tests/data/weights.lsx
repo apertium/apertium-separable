@@ -22,51 +22,15 @@
   </sdefs>
   <section id="main" type="standard">
 
-    <e lm="take out" c="sacar">
-      <p><l>take</l><r>take<g><b/>out</g></r></p><i><s n="vblex"/><t/><d/></i>
-      <i><w/><t/><d/></i>
+    <e lm="take out" w="2.0">
+      <p><l>take</l><r>take<g><b/>out2</g></r></p><i><s n="vblex"/><t/><d/></i>
       <p><l>out<s n="adv"/><d/></l><r></r></p>
     </e>
 
-    <!--
-    take off prominence
-    throw off balance
-    hold responsible
-    take into account
-    remand in custody
-    remand on bail
-    coil up
-    depend on
-    buoy up
-    pay out
-    serve up
-    make compatible
-    dig up
-  -->
+    <e lm="take out" w="1.0">
+      <p><l>take</l><r>take<g><b/>out1</g></r></p><i><s n="vblex"/><t/><d/></i>
+      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    </e>
 
 </section>
 </dictionary>
-
-<!--
-<b/> = blank
-<w/> = ANY_CHAR (loop)
-<t/> = ANY_TAG (loop)
-<d/> = <$>
-
-Available:
-<c/> <f/> <h/> <k/> <n/> <o/> <q/> <t/> <u/> <v/> <w/> <x/> <y/> <z/>
-
-Taken:
-<a/>
-<b/>
-<d/>
-<e/>
-<g/>
-<i/>
-<j/>
-<l/>
-<m/>
-<p/>
-<r/>
-<s/>
- -->

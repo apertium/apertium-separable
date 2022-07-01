@@ -3,6 +3,7 @@
 #include <lttoolbox/compression.h>
 #include <lttoolbox/endian_util.h>
 #include <lttoolbox/mmap.h>
+#include <lttoolbox/file_utils.h>
 #include <cstring>
 
 LSXProcessor::LSXProcessor()
@@ -19,11 +20,6 @@ LSXProcessor::LSXProcessor()
   escaped_chars.insert('@');
   escaped_chars.insert('<');
   escaped_chars.insert('>');
-
-  null_flush = false;
-  dictionary_case = false;
-  at_end = false;
-  at_null = false;
 }
 
 void
@@ -106,41 +102,43 @@ LSXProcessor::load(FILE *input)
     // so ignore any subsequent ones
     trans.read_compressed(input, temp);
   }
-  
-  word_boundary = alphabet("<$>"_u);
-  any_char = alphabet("<ANY_CHAR>"_u);
-  any_tag = alphabet("<ANY_TAG>"_u);
   all_finals.insert(&trans);
   initial_state.init(all_finals);
+
+  // symbols
+  word_boundary = alphabet("<$>"_u);
+  word_boundary_s = alphabet("<$_>"_u);
+  word_boundary_ns = alphabet("<$->"_u);
+  any_char = alphabet("<ANY_CHAR>"_u);
+  any_tag = alphabet("<ANY_TAG>"_u);
 }
 
 void
 LSXProcessor::readNextLU(InputFile& input)
 {
-  blank_queue.push_back(input.readBlank(false));
-  UChar32 c = input.get();
-  if (c == U_EOF || (null_flush && c == '\0')) {
-    bound_blank_queue.push_back(""_u);
-    lu_queue.push_back(""_u);
-    at_end = true;
-    at_null = (c == '\0');
-    return;
-  }
-  if (c == '[') {
+  UString blank, wblank, lu;
+  blank = input.readBlank();
+  if (input.peek() == '[') {
     input.get();
-    UString wb = input.finishWBlank();
-    bound_blank_queue.push_back(wb.substr(2, wb.size()-4));
-    c = input.get();
-  } else {
-    bound_blank_queue.push_back(""_u);
+    input.get();
+    wblank = input.finishWBlank();
+    wblank = wblank.substr(2, wblank.size()-4);
   }
-  if (c != '^') {
-    cerr << "invalid stream!\n c = " << c << "\n";
-    exit(EXIT_FAILURE);
+  if (input.peek() == '^') {
+    input.get();
+    lu = input.readBlock('^', '$');
+    lu = lu.substr(1, lu.size()-2);
   }
-  UString lu = input.readBlock('^', '$');
-  lu_queue.push_back(lu.substr(1, lu.size()-2));
-  if(input.eof()) {
+
+  blank_queue.push_back(blank);
+  bound_blank_queue.push_back(wblank);
+  lu_queue.push_back(lu);
+
+  if (input.peek() == '\0') {
+    input.get();
+    at_end = true;
+    at_null = true;
+  } else if (input.eof()) {
     at_end = true;
   }
 }
@@ -217,7 +215,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
         s.step_override(lu[i], u_tolower(lu[i]), any_char, lu[i]);
       }
     }
-    s.step(word_boundary);
+    s.step(word_boundary, word_boundary_s, word_boundary_ns);
     if(s.isFinal(all_finals))
     {
       last_final = idx+1;
@@ -240,23 +238,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     lu_queue.pop_front();
     return;
   }
-  vector<UString> out_lus;
-  size_t pos = 0;
-  while(pos != UString::npos && pos != last_final_out.size())
-  {
-    size_t start = pos;
-    pos = last_final_out.find("<$>"_u, start);
-    if(pos == UString::npos)
-    {
-      out_lus.push_back(last_final_out.substr(start));
-    }
-    else
-    {
-      out_lus.push_back(last_final_out.substr(start, pos-start));
-      pos += 3;
-    }
-  }
-  
+
   UString wblank;
   for(size_t i = 0; i < last_final; i++)
   {
@@ -270,7 +252,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       {
         wblank += "; "_u;
       }
-      
+
       wblank += bound_blank_queue[i];
     }
   }
@@ -278,30 +260,61 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   {
     wblank += "]]"_u;
   }
-  
-  size_t i = 0;
-  for(; i < out_lus.size(); i++)
+
+  size_t output_count = 0;
+  size_t pos = 0;
+  bool pop_queue = true;
+  bool replace_empty = false;
+  while(pos != UString::npos && pos != last_final_out.size())
   {
-    if(i < last_final)
-    {
-      write(blank_queue[i], output);
-    }
-    else
-    {
-      u_fputc(' ', output);
+    if (pop_queue) {
+      if (output_count < last_final) {
+        write(blank_queue[output_count], output);
+        if (replace_empty && blank_queue[output_count].empty()) {
+          u_fputc(' ', output);
+        }
+        output_count++;
+      } else {
+        u_fputc(' ', output);
+      }
     }
     write(wblank, output);
     u_fputc('^', output);
-    write(out_lus[i], output);
-    u_fputc('$', output);
-  }
-  for(; i < last_final; i++)
-  {
-    if(blank_queue[i] != " "_u)
+    size_t start = pos;
+    pos = last_final_out.find("<$"_u, start);
+    if(pos == UString::npos)
     {
-      write(blank_queue[i], output);
+      write(last_final_out.substr(start), output);
+      u_fputc('$', output);
+      break;
+    }
+    else
+    {
+      write(last_final_out.substr(start, pos-start), output);
+      u_fputc('$', output);
+      pos += 2;
+      if (last_final_out[pos] == '-') {
+        pop_queue = false;
+        pos++;
+      } else if (last_final_out[pos] == '_') {
+        pop_queue = true;
+        replace_empty = true;
+        pos++;
+      } else {
+        pop_queue = true;
+        replace_empty = false;
+      }
+      pos++;
     }
   }
+  for(; output_count < last_final; output_count++)
+  {
+    if(blank_queue[output_count] != " "_u)
+    {
+      write(blank_queue[output_count], output);
+    }
+  }
+
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);
   bound_blank_queue.erase(bound_blank_queue.begin(), bound_blank_queue.begin()+last_final);
   lu_queue.erase(lu_queue.begin(), lu_queue.begin()+last_final);

@@ -19,6 +19,7 @@ class ProcTest():
     procdix = "data/short-example.dix"
     procdir = "lr"
     procflags = ["-z"]
+    compflags = []
     inputs = itertools.repeat("")
     expectedOutputs = itertools.repeat("")
     expectedRetCodeFail = False
@@ -54,11 +55,9 @@ class ProcTest():
         return b"".join(output).decode('utf-8')
 
     def compileTest(self, tmpd):
-        self.assertEqual(0, call(["../src/lsx-comp",
-                                  self.procdir,
-                                  self.procdix,
-                                  tmpd+"/compiled.bin"],
-                                 stdout=PIPE))
+        cmd = ['lsx-comp'] + self.compflags
+        cmd += [self.procdir, self.procdix, tmpd+'/compiled.bin']
+        self.assertEqual(0, call(cmd, stdout=PIPE))
 
     def runTest(self):
         tmpd = mkdtemp()
