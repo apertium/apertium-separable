@@ -1,10 +1,6 @@
 #include "lsx_processor.h"
 
-#include <lttoolbox/compression.h>
-#include <lttoolbox/endian_util.h>
-#include <lttoolbox/mmap.h>
 #include <lttoolbox/file_utils.h>
-#include <cstring>
 
 LSXProcessor::LSXProcessor()
   : alphabet(AlphabetExe(&str_write))
@@ -25,84 +21,11 @@ LSXProcessor::LSXProcessor()
 void
 LSXProcessor::load(FILE *input)
 {
-  bool mmap = false;
-  fpos_t pos;
-  if (fgetpos(input, &pos) == 0) {
-    char header[4]{};
-    if (fread(header, 1, 4, input) == 4 &&
-        strncmp(header, HEADER_LTTOOLBOX, 4) == 0) {
-      auto features = read_le_64(input);
-      if (features >= LTF_UNKNOWN) {
-        throw std::runtime_error("FST has features that are unknown to this version of lttoolbox - upgrade!");
-      }
-      mmap = features & LTF_MMAP;
-    }
-    else {
-      // Old binary format
-      fsetpos(input, &pos);
-      // of course, lsx-comp would never generate this...
-    }
+  readTransducerSet(input, mmapping, mmap_pointer, mmap_len,
+                    str_write, &alphabetic_chars, alphabet, transducers);
+  for (auto& it : transducers) {
+    all_finals.insert(&it.second);
   }
-
-  if (mmap) {
-    fgetpos(input, &pos);
-    rewind(input);
-    mmapping = mmap_file(input, mmap_pointer, mmap_len);
-    if (mmapping) {
-      void* ptr = mmap_pointer + 12;
-      ptr = str_write.init(ptr);
-
-      StringRef let_loc = reinterpret_cast<StringRef*>(ptr)[0];
-      vector<int32_t> vec;
-      ustring_to_vec32(str_write.get(let_loc), vec);
-      alphabetic_chars.insert(vec.begin(), vec.end());
-      ptr += sizeof(StringRef);
-
-      ptr = alphabet.init(ptr);
-
-      ptr += sizeof(uint64_t);
-      ptr += sizeof(StringRef);
-      trans.init(ptr);
-    } else {
-      fsetpos(input, &pos);
-
-      str_write.read(input);
-
-      uint32_t s = read_le_32(input);
-      uint32_t c = read_le_32(input);
-      vector<int32_t> vec;
-      ustring_to_vec32(str_write.get(s, c), vec);
-      alphabetic_chars.insert(vec.begin(), vec.end());
-
-      alphabet.read(input, true);
-
-      read_le_64(input); // number of transducers = 1
-      read_le_32(input);
-      read_le_32(input); // name
-      trans.read(input);
-    }
-  } else {
-    // letters
-    int len = Compression::multibyte_read(input);
-    while(len > 0) {
-      alphabetic_chars.insert(static_cast<UChar32>(Compression::multibyte_read(input)));
-      len--;
-    }
-
-    // symbols
-    fgetpos(input, &pos);
-    alphabet.read(input, false);
-    fsetpos(input, &pos);
-    Alphabet temp;
-    temp.read(input);
-
-    len = Compression::multibyte_read(input);
-    Compression::string_read(input); // name
-    // there should only be 1 transducer in the file
-    // so ignore any subsequent ones
-    trans.read_compressed(input, temp);
-  }
-  all_finals.insert(&trans);
   initial_state.init(all_finals);
 
   // symbols

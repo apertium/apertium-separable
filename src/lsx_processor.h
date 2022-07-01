@@ -14,7 +14,7 @@ class LSXProcessor
 {
 private:
   StringWriter str_write;
-  TransducerExe trans;
+  std::map<UString, TransducerExe> transducers;
   State initial_state;
   std::set<TransducerExe*> all_finals;
   AlphabetExe alphabet;
