@@ -1,24 +1,30 @@
 #ifndef _LSX_PROCESSOR_H_
 #define _LSX_PROCESSOR_H_
 
-#include <lttoolbox/alphabet.h>
+#include <lttoolbox/alphabet_exe.h>
 #include <lttoolbox/input_file.h>
 #include <lttoolbox/my_stdio.h>
 #include <lttoolbox/state.h>
-#include <lttoolbox/trans_exe.h>
+#include <lttoolbox/string_writer.h>
+#include <lttoolbox/transducer_exe.h>
 #include <unicode/ustdio.h>
 #include <deque>
 
 class LSXProcessor
 {
 private:
-  Node root;
-  std::map<UString, TransExe> trans;
+  StringWriter str_write;
+  std::map<UString, TransducerExe> transducers;
   State initial_state;
+  std::set<TransducerExe*> all_finals;
+  AlphabetExe alphabet;
+
+  bool mmapping = false;
+  void* mmap_pointer;
+  int mmap_len;
+
   std::set<UChar32> escaped_chars;
   std::set<UChar32> alphabetic_chars;
-  std::map<Node *, double> all_finals;
-  Alphabet alphabet;
   bool null_flush = true;
   bool dictionary_case = false;
   bool at_end = false;

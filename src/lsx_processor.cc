@@ -1,9 +1,9 @@
 #include "lsx_processor.h"
 
 #include <lttoolbox/file_utils.h>
-#include <cstring>
 
 LSXProcessor::LSXProcessor()
+  : alphabet(AlphabetExe(&str_write))
 {
   escaped_chars.insert('[');
   escaped_chars.insert(']');
@@ -21,7 +21,12 @@ LSXProcessor::LSXProcessor()
 void
 LSXProcessor::load(FILE *input)
 {
-  readTransducerSet(input, alphabetic_chars, alphabet, trans);
+  readTransducerSet(input, mmapping, mmap_pointer, mmap_len,
+                    str_write, &alphabetic_chars, alphabet, transducers);
+  for (auto& it : transducers) {
+    all_finals.insert(&it.second);
+  }
+  initial_state.init(all_finals);
 
   // symbols
   word_boundary = alphabet("<$>"_u);
@@ -29,13 +34,6 @@ LSXProcessor::load(FILE *input)
   word_boundary_ns = alphabet("<$->"_u);
   any_char = alphabet("<ANY_CHAR>"_u);
   any_tag = alphabet("<ANY_TAG>"_u);
-
-  for (auto& it : trans) {
-    root.addTransition(0, 0, it.second.getInitial(), 0.0);
-    all_finals.insert(it.second.getFinals().begin(),
-                      it.second.getFinals().end());
-  }
-  initial_state.init(&root);
 }
 
 void
@@ -86,7 +84,8 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   }
   size_t last_final = 0;
   UString last_final_out;
-  State s = initial_state;
+  State s;
+  s.init(all_finals);
   size_t idx = 0;
   bool firstupper = false;
   bool uppercase = false;
@@ -126,13 +125,9 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
             break;
           }
         }
-        UString tag = lu.substr(i, j-i);
+        int32_t tag = alphabet.lookupDynamic(lu.substr(i, j-i));
         i = j-1;
-        if(!alphabet.isSymbolDefined(tag))
-        {
-          alphabet.includeSymbol(tag);
-        }
-        s.step_override(alphabet(tag), any_tag, alphabet(tag));
+        s.step_override(tag, any_tag, tag);
       }
       else
       {
@@ -140,7 +135,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
         {
           i++;
         }
-        s.step_override(lu[i], towlower(lu[i]), any_char, lu[i]);
+        s.step_override(lu[i], u_tolower(lu[i]), any_char, lu[i]);
       }
     }
     s.step(word_boundary, word_boundary_s, word_boundary_ns);
