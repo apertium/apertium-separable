@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary type="separable">
+  <alphabet></alphabet>
+  <sdefs>
+    <sdef n="vblex"/>
+    <sdef n="adv"/>
+    <sdef n="adj"/>
+    <sdef n="n"/>
+    <sdef n="det"/>
+ </sdefs>
+
+  <pardefs>
+    <pardef n="NP">
+      <e>
+        <i><w/><s n="det"/><t/><d/></i>
+        <i><w/><s n="adj"/><d/></i>
+        <i><w/><s n="n"/><t/><d/></i>
+      </e>
+    </pardef>
+  </pardefs>
+
+  <section id="main" type="standard">
+    <e>
+      <p><l>take</l><r>take<g><b/>out</g></r></p>
+      <i><s n="vblex"/><t/><d/></i>
+      <par n="NP"/>
+      <p><l>out<s n="adv"/><d/></l><r></r></p>
+    </e>
+    <e>
+      <p><l>hot<s n="adj"/><d/></l><r></r></p>
+      <p><l>dog</l><r>hot<g><b/>dog</g></r></p>
+      <i><s n="n"/><t/><d/></i>
+    </e>
+  </section>
+
+</dictionary>

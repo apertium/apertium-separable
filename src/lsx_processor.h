@@ -21,6 +21,7 @@ private:
   Alphabet alphabet;
   bool null_flush = true;
   bool dictionary_case = false;
+  bool repeat_rules = false;
   bool at_end = false;
   bool at_null = false;
 
@@ -47,6 +48,10 @@ public:
   void setDictionaryCaseMode(bool val)
   {
     dictionary_case = val;
+  }
+  void setRepeatMode(bool val)
+  {
+    repeat_rules = val;
   }
 };
 

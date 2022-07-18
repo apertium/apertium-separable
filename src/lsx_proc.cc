@@ -11,12 +11,14 @@ using namespace std;
 void endProgram(char* name)
 {
   cout << basename(name) << ": re-tokenize a stream" << endl;
-  cout << "USAGE: " << basename(name) << " [ -w | -z ] fst_file [input_file [output_file]]" << endl;
+  cout << "USAGE: " << basename(name) << " [ -r | -w | -z ] fst_file [input_file [output_file]]" << endl;
 #if HAVE_GETOPT_LONG
+  cout << "  -r, --repeat:            continue applying rules until they match" << endl;
   cout << "  -w, --dictionary-case:   use dictionary case instead of surface case" << endl;
   cout << "  -z, --null-flush:        flush output on the null character" << endl;
   cout << "  -h, --help:              show this message" << endl;
 #else
+  cout << "  -r:   continue applying rules until they match" << endl;
   cout << "  -w:   use dictionary case instead of surface case" << endl;
   cout << "  -z:   flush output on the null character" << endl;
   cout << "  -h:   show this message" << endl;
@@ -35,6 +37,7 @@ int main (int argc, char** argv)
 #if HAVE_GETOPT_LONG
   static struct option long_options[]=
     {
+     {"repeat",           0, 0, 'r'},
      {"dictionary-case",  0, 0, 'w'},
      {"null-flush",       0, 0, 'z'},
      {"help"              0, 0, 'h'}
@@ -43,9 +46,9 @@ int main (int argc, char** argv)
   while (true) {
 #if HAVE_GETOPT_LONG
     int option_index;
-    int c = getopt_long(argc, argv, "wzh", long_options, &option_index);
+    int c = getopt_long(argc, argv, "rwzh", long_options, &option_index);
 #else
-    int c = getopt(argc, argv, "wzh");
+    int c = getopt(argc, argv, "rwzh");
 #endif
 
     if (c == -1) {
@@ -53,6 +56,10 @@ int main (int argc, char** argv)
     }
 
     switch (c) {
+    case 'r':
+      fstp.setRepeatMode(true);
+      break;
+
     case 'w':
       fstp.setDictionaryCaseMode(true);
       break;
@@ -83,5 +90,6 @@ int main (int argc, char** argv)
   
   fstp.process(input, output);
 
-  return 0;
+  u_fclose(output);
+  return EXIT_SUCCESS;
 }

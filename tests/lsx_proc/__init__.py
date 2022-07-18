@@ -143,3 +143,13 @@ class Weights(unittest.TestCase, ProcTest):
                        '^deactivate<vblex><pres>$ ^the<det>$ ^thing<n>$',
                        '^alienate<vblex><pres>$ ^me<prn><pers>$',
                        ]
+
+class Repeat(unittest.TestCase, ProcTest):
+    procdix = "data/repeat.lsx"
+    procflags = ['-z', '-r']
+    inputs = ['[1] ^hot<adj>$ ^dog<n><sg>$',
+              '[2] ^take<vblex><pres>$ ^the<det><def><sp>$ ^silver<adj>$ ^dollar<n><sg>$ ^out<adv>$',
+              '[3] ^take<vblex><pres>$ ^the<det><def><sp>$ ^hot<adj>$ ^dog<n><sg>$ ^out<adv>$']
+    expectedOutputs = ['[1] ^hot# dog<n><sg>$',
+                       '[2] ^take# out<vblex><pres>$ ^the<det><def><sp>$ ^silver<adj>$ ^dollar<n><sg>$',
+                       '[3] ^take# out<vblex><pres>$ ^the<det><def><sp>$ ^hot# dog<n><sg>$']

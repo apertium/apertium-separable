@@ -193,33 +193,34 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   size_t pos = 0;
   bool pop_queue = true;
   bool replace_empty = false;
+  std::vector<UString> blanks;
+  std::vector<UString> lus;
   while(pos != UString::npos && pos != last_final_out.size())
   {
     if (pop_queue) {
       if (output_count < last_final) {
-        write(blank_queue[output_count], output);
         if (replace_empty && blank_queue[output_count].empty()) {
-          u_fputc(' ', output);
+          blanks.push_back(" "_u);
+        } else {
+          blanks.push_back(blank_queue[output_count]);
         }
         output_count++;
       } else {
-        u_fputc(' ', output);
+        blanks.push_back(" "_u);
       }
+    } else {
+      blanks.push_back(""_u);
     }
-    write(wblank, output);
-    u_fputc('^', output);
     size_t start = pos;
     pos = last_final_out.find("<$"_u, start);
     if(pos == UString::npos)
     {
-      write(last_final_out.substr(start), output);
-      u_fputc('$', output);
+      lus.push_back(last_final_out.substr(start));
       break;
     }
     else
     {
-      write(last_final_out.substr(start, pos-start), output);
-      u_fputc('$', output);
+      lus.push_back(last_final_out.substr(start, pos-start));
       pos += 2;
       if (last_final_out[pos] == '-') {
         pop_queue = false;
@@ -235,17 +236,33 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       pos++;
     }
   }
+  UString trail_blank;
   for(; output_count < last_final; output_count++)
   {
     if(blank_queue[output_count] != " "_u)
     {
-      write(blank_queue[output_count], output);
+      trail_blank += blank_queue[output_count];
     }
   }
 
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);
   bound_blank_queue.erase(bound_blank_queue.begin(), bound_blank_queue.begin()+last_final);
   lu_queue.erase(lu_queue.begin(), lu_queue.begin()+last_final);
+
+  if (repeat_rules) {
+    blank_queue.front() = trail_blank + blank_queue.front();
+    blank_queue.insert(blank_queue.begin(), blanks.begin(), blanks.end());
+    if (!wblank.empty()) {
+      wblank = wblank.substr(2, wblank.size()-4);
+    }
+    bound_blank_queue.insert(bound_blank_queue.begin(), lus.size(), wblank);
+    lu_queue.insert(lu_queue.begin(), lus.begin(), lus.end());
+  } else {
+    for (size_t i = 0; i < lus.size(); i++) {
+      u_fprintf(output, "%S%S^%S$", blanks[i].c_str(), wblank.c_str(), lus[i].c_str());
+    }
+    write(trail_blank, output);
+  }
 }
 
 void
