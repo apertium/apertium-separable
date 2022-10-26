@@ -1,7 +1,7 @@
 AC_PREREQ(2.61)
 
 m4_define([required_libxml_version], [2.6.17])
-m4_define([required_lttoolbox_version], [3.6.7])
+m4_define([required_lttoolbox_version], [3.7.0])
 
 AC_INIT([apertium-separable], [0.6.1], [apertium-stuff@lists.sourceforge.net])
 AM_INIT_AUTOMAKE
@@ -45,12 +45,12 @@ LIBS="$LIBS $LTTOOLBOX_LIBS $LIBXML_LIBS $ICU_LIBS"
 
 # Checks for highest supported C++ standard
 AC_LANG(C++)
-for version in 23 2b 20 2a 17 1z 14 1y; do
+for version in 23 2b 20 2a 17; do
   version_flag="-std=c++${version}"
   AX_CHECK_COMPILE_FLAG([${version_flag}], [break], [version_flag=none])
 done
 AS_IF([test "$version_flag" == none], [
-  AC_MSG_ERROR([Could not enable at least C++1y (C++14) - upgrade your compiler])
+  AC_MSG_ERROR([Could not enable at least C++17 - upgrade your compiler])
 ])
 CXXFLAGS="$CXXFLAGS ${version_flag}"
 
