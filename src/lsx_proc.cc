@@ -10,6 +10,7 @@ int main (int argc, char** argv)
 {
   LtLocale::tryToSetLocale();
   CLI cli("re-tokenize a stream", PACKAGE_VERSION);
+  cli.add_bool_arg('p', "postgen", "act as a postgenerator");
   cli.add_bool_arg('r', "repeat", "continue applying rules until they match");
   cli.add_bool_arg('w', "dictionary-case", "use dictionary case instead of surface case");
   cli.add_bool_arg('z', "null-flush", "flush output on the null character");
@@ -21,6 +22,7 @@ int main (int argc, char** argv)
 
   LSXProcessor fstp;
 
+  fstp.setPostgenMode(cli.get_bools()["postgen"]);
   fstp.setRepeatMode(cli.get_bools()["repeat"]);
   fstp.setDictionaryCaseMode(cli.get_bools()["dictionary-case"]);
   fstp.setNullFlush(cli.get_bools()["null-flush"]);

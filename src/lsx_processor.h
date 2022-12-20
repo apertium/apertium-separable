@@ -21,6 +21,7 @@ private:
   bool null_flush = true;
   bool dictionary_case = false;
   bool repeat_rules = false;
+  bool postgen = false;
   bool at_end = false;
   bool at_null = false;
 
@@ -51,6 +52,16 @@ public:
   void setRepeatMode(bool val)
   {
     repeat_rules = val;
+  }
+  void setPostgenMode(bool val)
+  {
+    postgen = val;
+    // this could potentially cause problems at some point...
+    if (val) {
+      escaped_chars.erase('/');
+    } else {
+      escaped_chars.insert('/');
+    }
   }
 };
 

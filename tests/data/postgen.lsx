@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary type="separable">
+	<alphabet></alphabet>
+	<sdefs>
+		<sdef n="vblex"/>
+		<sdef n="adv"/>
+		<sdef n="adj"/>
+		<sdef n="n"/>
+		<sdef n="det"/>
+	</sdefs>
+
+	<pardefs>
+		<pardef n="NP">
+			<e>
+				<i><w/><s n="det"/><t/><d/></i>
+				<i><w/><s n="adj"/><d/></i>
+				<i><w/><s n="n"/><t/><d/></i>
+			</e>
+		</pardef>
+	</pardefs>
+
+	<section id="main" type="standard">
+		<e>
+			<i><w/></i>
+			<p><l>inh</l><r>is</r></p>
+			<i><d space="no"/></i>
+			<p><l>t</l><r></r></p>
+			<i><w/><d/></i>
+		</e>
+
+		<e>
+			<i>el<s n="det"/><t/>/</i>
+			<p><l>la</l><r>l'</r></p>
+			<i><d space="no"/></i>
+			<i>a<w/><d/></i>
+		</e>
+	</section>
+
+</dictionary>

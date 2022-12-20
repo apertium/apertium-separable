@@ -1,6 +1,7 @@
 #include "lsx_processor.h"
 
 #include <lttoolbox/file_utils.h>
+#include <lttoolbox/string_utils.h>
 
 LSXProcessor::LSXProcessor()
 {
@@ -100,10 +101,11 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       readNextLU(input);
     }
     UString lu = lu_queue[idx];
-    if(lu.size() == 0)
+    if(lu.empty())
     {
       break;
     }
+    State word_initial_state = s;
     if (idx == 0 && !dictionary_case) {
       firstupper = u_isupper(lu[0]);
       uppercase = lu.size() > 1 && u_isupper(lu[1]);
@@ -132,6 +134,10 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
           alphabet.includeSymbol(tag);
         }
         s.step_override(alphabet(tag), any_tag, alphabet(tag));
+      }
+      else if (postgen && lu[i] == '/') {
+        s.step('/');
+        s.merge(word_initial_state);
       }
       else
       {
@@ -179,6 +185,10 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     // note: if a pattern matches 2 identical LUs, we'll lose the first wblank
     lu_index[lu_queue[i]] = i;
     wblanks_to_merge.insert(i);
+    if (postgen) {
+      auto pieces = StringUtils::split_escaped(lu_queue[i], '/');
+      if (!pieces.empty()) lu_index[pieces.back()] = i;
+    }
   }
   while(pos != UString::npos && pos != last_final_out.size())
   {
@@ -249,8 +259,32 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     }
   }
   std::vector<UString> wblanks;
-  for (auto& it : wblanks_index) {
-    wblanks.push_back((it == -1) ? merged_wblank : bound_blank_queue[it]);
+  auto changed = wblanks_to_merge.get();
+  size_t changed_idx = 0;
+  for (size_t i = 0; i < wblanks_index.size(); i++) {
+    int src = wblanks_index[i];
+    wblanks.push_back((src == -1) ? merged_wblank : bound_blank_queue[src]);
+    if (postgen) {
+      if (lus[i].find('/') != UString::npos) {
+        continue;
+      }
+      UString tmp;
+      if (src != -1) {
+        tmp = lu_queue[i];
+      }
+      else if (changed_idx < changed.size()) {
+        auto pieces = StringUtils::split_escaped(lu_queue[changed[changed_idx]], '/');
+        tmp += pieces[0];
+        tmp += '/';
+        tmp += lus[i];
+        changed_idx++;
+      }
+      else {
+        tmp += '/';
+        tmp += lus[i];
+      }
+      lus[i].swap(tmp);
+    }
   }
 
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);

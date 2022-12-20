@@ -1,9 +1,9 @@
 AC_PREREQ(2.61)
 
 m4_define([required_libxml_version], [2.6.17])
-m4_define([required_lttoolbox_version], [3.7.0])
+m4_define([required_lttoolbox_version], [3.7.2])
 
-AC_INIT([apertium-separable], [0.6.1], [apertium-stuff@lists.sourceforge.net])
+AC_INIT([apertium-separable], [0.7.0], [apertium-stuff@lists.sourceforge.net])
 AM_INIT_AUTOMAKE
 AC_CONFIG_MACRO_DIR([m4])
 

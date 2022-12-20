@@ -160,3 +160,32 @@ class Repeat(unittest.TestCase, ProcTest):
     expectedOutputs = ['[1] ^hot# dog<n><sg>$',
                        '[2] ^take# out<vblex><pres>$ ^the<det><def><sp>$ ^silver<adj>$ ^dollar<n><sg>$',
                        '[3] ^take# out<vblex><pres>$ ^the<det><def><sp>$ ^hot# dog<n><sg>$']
+
+
+class Postgen(unittest.TestCase, ProcTest):
+    procdix = 'data/postgen.lsx'
+    procflags = ['-z', '-p']
+    inputs = [
+        '[1] ^aginh<n>/aginh$ ^tom<adj>/toma$',
+        '[2] ^el<det><def><f><sg>/la$ ^anguilla<n><f><sg>/anguilla$',
+        '[3] ^la<prn><pro><f><sg>/la$ ^dar<vblex><imv>/da$'
+    ]
+    expectedOutputs = [
+        '[1] ^aginh<n>/agis$^tom<adj>/oma$',
+        "[2] ^el<det><def><f><sg>/l'$^anguilla<n><f><sg>/anguilla$",
+        '[3] ^la<prn><pro><f><sg>/la$ ^dar<vblex><imv>/da$'
+    ]
+
+class PostgenWblank(unittest.TestCase, ProcTest):
+    procdix = 'data/postgen.lsx'
+    procflags = ['-z', '-p']
+    inputs = [
+        '[1] [[x]]^aginh<n>/aginh$ [[y]]^tom<adj>/toma$',
+        '[2] [[x]]^el<det><def><f><sg>/la$ [[y]]^anguilla<n><f><sg>/anguilla$',
+        '[3] [[x]]^la<prn><pro><f><sg>/la$ [[y]]^dar<vblex><imv>/da$'
+    ]
+    expectedOutputs = [
+        '[1] [[x; y]]^aginh<n>/agis$[[x; y]]^tom<adj>/oma$',
+        "[2] [[x]]^el<det><def><f><sg>/l'$[[y]]^anguilla<n><f><sg>/anguilla$",
+        '[3] [[x]]^la<prn><pro><f><sg>/la$ [[y]]^dar<vblex><imv>/da$'
+    ]
