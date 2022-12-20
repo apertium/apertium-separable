@@ -1,7 +1,6 @@
 #include "lsx_processor.h"
 
 #include <lttoolbox/file_utils.h>
-#include <cstring>
 
 LSXProcessor::LSXProcessor()
 {
@@ -167,34 +166,20 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     return;
   }
 
-  UString wblank;
-  for(size_t i = 0; i < last_final; i++)
-  {
-    if(!bound_blank_queue[i].empty())
-    {
-      if(wblank.empty())
-      {
-        wblank += "[["_u;
-      }
-      else
-      {
-        wblank += "; "_u;
-      }
-
-      wblank += bound_blank_queue[i];
-    }
-  }
-  if(!wblank.empty())
-  {
-    wblank += "]]"_u;
-  }
-
   size_t output_count = 0;
   size_t pos = 0;
   bool pop_queue = true;
   bool replace_empty = false;
   std::vector<UString> blanks;
   std::vector<UString> lus;
+  std::vector<int> wblanks_index;
+  sorted_vector<int> wblanks_to_merge;
+  std::map<UString, int> lu_index;
+  for (int i = 0; i < (int)last_final; i++) {
+    // note: if a pattern matches 2 identical LUs, we'll lose the first wblank
+    lu_index[lu_queue[i]] = i;
+    wblanks_to_merge.insert(i);
+  }
   while(pos != UString::npos && pos != last_final_out.size())
   {
     if (pop_queue) {
@@ -236,6 +221,15 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       pos++;
     }
   }
+  for (auto& it : lus) {
+    auto loc = lu_index.find(it);
+    if (loc != lu_index.end()) {
+      wblanks_index.push_back(loc->second);
+      wblanks_to_merge.erase(loc->second);
+    } else {
+      wblanks_index.push_back(-1);
+    }
+  }
   UString trail_blank;
   for(; output_count < last_final; output_count++)
   {
@@ -243,6 +237,20 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
     {
       trail_blank += blank_queue[output_count];
     }
+  }
+  UString merged_wblank;
+  for (auto& it : wblanks_to_merge) {
+    if (bound_blank_queue[it].empty()) continue;
+    if (merged_wblank.empty()) {
+      merged_wblank = bound_blank_queue[it];
+    } else {
+      merged_wblank += "; "_u;
+      merged_wblank += bound_blank_queue[it];
+    }
+  }
+  std::vector<UString> wblanks;
+  for (auto& it : wblanks_index) {
+    wblanks.push_back((it == -1) ? merged_wblank : bound_blank_queue[it]);
   }
 
   blank_queue.erase(blank_queue.begin(), blank_queue.begin()+last_final);
@@ -252,14 +260,15 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
   if (repeat_rules) {
     blank_queue.front() = trail_blank + blank_queue.front();
     blank_queue.insert(blank_queue.begin(), blanks.begin(), blanks.end());
-    if (!wblank.empty()) {
-      wblank = wblank.substr(2, wblank.size()-4);
-    }
-    bound_blank_queue.insert(bound_blank_queue.begin(), lus.size(), wblank);
+    bound_blank_queue.insert(bound_blank_queue.begin(), wblanks.begin(), wblanks.end());
     lu_queue.insert(lu_queue.begin(), lus.begin(), lus.end());
   } else {
     for (size_t i = 0; i < lus.size(); i++) {
-      u_fprintf(output, "%S%S^%S$", blanks[i].c_str(), wblank.c_str(), lus[i].c_str());
+      if (wblanks[i].empty()) {
+        u_fprintf(output, "%S^%S$", blanks[i].c_str(), lus[i].c_str());
+      } else {
+        u_fprintf(output, "%S[[%S]]^%S$", blanks[i].c_str(), wblanks[i].c_str(), lus[i].c_str());
+      }
     }
     write(trail_blank, output);
   }

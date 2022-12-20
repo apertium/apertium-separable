@@ -3,7 +3,6 @@
 
 #include <lttoolbox/alphabet.h>
 #include <lttoolbox/input_file.h>
-#include <lttoolbox/my_stdio.h>
 #include <lttoolbox/state.h>
 #include <lttoolbox/trans_exe.h>
 #include <unicode/ustdio.h>
