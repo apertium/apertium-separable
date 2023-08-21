@@ -1,6 +1,7 @@
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/file_utils.h>
 #include <lttoolbox/cli.h>
+#include <i18n.h>
 
 #include "lsx_processor.h"
 
@@ -8,13 +9,14 @@ using namespace std;
 
 int main (int argc, char** argv)
 {
+  I18n i18n {APSP_I18N_DATA, "apsp"};
   LtLocale::tryToSetLocale();
-  CLI cli("re-tokenize a stream", PACKAGE_VERSION);
-  cli.add_bool_arg('p', "postgen", "act as a postgenerator");
-  cli.add_bool_arg('r', "repeat", "continue applying rules until they match");
-  cli.add_bool_arg('w', "dictionary-case", "use dictionary case instead of surface case");
-  cli.add_bool_arg('z', "null-flush", "flush output on the null character");
-  cli.add_bool_arg('h', "help", "print this message and exit");
+  CLI cli(i18n.format("lsx_proc_desc"), PACKAGE_VERSION);
+  cli.add_bool_arg('p', "postgen", i18n.format("postgen_desc"));
+  cli.add_bool_arg('r', "repeat", i18n.format("repeat_desc"));
+  cli.add_bool_arg('w', "dictionary-case", i18n.format("dictionary_case_desc"));
+  cli.add_bool_arg('z', "null-flush", i18n.format("null_flush_desc"));
+  cli.add_bool_arg('h', "help", i18n.format("help_desc"));
   cli.add_file_arg("fst_file", false);
   cli.add_file_arg("input_file", true);
   cli.add_file_arg("output_file", true);

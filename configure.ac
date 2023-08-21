@@ -23,6 +23,7 @@ AC_ARG_ENABLE(debug,
 		esac])
 
 PKG_CHECK_MODULES([LTTOOLBOX], [lttoolbox >= required_lttoolbox_version])
+PKG_CHECK_MODULES(I18N, [i18n], CPPFLAGS="$CPPFLAGS $I18N_CFLAGS"; LIBS="$LIBS $I18N_LIBS")
 
 AC_SUBST(LTTOOLBOX_CFLAGS)
 AC_SUBST(LTTOOLBOX_LIBS)
@@ -62,5 +63,6 @@ AC_CONFIG_FILES([
                  apertium-separable.pc
                  Makefile
                  src/Makefile
+                 locales/Makefile
                  ])
 AC_OUTPUT
