@@ -16,3 +16,10 @@ src/*.o
 src/lsx-comp
 src/lsx-proc
 *.pyc
+
+/.vscode/
+/locales/Makefile
+/locales/Makefile.in
+*.res
+*.dat
+/configure~

@@ -62,5 +62,6 @@ AC_CONFIG_FILES([
                  apertium-separable.pc
                  Makefile
                  src/Makefile
+                 locales/Makefile
                  ])
 AC_OUTPUT
