@@ -1,7 +1,7 @@
 #include <lttoolbox/lt_locale.h>
 #include <lttoolbox/file_utils.h>
 #include <lttoolbox/cli.h>
-#include <i18n.h>
+#include <lttoolbox/i18n.h>
 
 #include "lsx_processor.h"
 
@@ -9,7 +9,7 @@ using namespace std;
 
 int main (int argc, char** argv)
 {
-  I18n i18n {APSP_I18N_DATA, "apsp"};
+  I18n i18n {ASP_I18N_DATA, "asp"};
   LtLocale::tryToSetLocale();
   CLI cli(i18n.format("lsx_proc_desc"), PACKAGE_VERSION);
   cli.add_bool_arg('p', "postgen", i18n.format("postgen_desc"));
