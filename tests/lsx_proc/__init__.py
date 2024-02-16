@@ -189,3 +189,20 @@ class PostgenWblank(unittest.TestCase, ProcTest):
         "[2] [[x]]^el<det><def><f><sg>/l'$[[y]]^anguilla<n><f><sg>/anguilla$",
         '[3] [[x]]^la<prn><pro><f><sg>/la$ [[y]]^dar<vblex><imv>/da$'
     ]
+
+class PostgenForms(unittest.TestCase, ProcTest):
+    procdix = 'data/forms.lsx'
+    procflags = ['-z', '-p']
+    inputs = [
+        '^A\/B-test/A\/B-test<n><m><sg><ind>$',
+        '^lov/lov<n><nt><sg><ind>$ ^om/om<pr>$ ^frittståande/frittståande<adj><pst><un><pl><ind>$ ^sjiraffar/sjiraff<n><m><pl><ind>$',
+        '^i/i<pr>$ ^lov/lov<n><nt><sg><ind>$ ^om/om<pr>$ ^frittståande/frittståande<adj><pst><un><pl><ind>$ ^sjiraffar/sjiraff<n><m><pl><ind>$',
+        '^i\/ved/i\/ved<pr>$ ^lov/lov<n><nt><sg><ind>$ ^om/om<pr>$ ^frittståande/frittståande<adj><pst><un><pl><ind>$ ^sjiraffar/sjiraff<n><m><pl><ind>$',
+    ]
+    expectedOutputs = [
+        '^A\/B-test/A\/B-test<n><m><sg><ind>$',
+        '^lov/lov<n><nt><sg><ind>$ ^om/om<pr>$ ^frittståande/frittståande<adj><pst><un><pl><ind>$ ^sjiraffar/sjiraff<n><m><pl><ind>$',
+        '^i/i<pr>$ ^lov om frittståande sjiraffar/lov om frittståande sjiraffar<np>$',
+        '^i\/ved/i\/ved<pr>$ ^lov om frittståande sjiraffar/lov om frittståande sjiraffar<np>$',
+    ]
+
