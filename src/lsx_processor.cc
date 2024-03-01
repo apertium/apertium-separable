@@ -29,6 +29,7 @@ LSXProcessor::load(FILE *input)
   word_boundary_ns = alphabet("<$->"_u);
   any_char = alphabet("<ANY_CHAR>"_u);
   any_tag = alphabet("<ANY_TAG>"_u);
+  reading_boundary = alphabet("</>"_u);
 
   for (auto& it : trans) {
     root.addTransition(0, 0, it.second.getInitial(), 0.0);
@@ -136,7 +137,7 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
         s.step_override(alphabet(tag), any_tag, alphabet(tag));
       }
       else if (postgen && lu[i] == '/') {
-        s.step('/');
+        s.step(reading_boundary);
         s.merge(word_initial_state);
       }
       else
@@ -155,6 +156,11 @@ LSXProcessor::processWord(InputFile& input, UFILE* output)
       last_final_out = s.filterFinals(all_finals, alphabet, escaped_chars,
                                       false, 1, INT_MAX,
                                       uppercase, firstupper).substr(1);
+      if (postgen) {
+        // TODO: why don't slashes get escaped by filterFinals()?
+        last_final_out = StringUtils::substitute(last_final_out, "/"_u, "\\/"_u);
+        last_final_out = StringUtils::substitute(last_final_out, "<\\/>"_u, "/"_u);
+      }
     }
     idx++;
   }

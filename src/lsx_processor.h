@@ -37,6 +37,7 @@ private:
   int word_boundary_ns;
   int any_char;
   int any_tag;
+  int reading_boundary;
 public:
   LSXProcessor();
   void load(FILE* input);

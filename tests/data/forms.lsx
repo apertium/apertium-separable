@@ -8,18 +8,18 @@
 
   <pardefs>
     <pardef n="reading:" c="match and drop readings (incl. tagless/unknown). Includes end delimiter">
-      <e><p><l>/<w/><d/></l>    <r/></p></e>
-      <e><p><l>/<w/><t/><d/></l><r/></p></e>
+      <e><p><l><f/><w/><d/></l>    <r/></p></e>
+      <e><p><l><f/><w/><t/><d/></l><r/></p></e>
     </pardef>
   </pardefs>
   <section id="main" type="standard">
     <e>
-      <i><w/>/<w/><s n="pr"/><d/></i>
+      <i><w/><f/><w/><s n="pr"/><d/></i>
       <p><l>lov</l>          <r></r></p>  <par n="reading:"/>
       <p><l>om</l>           <r></r></p>  <par n="reading:"/>
       <p><l>frittståande</l> <r></r></p>  <par n="reading:"/>
       <p><l>sjiraffar</l>    <r></r></p><par n="reading:"/>
-      <p><l></l> <r>lov<b/>om<b/>frittståande<b/>sjiraffar/lov<b/>om<b/>frittståande<b/>sjiraffar<s n="np"/><d/></r></p>
+      <p><l></l> <r>lov<b/>om<b/>frittståande<b/>sjiraffar<f/>lov<b/>om<b/>frittståande<b/>sjiraffar<s n="np"/><d/></r></p>
     </e>
   </section>
 

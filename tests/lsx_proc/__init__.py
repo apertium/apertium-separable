@@ -205,4 +205,3 @@ class PostgenForms(unittest.TestCase, ProcTest):
         '^i/i<pr>$ ^lov om frittståande sjiraffar/lov om frittståande sjiraffar<np>$',
         '^i\/ved/i\/ved<pr>$ ^lov om frittståande sjiraffar/lov om frittståande sjiraffar<np>$',
     ]
-
