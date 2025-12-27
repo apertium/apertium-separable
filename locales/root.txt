@@ -1,0 +1,8 @@
+root{
+    lsx_proc_desc{"re-tokenize a stream"}
+    postgen_desc{"act as a postgenerator"}
+    repeat_desc{"continue applying rules until they match"}
+    dictionary_case_desc{"use dictionary case instead of surface case"}
+    null_flush_desc{"flush output on the null character"}
+    help_desc{"print this message and exit"}
+}
